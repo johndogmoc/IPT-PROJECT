@@ -72,6 +72,9 @@ const Login = () => {
             if (data.success && data.token) {
                 console.log('Login successful! Token received');
                 
+                // Set cookie for server-side authentication check
+                document.cookie = `auth_token=${data.token}; path=/; max-age=86400; SameSite=Lax`;
+                
                 // Use the login function from AuthContext
                 login(data.token, data.user);
                 

@@ -142,8 +142,11 @@
                     const data = await response.json();
                     
                     if (data.success) {
-                        // Store the token in localStorage
+                        // Store the token in localStorage and cookie
                         localStorage.setItem('auth_token', data.token);
+                        
+                        // Set cookie for server-side authentication check
+                        document.cookie = `auth_token=${data.token}; path=/; max-age=86400; SameSite=Lax`;
                         
                         // Show success message
                         alertContainer.innerHTML = `

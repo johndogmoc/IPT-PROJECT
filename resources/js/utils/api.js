@@ -134,5 +134,7 @@ export const logout = async () => {
 // Helper function to clear auth cache
 export const clearAuthCache = () => {
     localStorage.removeItem('auth_token');
+    // Clear auth cookie
+    document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
     console.log('Auth cache cleared');
 };

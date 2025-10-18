@@ -43,14 +43,22 @@ class AuthController extends Controller
             // Create Sanctum token for API auth
             $token = $admin->createToken('auth_token')->plainTextToken;
 
+            // Store token in session for web middleware
+            session(['auth_token' => $token]);
+
             Log::info('Login successful', ['username' => $admin->username]);
 
             // Return token in response (frontend will store it)
             return response()->json([
                 'success' => true,
                 'message' => 'Login successful',
-                'token' => $token
-            ]);
+                'token' => $token,
+                'user' => [
+                    'admin_id' => $admin->admin_id,
+                    'username' => $admin->username,
+                    'email' => $admin->email
+                ]
+            ])->withCookie(cookie('auth_token', $token, 1440)); // 24 hours
         } catch (\Throwable $e) {
             Log::error('Login error', [
                 'message' => $e->getMessage(),
@@ -67,8 +75,16 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
-        return response()->json(['success' => true, 'message' => 'Logged out successfully']);
+        // Clear session token
+        session()->forget('auth_token');
+        
+        // Delete Sanctum token if user is authenticated
+        if ($request->user()) {
+            $request->user()->currentAccessToken()->delete();
+        }
+        
+        return response()->json(['success' => true, 'message' => 'Logged out successfully'])
+            ->withCookie(cookie()->forget('auth_token'));
     }
 
     public function check(Request $request)

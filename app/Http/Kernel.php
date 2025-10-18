@@ -59,6 +59,7 @@ class Kernel extends HttpKernel
         'auth.middleware' => \App\Http\Middleware\AuthMiddleware::class,
         'auth.web' => \App\Http\Middleware\WebAuthMiddleware::class,
         'auth:sanctum' => \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class, // Added for Sanctum
+        'check.web.auth' => \App\Http\Middleware\CheckWebAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
