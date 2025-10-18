@@ -1,0 +1,37 @@
+// Faculty Profile Component Styles
+.faculty-profile-component {
+    .faculty-form {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        margin-bottom: 30px;
+    }
+
+    .faculty-list {
+        .table {
+            th {
+                border: none;
+                background: #f8f9fa;
+                font-weight: 600;
+                color: #495057;
+                padding: 15px;
+            }
+            
+            td {
+                border: none;
+                padding: 15px;
+                vertical-align: middle;
+            }
+            
+            tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+        }
+    }
+
+    .deleted {
+        opacity: 0.6;
+        background-color: #f8f9fa !important;
+    }
+}

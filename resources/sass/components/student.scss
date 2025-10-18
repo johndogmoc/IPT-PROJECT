@@ -1,0 +1,61 @@
+// Student Profile Component Styles
+.student-profile-component {
+    .student-form {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        margin-bottom: 30px;
+    }
+
+    .student-list {
+        .table {
+            th {
+                border: none;
+                background: #f8f9fa;
+                font-weight: 600;
+                color: #495057;
+                padding: 15px;
+            }
+            
+            td {
+                border: none;
+                padding: 15px;
+                vertical-align: middle;
+            }
+            
+            tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+        }
+    }
+
+    .status-badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        
+        &.status-active { 
+            background: #d4edda; 
+            color: #155724; 
+        }
+        &.status-inactive { 
+            background: #f8d7da; 
+            color: #721c24; 
+        }
+        &.status-graduated { 
+            background: #d1ecf1; 
+            color: #0c5460; 
+        }
+        &.status-dropped { 
+            background: #fff3cd; 
+            color: #856404; 
+        }
+    }
+
+    .archived {
+        opacity: 0.6;
+        background-color: #f8f9fa !important;
+    }
+}
