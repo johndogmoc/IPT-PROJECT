@@ -4,179 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    /**
-     * Check authentication status
-     */
-    public function check(Request $request)
-    {
-        try {
-            $user = $request->user();
-            if (!$user) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Not authenticated',
-                    'authenticated' => false
-                ], 401);
-            }
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Authenticated',
-                'authenticated' => true,
-                'user' => [
-                    'id' => $user->id,
-                    'role' => $user->role
-                ]
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Authentication check failed',
-                'authenticated' => false
-            ], 500);
-        }
-    }
-
-    /**
-     * Admin login
-     */
     public function login(Request $request)
     {
         try {
+            Log::info('Login attempt', ['username' => $request->username, 'ip' => $request->ip(), 'body' => $request->all()]);
+            Log::info('Request input', $request->all());
+
             $validator = Validator::make($request->all(), [
                 'username' => 'required|string',
                 'password' => 'required|string'
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Validation error',
-                    'errors' => $validator->errors()
-                ], 422);
-            }
-
-            $admin = Admin::where('username', $request->username)->first();
-
-            if (!$admin || !Hash::check($request->password, $admin->password)) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Invalid credentials'
-                ], 401);
-            }
-
-            $token = $admin->createToken('auth-token')->plainTextToken;
-
-            $cookie = cookie(
-                'auth_token',
-                $token,
-                60 * 24,
-                null,
-                null,
-                config('app.env') !== 'local',
-                true,
-                false,
-                'Strict'
-            );
-
-            $admin->update(['last_login_at' => now()]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Login successful',
-                'user' => [
-                    'id' => $admin->id,
-                    'role' => $admin->role
-                ]
-            ])->withCookie($cookie);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Login failed',
-                'error' => config('app.debug') ? $e->getMessage() : null
-            ], 500);
-        }
-    }
-
-    /**
-     * Admin logout
-     */
-    public function logout(Request $request)
-    {
-        try {
-            if ($request->user()) {
-                $request->user()->currentAccessToken()->delete();
-            }
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Logout successful'
-            ])->withCookie(Cookie::forget('auth_token'));
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Logout failed',
-                'error' => config('app.debug') ? $e->getMessage() : null
-            ], 500);
-        }
-    }
-
-    /**
-     * Get current admin info
-     */
-    public function me(Request $request)
-    {
-        try {
-            $user = $request->user();
-
-            if (!$user) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Not authenticated'
-                ], 401);
-            }
-
-            return response()->json([
-                'success' => true,
-                'user' => [
-                    'id' => $user->id,
-                    'username' => $user->username,
-                    'email' => $user->email,
-                    'first_name' => $user->first_name,
-                    'last_name' => $user->last_name,
-                    'role' => $user->role,
-                    'last_login_at' => $user->last_login_at
-                ]
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to get user info',
-                'error' => config('app.debug') ? $e->getMessage() : null
-            ], 500);
-        }
-    }
-
-    /**
-     * Update admin profile
-     */
-    public function updateProfile(Request $request)
-    {
-        try {
-            $validator = Validator::make($request->all(), [
-                'username' => ['sometimes', 'string', 'unique:admins,username,' . $request->user()->id],
-                'email' => ['sometimes', 'email', 'unique:admins,email,' . $request->user()->id],
-                'first_name' => 'sometimes|string|max:255',
-                'last_name' => 'sometimes|string|max:255',
-                'current_password' => 'required_with:new_password',
-                'new_password' => 'sometimes|string|min:8|confirmed',
             ]);
 
             if ($validator->fails()) {
@@ -187,47 +30,117 @@ class AuthController extends Controller
                 ], 422);
             }
 
-            $user = $request->user();
+            $admin = Admin::where('username', $request->username)->first();
 
-            if ($request->has('current_password') && !Hash::check($request->current_password, $user->password)) {
+            if (!$admin || !is_string($admin->password) || !Hash::check($request->password, $admin->password)) {
+                Log::warning('Invalid credentials', ['username' => $request->username]);
                 return response()->json([
                     'success' => false,
-                    'message' => 'Current password is incorrect'
-                ], 422);
+                    'message' => 'Invalid credentials'
+                ], 401);
             }
 
-            $updateData = array_filter($request->only([
-                'username',
-                'email',
-                'first_name',
-                'last_name'
-            ]));
+            // Create Sanctum token for API auth
+            $token = $admin->createToken('auth_token')->plainTextToken;
 
-            if ($request->filled('new_password')) {
-                $updateData['password'] = Hash::make($request->new_password);
-            }
+            Log::info('Login successful', ['username' => $admin->username]);
 
-            $updateData['updated_at'] = now();
-            $user->update($updateData);
-
+            // Return token in response (frontend will store it)
             return response()->json([
                 'success' => true,
-                'message' => 'Profile updated successfully',
-                'user' => [
-                    'id' => $user->id,
-                    'username' => $user->username,
-                    'email' => $user->email,
-                    'first_name' => $user->first_name,
-                    'last_name' => $user->last_name,
-                    'role' => $user->role
-                ]
+                'message' => 'Login successful',
+                'token' => $token
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            Log::error('Login error', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to update profile',
-                'error' => config('app.debug') ? $e->getMessage() : null
+                'message' => 'Server error during login',
+                'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['success' => true, 'message' => 'Logged out successfully']);
+    }
+
+    public function check(Request $request)
+    {
+        Log::info('Check auth', [
+            'has_user' => (bool)$request->user(),
+            'auth_header' => $request->header('Authorization'),
+            'session_token' => session('auth_token') ? 'exists' : 'none'
+        ]);
+        
+        // Check if user is authenticated via Sanctum token
+        if ($request->user()) {
+            Log::info('User authenticated via Sanctum');
+            return response()->json([
+                'success' => true, 
+                'authenticated' => true,
+                'user' => $request->user()
+            ]);
+        }
+        
+        // Check if token is in Authorization header
+        $authHeader = $request->header('Authorization');
+        if ($authHeader && str_starts_with($authHeader, 'Bearer ')) {
+            $token = substr($authHeader, 7);
+            Log::info('Checking token from header', ['token' => substr($token, 0, 10) . '...']);
+            
+            $personalToken = \Laravel\Sanctum\PersonalAccessToken::findToken($token);
+            if ($personalToken && $personalToken->tokenable_id) {
+                $user = $personalToken->tokenable;
+                Log::info('Token valid, user authenticated');
+                return response()->json([
+                    'success' => true, 
+                    'authenticated' => true,
+                    'user' => $user
+                ]);
+            }
+        }
+        
+        Log::info('No valid authentication found');
+        return response()->json(['success' => true, 'authenticated' => false]);
+    }
+
+    public function me(Request $request)
+    {
+        return response()->json(['success' => true, 'data' => $request->user()]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $admin = $request->user();
+        $validator = Validator::make($request->all(), [
+            'email' => 'sometimes|required|email|unique:admins,email,' . $admin->admin_id,
+            'first_name' => 'sometimes|required|string|max:255',
+            'last_name' => 'sometimes|required|string|max:255',
+            'phone' => 'sometimes|required|string|max:255',
+            'address' => 'sometimes|required|string|max:255'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $admin->update($request->only(['email', 'first_name', 'last_name', 'phone', 'address']));
+
+        return response()->json([
+            'success' => true,
+            'data' => $admin,
+            'message' => 'Profile updated successfully'
+        ]);
     }
 }

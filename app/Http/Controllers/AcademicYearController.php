@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AcademicYear;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class AcademicYearController extends Controller
@@ -14,9 +14,7 @@ class AcademicYearController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = DB::table('academic_years')
-                ->whereNull('deleted_at')
-                ->select('*');
+            $query = AcademicYear::whereNull('deleted_at');
 
             // Search functionality
             if ($request->has('search') && $request->search) {
@@ -31,7 +29,6 @@ class AcademicYearController extends Controller
                 'data' => $academicYears,
                 'message' => 'Academic years retrieved successfully'
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -58,22 +55,13 @@ class AcademicYearController extends Controller
                 ], 422);
             }
 
-            $academicYearId = DB::table('academic_years')->insertGetId([
-                'school_year' => $request->school_year,
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
-
-            $academicYear = DB::table('academic_years')
-                ->where('academic_year_id', $academicYearId)
-                ->first();
+            $academicYear = AcademicYear::create($request->all());
 
             return response()->json([
                 'success' => true,
                 'data' => $academicYear,
                 'message' => 'Academic year created successfully'
             ], 201);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -88,10 +76,7 @@ class AcademicYearController extends Controller
     public function show($id)
     {
         try {
-            $academicYear = DB::table('academic_years')
-                ->where('academic_year_id', $id)
-                ->whereNull('deleted_at')
-                ->first();
+            $academicYear = AcademicYear::whereNull('deleted_at')->find($id);
 
             if (!$academicYear) {
                 return response()->json([
@@ -105,7 +90,6 @@ class AcademicYearController extends Controller
                 'data' => $academicYear,
                 'message' => 'Academic year retrieved successfully'
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -120,6 +104,15 @@ class AcademicYearController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            $academicYear = AcademicYear::whereNull('deleted_at')->find($id);
+
+            if (!$academicYear) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Academic year not found or could not be updated'
+                ], 404);
+            }
+
             $validator = Validator::make($request->all(), [
                 'school_year' => 'required|string|max:255|unique:academic_years,school_year,' . $id . ',academic_year_id'
             ]);
@@ -132,31 +125,13 @@ class AcademicYearController extends Controller
                 ], 422);
             }
 
-            $updated = DB::table('academic_years')
-                ->where('academic_year_id', $id)
-                ->whereNull('deleted_at')
-                ->update([
-                    'school_year' => $request->school_year,
-                    'updated_at' => now()
-                ]);
-
-            if (!$updated) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Academic year not found or could not be updated'
-                ], 404);
-            }
-
-            $academicYear = DB::table('academic_years')
-                ->where('academic_year_id', $id)
-                ->first();
+            $academicYear->update($request->all());
 
             return response()->json([
                 'success' => true,
                 'data' => $academicYear,
                 'message' => 'Academic year updated successfully'
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -171,26 +146,21 @@ class AcademicYearController extends Controller
     public function destroy($id)
     {
         try {
-            $deleted = DB::table('academic_years')
-                ->where('academic_year_id', $id)
-                ->whereNull('deleted_at')
-                ->update([
-                    'deleted_at' => now(),
-                    'updated_at' => now()
-                ]);
+            $academicYear = AcademicYear::whereNull('deleted_at')->find($id);
 
-            if (!$deleted) {
+            if (!$academicYear) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Academic year not found or could not be deleted'
                 ], 404);
             }
 
+            $academicYear->delete();
+
             return response()->json([
                 'success' => true,
                 'message' => 'Academic year archived successfully'
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

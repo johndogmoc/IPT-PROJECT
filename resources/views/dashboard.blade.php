@@ -27,6 +27,55 @@
         
         <!-- Scripts -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="{{ mix('js/app.js') }}"></script>
+        
+        <!-- Authentication Check Script -->
+        <script>
+            // Check authentication before loading the app
+            async function checkAuth() {
+                const token = localStorage.getItem('auth_token');
+                
+                if (!token) {
+                    window.location.href = '/login';
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('/api/auth/check', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.authenticated) {
+                        localStorage.removeItem('auth_token');
+                        window.location.href = '/login';
+                        return;
+                    }
+                    
+                    // Authentication successful, load the main app
+                    loadApp();
+                    
+                } catch (error) {
+                    console.error('Auth check failed:', error);
+                    localStorage.removeItem('auth_token');
+                    window.location.href = '/login';
+                }
+            }
+            
+            function loadApp() {
+                // Load the main React app
+                const script = document.createElement('script');
+                script.src = "{{ mix('js/app.js') }}";
+                document.body.appendChild(script);
+            }
+            
+            // Run authentication check on page load
+            checkAuth();
+        </script>
     </body>
 </html>

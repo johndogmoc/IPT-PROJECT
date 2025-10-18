@@ -13,14 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// SPA Routes - All routes should return the dashboard view for client-side routing
+// Public Routes (No Authentication Required)
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
+
+// Redirect root to React app (authentication handled by React)
 Route::get('/', function () {
     return view('dashboard');
 });
 
+// SPA Routes - Authentication handled by React app itself
 Route::get('/dashboard', function () {
     return view('dashboard');
-});
+})->name('dashboard');
 
 Route::get('/faculty', function () {
     return view('dashboard');

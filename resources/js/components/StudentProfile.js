@@ -50,7 +50,7 @@ const StudentProfile = () => {
             if (filterCourse) params.append('course_id', filterCourse);
             if (filterStatus) params.append('status', filterStatus);
 
-            const data = await apiCall(`/students?${params}`);
+            const data = await apiCall(`/students/list?${params}`);
 
             if (data.success) {
                 setStudents(data.data.data || []);
@@ -67,13 +67,16 @@ const StudentProfile = () => {
     // Fetch dropdown data
     const fetchDropdownData = async () => {
         try {
+            console.log('StudentProfile: Fetching dropdown data from:', window.location.pathname);
             const data = await apiCall('/students/dropdown-data');
 
             if (data.success) {
                 setDropdownData(data.data);
+            } else {
+                console.error('StudentProfile: Dropdown data fetch failed:', data.message);
             }
         } catch (err) {
-            console.error('Error fetching dropdown data:', err);
+            console.error('StudentProfile: Error fetching dropdown data:', err);
         }
     };
 
@@ -86,8 +89,8 @@ const StudentProfile = () => {
 
         try {
             const url = editingStudent 
-                ? `/students/${editingStudent.student_id}`
-                : '/students';
+                ? `/students/${editingStudent.student_id}/update`
+                : '/students/create';
             
             const method = editingStudent ? 'PUT' : 'POST';
             
@@ -126,7 +129,7 @@ const StudentProfile = () => {
         setSuccess('');
 
         try {
-            const data = await apiCall(`/students/${studentId}`, {
+            const data = await apiCall(`/students/${studentId}/delete`, {
                 method: 'DELETE'
             });
 
@@ -208,16 +211,23 @@ const StudentProfile = () => {
         navigate('/profile');
     };
 
-    // Load data on component mount
     useEffect(() => {
+        console.log('StudentProfile: Component mounted, current path:', window.location.pathname);
+        
         // Load user data from localStorage
         const userData = localStorage.getItem('user');
         if (userData) {
             setUser(JSON.parse(userData));
         }
         
-        fetchStudents();
-        fetchDropdownData();
+        // Only fetch data if we're on the students page
+        if (window.location.pathname === '/students') {
+            console.log('StudentProfile: On students page, fetching data...');
+            fetchStudents();
+            fetchDropdownData();
+        } else {
+            console.log('StudentProfile: Not on students page, skipping data fetch');
+        }
     }, []);
 
     // Refetch when filters change
@@ -615,8 +625,8 @@ const StudentProfile = () => {
                                                 </td>
                                                 <td>{student.email_address}</td>
                                                 <td>{student.phone_number}</td>
-                                                <td>{student.department_name}</td>
-                                                <td>{student.course_name}</td>
+                                                <td>{student.department?.department_name || student.department_name || 'N/A'}</td>
+                                                <td>{student.course?.course_name || student.course_name || 'N/A'}</td>
                                                 <td>
                                                     <span className={`status-badge status-${student.status.toLowerCase()}`}>
                                                         {student.status}

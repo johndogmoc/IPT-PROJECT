@@ -31,8 +31,7 @@ const FacultyProfile = () => {
         departments: []
     });
 
-    // API Base URL
-    const API_BASE = '/api';
+    // Using apiCall utility for all API requests
 
     // Fetch faculty from API
     const fetchFaculty = async () => {
@@ -44,8 +43,7 @@ const FacultyProfile = () => {
             if (filterDepartment) params.append('department_id', filterDepartment);
             if (filterPosition) params.append('position', filterPosition);
 
-            const response = await fetch(`${API_BASE}/faculty?${params}`);
-            const data = await response.json();
+            const data = await apiCall(`/faculty/list?${params}`);
 
             if (data.success) {
                 setFaculty(data.data.data || []);
@@ -62,14 +60,16 @@ const FacultyProfile = () => {
     // Fetch dropdown data
     const fetchDropdownData = async () => {
         try {
-            const response = await fetch(`${API_BASE}/faculty/dropdown-data`);
-            const data = await response.json();
+            console.log('FacultyProfile: Fetching dropdown data from:', window.location.pathname);
+            const data = await apiCall('/faculty/dropdown-data');
 
             if (data.success) {
                 setDropdownData(data.data);
+            } else {
+                console.error('FacultyProfile: Dropdown data fetch failed:', data.message);
             }
         } catch (err) {
-            console.error('Error fetching dropdown data:', err);
+            console.error('FacultyProfile: Error fetching dropdown data:', err);
         }
     };
 
@@ -82,21 +82,15 @@ const FacultyProfile = () => {
 
         try {
             const url = editingFaculty 
-                ? `${API_BASE}/faculty/${editingFaculty.faculty_id}`
-                : `${API_BASE}/faculty`;
+                ? `/faculty/${editingFaculty.faculty_id}/update`
+                : '/faculty/create';
             
             const method = editingFaculty ? 'PUT' : 'POST';
             
-            const response = await fetch(url, {
+            const data = await apiCall(url, {
                 method: method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
                 body: JSON.stringify(formData)
             });
-
-            const data = await response.json();
 
             if (data.success) {
                 setSuccess(data.message);
@@ -128,14 +122,9 @@ const FacultyProfile = () => {
         setSuccess('');
 
         try {
-            const response = await fetch(`${API_BASE}/faculty/${facultyId}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
+            const data = await apiCall(`/faculty/${facultyId}/delete`, {
+                method: 'DELETE'
             });
-
-            const data = await response.json();
 
             if (data.success) {
                 setSuccess(data.message);
@@ -209,16 +198,23 @@ const FacultyProfile = () => {
         navigate('/profile');
     };
 
-    // Load data on component mount
     useEffect(() => {
+        console.log('FacultyProfile: Component mounted, current path:', window.location.pathname);
+        
         // Load user data from localStorage
         const userData = localStorage.getItem('user');
         if (userData) {
             setUser(JSON.parse(userData));
         }
         
-        fetchFaculty();
-        fetchDropdownData();
+        // Only fetch data if we're on the faculty page
+        if (window.location.pathname === '/faculty') {
+            console.log('FacultyProfile: On faculty page, fetching data...');
+            fetchFaculty();
+            fetchDropdownData();
+        } else {
+            console.log('FacultyProfile: Not on faculty page, skipping data fetch');
+        }
     }, []);
 
     // Refetch when filters change
@@ -535,7 +531,7 @@ const FacultyProfile = () => {
                                                 <td>{facultyMember.email_address}</td>
                                                 <td>{facultyMember.phone_number}</td>
                                                 <td>{facultyMember.position}</td>
-                                                <td>{facultyMember.department_name}</td>
+                                                <td>{facultyMember.department?.department_name || facultyMember.department_name || 'N/A'}</td>
                                                 <td>
                                                     <button 
                                                         className="btn btn-sm btn-outline-primary me-1"

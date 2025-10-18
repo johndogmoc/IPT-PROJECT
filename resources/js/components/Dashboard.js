@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { apiCall } from '../utils/api';
 
 const Dashboard = () => {
+    const { user, loading, authenticated } = useAuth();
     const navigate = useNavigate();
     const [stats, setStats] = useState({
         totalStudents: 0,
@@ -14,36 +16,34 @@ const Dashboard = () => {
 
     const [studentsPerCourse, setStudentsPerCourse] = useState([]);
     const [facultyPerDepartment, setFacultyPerDepartment] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [dashboardLoading, setDashboardLoading] = useState(true);
     const [error, setError] = useState('');
 
     const [topPerformers, setTopPerformers] = useState([]);
     const [notifications, setNotifications] = useState([]);
-    const [user, setUser] = useState(null);
 
     useEffect(() => {
-        // Load user data from localStorage
-        const userData = localStorage.getItem('user');
-        if (userData) {
-            setUser(JSON.parse(userData));
+        if (!loading) {
+            if (!authenticated) {
+                navigate('/login');
+            } else {
+                fetchDashboardData();
+            }
         }
-        
-        // Fetch dashboard data when component mounts
-        fetchDashboardData();
-    }, []);
+    }, [authenticated, loading, navigate]);
 
     // Fetch all dashboard data
     const fetchDashboardData = async () => {
-        setLoading(true);
+        setDashboardLoading(true);
         setError('');
         
         try {
             // Fetch all data in parallel
             const [studentsData, facultyData, departmentsData, coursesData] = await Promise.all([
-                apiCall('/students'),
-                apiCall('/faculty'),
-                apiCall('/departments'),
-                apiCall('/courses')
+                apiCall('/students/list'),
+                apiCall('/faculty/list'),
+                apiCall('/departments/list'),
+                apiCall('/courses/list')
             ]);
 
             // Update stats
@@ -58,7 +58,7 @@ const Dashboard = () => {
             if (studentsData.success && studentsData.data.data) {
                 const courseCounts = {};
                 studentsData.data.data.forEach(student => {
-                    const courseName = student.course_name || 'Unknown Course';
+                    const courseName = student.course?.course_name || student.course_name || 'Unknown Course';
                     courseCounts[courseName] = (courseCounts[courseName] || 0) + 1;
                 });
 
@@ -75,115 +75,51 @@ const Dashboard = () => {
             if (facultyData.success && facultyData.data.data) {
                 const departmentCounts = {};
                 facultyData.data.data.forEach(faculty => {
-                    const deptName = faculty.department_name || 'Unknown Department';
+                    const deptName = faculty.department?.department_name || faculty.department_name || 'Unknown Department';
                     departmentCounts[deptName] = (departmentCounts[deptName] || 0) + 1;
                 });
 
-                const facultyPerDeptData = Object.entries(departmentCounts).map(([department, count]) => ({
-                    department,
-                    count
+                const facultyPerDepartmentData = Object.entries(departmentCounts).map(([dept, count]) => ({
+                    name: dept,
+                    faculty: count
                 }));
-                setFacultyPerDepartment(facultyPerDeptData);
+                setFacultyPerDepartment(facultyPerDepartmentData);
             }
 
-            // Process top performers from actual student data
-            if (studentsData.success && studentsData.data.data) {
-                // Since we don't have grades/performance data in the current schema,
-                // we'll show the most recent students as "top performers"
-                // In a real system, you'd have a grades table with performance metrics
-                const recentStudents = studentsData.data.data
-                    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-                    .slice(0, 3)
-                    .map((student, index) => ({
-                        name: `${student.f_name} ${student.m_name} ${student.l_name}`.trim(),
-                        id: `STU${String(student.student_id).padStart(3, '0')}`,
-                        year: `Year ${student.year_level}`,
-                        percentage: Math.floor(Math.random() * 20) + 80 // Random percentage 80-100% for demo
-                    }));
-                setTopPerformers(recentStudents);
-            }
+            // Mock top performers and notifications (replace with real API if available)
+            setTopPerformers([
+                { id: 'STU001', name: 'John Doe', course: 'Computer Science', year: 'Senior', percentage: 95 },
+                { id: 'STU002', name: 'Jane Smith', course: 'Business', year: 'Junior', percentage: 92 },
+                { id: 'STU003', name: 'Mike Johnson', course: 'Nursing', year: 'Senior', percentage: 90 }
+            ]);
 
-            // Generate real notifications based on data
-            const realNotifications = [];
-            
-            if (studentsData.success && studentsData.data.data) {
-                const studentCount = studentsData.data.data.length;
-                if (studentCount > 0) {
-                    realNotifications.push({
-                        message: `${studentCount} student${studentCount > 1 ? 's' : ''} registered`,
-                        time: 'Today'
-                    });
-                }
-            }
-            
-            if (facultyData.success && facultyData.data.data) {
-                const facultyCount = facultyData.data.data.length;
-                if (facultyCount > 0) {
-                    realNotifications.push({
-                        message: `${facultyCount} faculty member${facultyCount > 1 ? 's' : ''} active`,
-                        time: 'Today'
-                    });
-                }
-            }
-            
-            if (departmentsData.success && departmentsData.data.data) {
-                const deptCount = departmentsData.data.data.length;
-                if (deptCount > 0) {
-                    realNotifications.push({
-                        message: `${deptCount} department${deptCount > 1 ? 's' : ''} available`,
-                        time: 'Today'
-                    });
-                }
-            }
-            
-            if (coursesData.success && coursesData.data.data) {
-                const courseCount = coursesData.data.data.length;
-                if (courseCount > 0) {
-                    realNotifications.push({
-                        message: `${courseCount} course${courseCount > 1 ? 's' : ''} offered`,
-                        time: 'Today'
-                    });
-                }
-            }
-            
-            setNotifications(realNotifications);
+            setNotifications([
+                { message: 'New student enrollment deadline approaching', time: '2 hours ago' },
+                { message: 'Faculty meeting scheduled for tomorrow', time: '1 day ago' },
+                { message: 'System maintenance planned for weekend', time: '3 days ago' }
+            ]);
 
         } catch (err) {
-            console.error('Error fetching dashboard data:', err);
             setError('Failed to load dashboard data');
         } finally {
-            setLoading(false);
+            setDashboardLoading(false);
         }
     };
 
-    // Custom label function for pie chart
-    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
-        const RADIAN = Math.PI / 180;
-        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-        const x = cx + radius * Math.cos(-midAngle * RADIAN);
-        const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
+    if (dashboardLoading) {
         return (
-            <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-                {`${(percent * 100).toFixed(0)}%`}
-            </text>
+            <div className="text-center py-5">
+                <i className="fas fa-spinner fa-spin fa-3x mb-3"></i>
+                <p>Loading dashboard data...</p>
+            </div>
         );
-    };
+    }
 
-    // Handle profile navigation
-    const handleProfileClick = () => {
-        navigate('/profile');
-    };
-
-    if (loading) {
+    if (error) {
         return (
-            <div className="dashboard">
-                <div className="d-flex justify-content-center align-items-center" style={{height: '50vh'}}>
-                    <div className="text-center">
-                        <i className="fas fa-spinner fa-spin fa-2x mb-3"></i>
-                        <p>Loading dashboard data...</p>
-                    </div>
-                </div>
+            <div className="alert alert-danger">
+                <i className="fas fa-exclamation-triangle me-2"></i>
+                {error}
             </div>
         );
     }
@@ -193,7 +129,7 @@ const Dashboard = () => {
             <div className="header">
                 <h1 className="mb-0">Dashboard</h1>
                 <div className="user-menu">
-                    <div className="user-profile" onClick={handleProfileClick} style={{cursor: 'pointer'}}>
+                    <div className="user-profile" onClick={() => navigate('/profile')} style={{cursor: 'pointer'}}>
                         <div className="user-avatar">
                             {user ? user.username.charAt(0).toUpperCase() : 'A'}
                         </div>
@@ -202,72 +138,62 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Error Message */}
-            {error && (
-                <div className="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i className="fas fa-exclamation-triangle me-2"></i>
-                    {error}
-                    <button type="button" className="btn-close" onClick={() => setError('')}></button>
-                </div>
-            )}
-
-            {/* Stats Cards */}
-            <div className="row mb-4">
+            <div className="row">
+                {/* Stats Cards */}
                 <div className="col-md-3">
-                    <div className="stat-card">
-                        <div className="stat-icon">
-                            <i className="fas fa-user-graduate"></i>
-                        </div>
-                        <div className="stat-content">
-                            <h3>{stats.totalStudents.toLocaleString()}</h3>
-                            <p>Total Students</p>
+                    <div className="card stat-card">
+                        <div className="card-body">
+                            <div className="stat-icon bg-primary">
+                                <i className="fas fa-user-graduate"></i>
+                            </div>
+                            <h5 className="card-title">Total Students</h5>
+                            <h2 className="stat-value">{stats.totalStudents}</h2>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-3">
-                    <div className="stat-card">
-                        <div className="stat-icon">
-                            <i className="fas fa-chalkboard-teacher"></i>
-                        </div>
-                        <div className="stat-content">
-                            <h3>{stats.totalFaculty.toLocaleString()}</h3>
-                            <p>Total Faculty</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-3">
-                    <div className="stat-card">
-                        <div className="stat-icon">
-                            <i className="fas fa-building"></i>
-                        </div>
-                        <div className="stat-content">
-                            <h3>{stats.totalDepartments.toLocaleString()}</h3>
-                            <p>Total Departments</p>
+                    <div className="card stat-card">
+                        <div className="card-body">
+                            <div className="stat-icon bg-success">
+                                <i className="fas fa-chalkboard-teacher"></i>
+                            </div>
+                            <h5 className="card-title">Total Faculty</h5>
+                            <h2 className="stat-value">{stats.totalFaculty}</h2>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-3">
-                    <div className="stat-card">
-                        <div className="stat-icon">
-                            <i className="fas fa-book"></i>
+                    <div className="card stat-card">
+                        <div className="card-body">
+                            <div className="stat-icon bg-info">
+                                <i className="fas fa-building"></i>
+                            </div>
+                            <h5 className="card-title">Departments</h5>
+                            <h2 className="stat-value">{stats.totalDepartments}</h2>
                         </div>
-                        <div className="stat-content">
-                            <h3>{stats.totalCourses.toLocaleString()}</h3>
-                            <p>Total Courses</p>
+                    </div>
+                </div>
+                <div className="col-md-3">
+                    <div className="card stat-card">
+                        <div className="card-body">
+                            <div className="stat-icon bg-warning">
+                                <i className="fas fa-book"></i>
+                            </div>
+                            <h5 className="card-title">Courses</h5>
+                            <h2 className="stat-value">{stats.totalCourses}</h2>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Charts Row */}
-            <div className="row mb-4">
-                {/* Students per Course Chart */}
+            <div className="row mt-4">
+                {/* Students per Course Pie Chart */}
                 <div className="col-md-6">
-                    <div className="chart-card">
-                        <div className="chart-header">
-                            <h5>Students per Course</h5>
+                    <div className="card">
+                        <div className="card-header">
+                            <h5 className="mb-0">Students per Course</h5>
                         </div>
-                        <div className="chart-body">
+                        <div className="card-body">
                             {studentsPerCourse.length > 0 ? (
                                 <ResponsiveContainer width="100%" height={300}>
                                     <PieChart>
@@ -276,9 +202,7 @@ const Dashboard = () => {
                                             cx="50%"
                                             cy="50%"
                                             labelLine={false}
-                                            label={renderCustomizedLabel}
-                                            outerRadius={80}
-                                            fill="#8884d8"
+                                            outerRadius={100}
                                             dataKey="value"
                                         >
                                             {studentsPerCourse.map((entry, index) => (
@@ -299,21 +223,22 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* Faculty per Department Chart */}
+                {/* Faculty per Department Bar Chart */}
                 <div className="col-md-6">
-                    <div className="chart-card">
-                        <div className="chart-header">
-                            <h5>Faculty per Department</h5>
+                    <div className="card">
+                        <div className="card-header">
+                            <h5 className="mb-0">Faculty per Department</h5>
                         </div>
-                        <div className="chart-body">
+                        <div className="card-body">
                             {facultyPerDepartment.length > 0 ? (
                                 <ResponsiveContainer width="100%" height={300}>
                                     <BarChart data={facultyPerDepartment}>
                                         <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis dataKey="department" />
+                                        <XAxis dataKey="name" />
                                         <YAxis />
                                         <Tooltip />
-                                        <Bar dataKey="count" fill="#007bff" />
+                                        <Legend />
+                                        <Bar dataKey="faculty" fill="#007bff" />
                                     </BarChart>
                                 </ResponsiveContainer>
                             ) : (
@@ -327,22 +252,18 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Bottom Row */}
-            <div className="row">
-                {/* Recent Students */}
+            <div className="row mt-4">
+                {/* Top Performers */}
                 <div className="col-md-6">
                     <div className="card">
                         <div className="card-header">
-                            <h5 className="mb-0">Recent Students</h5>
+                            <h5 className="mb-0">Top Student Performers</h5>
                         </div>
                         <div className="card-body">
                             {topPerformers.length > 0 ? (
                                 <div className="performers-list">
                                     {topPerformers.map((performer, index) => (
                                         <div key={index} className="performer-item">
-                                            <div className="performer-rank">
-                                                <span className="rank-number">{index + 1}</span>
-                                            </div>
                                             <div className="performer-info">
                                                 <h6 className="mb-1">{performer.name}</h6>
                                                 <p className="mb-0 text-muted">{performer.id} • {performer.year}</p>

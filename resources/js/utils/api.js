@@ -1,14 +1,12 @@
 // API Utility Functions
 export const API_BASE = '/api';
 
-// State to track authentication
-let isAuthenticated = false;
-
 // Function to get CSRF token
 const getCsrfToken = () => document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
 // Helper function to make authenticated API calls
 export const apiCall = async (endpoint, options = {}) => {
+    const token = localStorage.getItem('auth_token');
     const defaultOptions = {
         credentials: 'include',
         headers: {
@@ -18,6 +16,11 @@ export const apiCall = async (endpoint, options = {}) => {
             'X-CSRF-TOKEN': getCsrfToken()
         }
     };
+    
+    // Add Authorization header if token exists
+    if (token) {
+        defaultOptions.headers['Authorization'] = `Bearer ${token}`;
+    }
 
     const mergedOptions = {
         ...defaultOptions,
@@ -33,7 +36,6 @@ export const apiCall = async (endpoint, options = {}) => {
         
         if (!response.ok) {
             if (response.status === 401) {
-                isAuthenticated = false;
                 window.location.href = '/login';
                 throw new Error('Authentication required');
             }
@@ -48,26 +50,14 @@ export const apiCall = async (endpoint, options = {}) => {
 
         const data = await response.json();
         
-        // Only log minimal response info in development
-        if (process.env.NODE_ENV === 'development') {
-            const safeLog = {
-                status: response.status,
-                success: data.success,
-                message: data.message
-            };
-            console.log(`API ${endpoint}:`, safeLog);
-        }
-
         // Handle authentication errors
         if (response.status === 401) {
-            localStorage.removeItem('user');
             window.location.href = '/login';
             return { success: false, message: 'Authentication required' };
         }
 
         return data;
     } catch (error) {
-        console.error('API call failed:', error);
         return { success: false, message: 'Network error: ' + error.message };
     }
 };
@@ -75,33 +65,74 @@ export const apiCall = async (endpoint, options = {}) => {
 // Helper function to check authentication status
 export const checkAuth = async () => {
     try {
+        const token = localStorage.getItem('auth_token');
+        console.log('Checking auth with token:', token ? 'exists' : 'none');
+        
+        const headers = {
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        };
+        
+        // Add Authorization header if token exists
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+        
+        // Add timeout to prevent hanging
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+        
         const response = await fetch(`${API_BASE}/auth/check`, {
             method: 'GET',
-            credentials: 'include'
+            credentials: 'include',
+            headers,
+            signal: controller.signal
         });
 
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+            console.log('Auth check response not ok:', response.status);
+            return { success: true, authenticated: false };
+        }
+
         const data = await response.json();
+        console.log('Auth check successful:', data);
         return data;
     } catch (error) {
-        console.error('Auth check failed:', error);
-        return { success: false, authenticated: false };
+        console.error('Auth check error:', error);
+        return { success: true, authenticated: false };
     }
 };
 
 // Helper function to logout
 export const logout = async () => {
     try {
+        const token = localStorage.getItem('auth_token');
+        const headers = {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        };
+        
+        // Add Authorization header if token exists
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+        
         await fetch(`${API_BASE}/auth/logout`, {
             method: 'POST',
             credentials: 'include',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
+            headers
         });
     } catch (error) {
-        console.error('Logout failed:', error);
+        // Silent fail
     } finally {
-        localStorage.removeItem('user');
+        localStorage.removeItem('auth_token');
         window.location.href = '/login';
     }
+};
+
+// Helper function to clear auth cache
+export const clearAuthCache = () => {
+    localStorage.removeItem('auth_token');
+    console.log('Auth cache cleared');
 };

@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { apiCall, clearAuthCache } from '../utils/api';
 
 const Login = () => {
     const [credentials, setCredentials] = useState({
@@ -9,6 +11,20 @@ const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { authenticated, loading, login } = useAuth();
+
+    useEffect(() => {
+        // Redirect to dashboard if already logged in
+        if (!loading && authenticated) {
+            navigate('/dashboard', { replace: true });
+        }
+    }, [authenticated, loading, navigate]);
+
+    useEffect(() => {
+        // Clear any existing auth data when login page loads
+        clearAuthCache();
+        console.log('Login page loaded, auth cache cleared');
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -24,33 +40,50 @@ const Login = () => {
         setError('');
 
         try {
+            console.log('Attempting login with credentials:', { username: credentials.username });
+            
+            // Use a direct fetch for login since we don't have a token yet
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+            
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
-                credentials: 'include', // Include cookies
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: JSON.stringify(credentials)
+                body: JSON.stringify(credentials),
+                signal: controller.signal
             });
+
+            clearTimeout(timeoutId);
+
+            console.log('Login response status:', response.status);
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
 
             const data = await response.json();
+            console.log('Login response data:', data);
 
-            console.log('Login response:', {
-                status: response.status,
-                data: data,
-                cookies: document.cookie
-            });
-
-            if (data.success) {
-                // Store user info in localStorage for frontend use
-                localStorage.setItem('user', JSON.stringify(data.data));
-                console.log('Login successful, redirecting to dashboard');
-                navigate('/dashboard');
+            if (data.success && data.token) {
+                console.log('Login successful! Token received');
+                
+                // Use the login function from AuthContext
+                login(data.token, data.user);
+                
+                // Navigate to dashboard
+                console.log('Navigating to dashboard...');
+                navigate('/dashboard', { replace: true });
             } else {
-                setError(data.message || 'Login failed');
+                console.log('Login failed:', data);
+                setError(data.message || 'Login failed. Please check your credentials.');
             }
         } catch (err) {
+            console.error('Login error:', err);
             setError('Network error: ' + err.message);
         } finally {
             setIsLoading(false);
@@ -91,6 +124,7 @@ const Login = () => {
                                     onChange={handleInputChange}
                                     className="form-control"
                                     placeholder="Enter your username"
+                                    autoComplete="username"
                                     required
                                 />
                             </div>
@@ -110,6 +144,7 @@ const Login = () => {
                                     onChange={handleInputChange}
                                     className="form-control"
                                     placeholder="Enter your password"
+                                    autoComplete="current-password"
                                     required
                                 />
                             </div>
@@ -133,7 +168,6 @@ const Login = () => {
                             )}
                         </button>
                     </form>
-
                 </div>
             </div>
         </div>

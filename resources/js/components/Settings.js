@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { apiCall } from '../utils/api';
 
 // Department Component
 const Department = () => {
@@ -12,8 +13,6 @@ const Department = () => {
     const [formData, setFormData] = useState({ department_name: '', department_head: '' });
     const [searchTerm, setSearchTerm] = useState('');
 
-    const API_BASE = '/api';
-
     // Fetch departments
     const fetchDepartments = async () => {
         setLoading(true);
@@ -22,8 +21,7 @@ const Department = () => {
             const params = new URLSearchParams();
             if (searchTerm) params.append('search', searchTerm);
 
-            const response = await fetch(`${API_BASE}/departments?${params}`);
-            const data = await response.json();
+            const data = await apiCall(`/departments/list?${params}`);
 
             if (data.success) {
                 setDepartments(data.data.data || []);
@@ -46,21 +44,15 @@ const Department = () => {
 
         try {
             const url = editingDepartment 
-                ? `${API_BASE}/departments/${editingDepartment.department_id}`
-                : `${API_BASE}/departments`;
+                ? `/departments/${editingDepartment.department_id}/update`
+                : '/departments/create';
             
             const method = editingDepartment ? 'PUT' : 'POST';
             
-            const response = await fetch(url, {
+            const data = await apiCall(url, {
                 method: method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
                 body: JSON.stringify(formData)
             });
-
-            const data = await response.json();
 
             if (data.success) {
                 setSuccess(data.message);
@@ -92,14 +84,9 @@ const Department = () => {
         setSuccess('');
 
         try {
-            const response = await fetch(`${API_BASE}/departments/${departmentId}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
+            const data = await apiCall(`/departments/${departmentId}/delete`, {
+                method: 'DELETE'
             });
-
-            const data = await response.json();
 
             if (data.success) {
                 setSuccess(data.message);
@@ -318,7 +305,7 @@ const Course = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [departments, setDepartments] = useState([]);
 
-    const API_BASE = '/api';
+    // Using apiCall utility for all API requests
 
     // Fetch courses
     const fetchCourses = async () => {
@@ -328,8 +315,7 @@ const Course = () => {
             const params = new URLSearchParams();
             if (searchTerm) params.append('search', searchTerm);
 
-            const response = await fetch(`${API_BASE}/courses?${params}`);
-            const data = await response.json();
+            const data = await apiCall(`/courses/list?${params}`);
 
             if (data.success) {
                 setCourses(data.data.data || []);
@@ -346,8 +332,7 @@ const Course = () => {
     // Fetch departments for dropdown
     const fetchDepartments = async () => {
         try {
-            const response = await fetch(`${API_BASE}/courses/dropdown-data`);
-            const data = await response.json();
+            const data = await apiCall('/courses/dropdown-data');
 
             if (data.success) {
                 setDepartments(data.data.departments || []);
@@ -366,21 +351,15 @@ const Course = () => {
 
         try {
             const url = editingCourse 
-                ? `${API_BASE}/courses/${editingCourse.course_id}`
-                : `${API_BASE}/courses`;
+                ? `/courses/${editingCourse.course_id}/update`
+                : '/courses/create';
             
             const method = editingCourse ? 'PUT' : 'POST';
             
-            const response = await fetch(url, {
+            const data = await apiCall(url, {
                 method: method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
                 body: JSON.stringify(formData)
             });
-
-            const data = await response.json();
 
             if (data.success) {
                 setSuccess(data.message);
@@ -412,14 +391,9 @@ const Course = () => {
         setSuccess('');
 
         try {
-            const response = await fetch(`${API_BASE}/courses/${courseId}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
+            const data = await apiCall(`/courses/${courseId}/delete`, {
+                method: 'DELETE'
             });
-
-            const data = await response.json();
 
             if (data.success) {
                 setSuccess(data.message);
@@ -607,7 +581,7 @@ const Course = () => {
                             courses.map(course => (
                                 <tr key={course.course_id}>
                                     <td>{course.course_name}</td>
-                                    <td>{course.department_name}</td>
+                                    <td>{course.department?.department_name || course.department_name || 'N/A'}</td>
                                     <td>{new Date(course.created_at).toLocaleDateString()}</td>
                                     <td>
                                         <button 
@@ -644,7 +618,7 @@ const AcademicYear = () => {
     const [formData, setFormData] = useState({ school_year: '' });
     const [searchTerm, setSearchTerm] = useState('');
 
-    const API_BASE = '/api';
+    // Using apiCall utility for all API requests
 
     // Fetch academic years
     const fetchAcademicYears = async () => {
@@ -654,8 +628,7 @@ const AcademicYear = () => {
             const params = new URLSearchParams();
             if (searchTerm) params.append('search', searchTerm);
 
-            const response = await fetch(`${API_BASE}/academic-years?${params}`);
-            const data = await response.json();
+            const data = await apiCall(`/academic/list?${params}`);
 
             if (data.success) {
                 setAcademicYears(data.data.data || []);
@@ -678,21 +651,15 @@ const AcademicYear = () => {
 
         try {
             const url = editingAcademicYear 
-                ? `${API_BASE}/academic-years/${editingAcademicYear.academic_year_id}`
-                : `${API_BASE}/academic-years`;
+                ? `/academic/${editingAcademicYear.academic_year_id}/update`
+                : '/academic/create';
             
             const method = editingAcademicYear ? 'PUT' : 'POST';
             
-            const response = await fetch(url, {
+            const data = await apiCall(url, {
                 method: method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
                 body: JSON.stringify(formData)
             });
-
-            const data = await response.json();
 
             if (data.success) {
                 setSuccess(data.message);
@@ -724,14 +691,9 @@ const AcademicYear = () => {
         setSuccess('');
 
         try {
-            const response = await fetch(`${API_BASE}/academic-years/${academicYearId}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
+            const data = await apiCall(`/academic/${academicYearId}/delete`, {
+                method: 'DELETE'
             });
-
-            const data = await response.json();
 
             if (data.success) {
                 setSuccess(data.message);

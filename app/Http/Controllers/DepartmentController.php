@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class DepartmentController extends Controller
@@ -14,9 +14,7 @@ class DepartmentController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = DB::table('departments')
-                ->whereNull('deleted_at')
-                ->select('*');
+            $query = Department::whereNull('deleted_at');
 
             // Search functionality
             if ($request->has('search') && $request->search) {
@@ -34,7 +32,6 @@ class DepartmentController extends Controller
                 'data' => $departments,
                 'message' => 'Departments retrieved successfully'
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -62,23 +59,13 @@ class DepartmentController extends Controller
                 ], 422);
             }
 
-            $departmentId = DB::table('departments')->insertGetId([
-                'department_name' => $request->department_name,
-                'department_head' => $request->department_head,
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
-
-            $department = DB::table('departments')
-                ->where('department_id', $departmentId)
-                ->first();
+            $department = Department::create($request->all());
 
             return response()->json([
                 'success' => true,
                 'data' => $department,
                 'message' => 'Department created successfully'
             ], 201);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -93,10 +80,7 @@ class DepartmentController extends Controller
     public function show($id)
     {
         try {
-            $department = DB::table('departments')
-                ->where('department_id', $id)
-                ->whereNull('deleted_at')
-                ->first();
+            $department = Department::whereNull('deleted_at')->find($id);
 
             if (!$department) {
                 return response()->json([
@@ -110,7 +94,6 @@ class DepartmentController extends Controller
                 'data' => $department,
                 'message' => 'Department retrieved successfully'
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -125,6 +108,15 @@ class DepartmentController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            $department = Department::whereNull('deleted_at')->find($id);
+
+            if (!$department) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Department not found or could not be updated'
+                ], 404);
+            }
+
             $validator = Validator::make($request->all(), [
                 'department_name' => 'required|string|max:255|unique:departments,department_name,' . $id . ',department_id',
                 'department_head' => 'required|string|max:255'
@@ -138,32 +130,13 @@ class DepartmentController extends Controller
                 ], 422);
             }
 
-            $updated = DB::table('departments')
-                ->where('department_id', $id)
-                ->whereNull('deleted_at')
-                ->update([
-                    'department_name' => $request->department_name,
-                    'department_head' => $request->department_head,
-                    'updated_at' => now()
-                ]);
-
-            if (!$updated) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Department not found or could not be updated'
-                ], 404);
-            }
-
-            $department = DB::table('departments')
-                ->where('department_id', $id)
-                ->first();
+            $department->update($request->all());
 
             return response()->json([
                 'success' => true,
                 'data' => $department,
                 'message' => 'Department updated successfully'
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -178,26 +151,21 @@ class DepartmentController extends Controller
     public function destroy($id)
     {
         try {
-            $deleted = DB::table('departments')
-                ->where('department_id', $id)
-                ->whereNull('deleted_at')
-                ->update([
-                    'deleted_at' => now(),
-                    'updated_at' => now()
-                ]);
+            $department = Department::whereNull('deleted_at')->find($id);
 
-            if (!$deleted) {
+            if (!$department) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Department not found or could not be deleted'
                 ], 404);
             }
 
+            $department->delete();
+
             return response()->json([
                 'success' => true,
                 'message' => 'Department archived successfully'
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\Department;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class CourseController extends Controller
@@ -14,36 +15,31 @@ class CourseController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = DB::table('courses')
-                ->leftJoin('departments', 'courses.department_id', '=', 'departments.department_id')
-                ->whereNull('courses.deleted_at')
-                ->select(
-                    'courses.*',
-                    'departments.department_name'
-                );
+            $query = Course::with('department')->whereNull('deleted_at');
 
             // Search functionality
             if ($request->has('search') && $request->search) {
                 $search = $request->search;
                 $query->where(function($q) use ($search) {
-                    $q->where('courses.course_name', 'like', "%{$search}%")
-                      ->orWhere('departments.department_name', 'like', "%{$search}%");
+                    $q->where('course_name', 'like', "%{$search}%")
+                      ->orWhereHas('department', function($qd) use ($search) {
+                          $qd->where('department_name', 'like', "%{$search}%");
+                      });
                 });
             }
 
             // Filter by department
             if ($request->has('department_id') && $request->department_id) {
-                $query->where('courses.department_id', $request->department_id);
+                $query->where('department_id', $request->department_id);
             }
 
-            $courses = $query->orderBy('courses.created_at', 'desc')->paginate(10);
+            $courses = $query->orderBy('created_at', 'desc')->paginate(10);
 
             return response()->json([
                 'success' => true,
                 'data' => $courses,
                 'message' => 'Courses retrieved successfully'
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -71,28 +67,13 @@ class CourseController extends Controller
                 ], 422);
             }
 
-            $courseId = DB::table('courses')->insertGetId([
-                'course_name' => $request->course_name,
-                'department_id' => $request->department_id,
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
-
-            $course = DB::table('courses')
-                ->leftJoin('departments', 'courses.department_id', '=', 'departments.department_id')
-                ->where('courses.course_id', $courseId)
-                ->select(
-                    'courses.*',
-                    'departments.department_name'
-                )
-                ->first();
+            $course = Course::create($request->all());
 
             return response()->json([
                 'success' => true,
-                'data' => $course,
+                'data' => $course->load('department'),
                 'message' => 'Course created successfully'
             ], 201);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -107,15 +88,7 @@ class CourseController extends Controller
     public function show($id)
     {
         try {
-            $course = DB::table('courses')
-                ->leftJoin('departments', 'courses.department_id', '=', 'departments.department_id')
-                ->where('courses.course_id', $id)
-                ->whereNull('courses.deleted_at')
-                ->select(
-                    'courses.*',
-                    'departments.department_name'
-                )
-                ->first();
+            $course = Course::with('department')->whereNull('deleted_at')->find($id);
 
             if (!$course) {
                 return response()->json([
@@ -129,7 +102,6 @@ class CourseController extends Controller
                 'data' => $course,
                 'message' => 'Course retrieved successfully'
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -144,9 +116,18 @@ class CourseController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            $course = Course::whereNull('deleted_at')->find($id);
+
+            if (!$course) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Course not found or could not be updated'
+                ], 404);
+            }
+
             $validator = Validator::make($request->all(), [
-                'course_name' => 'required|string|max:255',
-                'department_id' => 'required|exists:departments,department_id'
+                'course_name' => 'sometimes|required|string|max:255',
+                'department_id' => 'sometimes|required|exists:departments,department_id'
             ]);
 
             if ($validator->fails()) {
@@ -157,37 +138,13 @@ class CourseController extends Controller
                 ], 422);
             }
 
-            $updated = DB::table('courses')
-                ->where('course_id', $id)
-                ->whereNull('deleted_at')
-                ->update([
-                    'course_name' => $request->course_name,
-                    'department_id' => $request->department_id,
-                    'updated_at' => now()
-                ]);
-
-            if (!$updated) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Course not found or could not be updated'
-                ], 404);
-            }
-
-            $course = DB::table('courses')
-                ->leftJoin('departments', 'courses.department_id', '=', 'departments.department_id')
-                ->where('courses.course_id', $id)
-                ->select(
-                    'courses.*',
-                    'departments.department_name'
-                )
-                ->first();
+            $course->update($request->all());
 
             return response()->json([
                 'success' => true,
-                'data' => $course,
+                'data' => $course->load('department'),
                 'message' => 'Course updated successfully'
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -202,26 +159,21 @@ class CourseController extends Controller
     public function destroy($id)
     {
         try {
-            $deleted = DB::table('courses')
-                ->where('course_id', $id)
-                ->whereNull('deleted_at')
-                ->update([
-                    'deleted_at' => now(),
-                    'updated_at' => now()
-                ]);
+            $course = Course::whereNull('deleted_at')->find($id);
 
-            if (!$deleted) {
+            if (!$course) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Course not found or could not be deleted'
                 ], 404);
             }
 
+            $course->delete();
+
             return response()->json([
                 'success' => true,
                 'message' => 'Course archived successfully'
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -236,10 +188,7 @@ class CourseController extends Controller
     public function getDropdownData()
     {
         try {
-            $departments = DB::table('departments')
-                ->whereNull('deleted_at')
-                ->select('department_id', 'department_name')
-                ->get();
+            $departments = Department::whereNull('deleted_at')->select('department_id', 'department_name')->get();
 
             return response()->json([
                 'success' => true,
@@ -248,7 +197,6 @@ class CourseController extends Controller
                 ],
                 'message' => 'Dropdown data retrieved successfully'
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

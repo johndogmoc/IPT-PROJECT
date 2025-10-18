@@ -1,0 +1,102 @@
+// Layout Styles
+.layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    width: 260px;
+    background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+    color: white;
+    padding: 0;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+
+    .logo {
+        padding: 1.5rem;
+        font-size: 1.25rem;
+        font-weight: 700;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        
+        i {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+    }
+
+    .nav {
+        padding: 1rem 0;
+    }
+
+    .nav-item {
+        margin: 0.25rem 0.75rem;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        background: transparent;
+        border: none;
+        width: 100%;
+        text-align: left;
+        font-size: 0.95rem;
+
+        i {
+            margin-right: 0.75rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        &.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            font-weight: 600;
+        }
+    }
+
+    .logout-btn {
+        color: #fca5a5;
+        
+        &:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+    }
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 1rem;
+    }
+}
