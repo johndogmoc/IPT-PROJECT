@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { apiCall } from '../utils/api';
 
 const MyProfile = () => {
-    const { user, checkAuthStatus } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     const navigate = useNavigate();
 
     const [admin, setAdmin] = useState({
@@ -28,8 +28,8 @@ const MyProfile = () => {
 
     useEffect(() => {
         const loadUserData = async () => {
-            // Wait for initial auth check to complete
-            if (!initialCheckComplete) {
+            // Wait for auth loading to complete
+            if (authLoading) {
                 return;
             }
 
@@ -50,7 +50,7 @@ const MyProfile = () => {
                         });
                     }
                 } else {
-                    // Auth check is complete and no user found
+                    // No user found, redirect to login
                     navigate('/login');
                 }
             } catch (err) {
@@ -61,7 +61,7 @@ const MyProfile = () => {
         };
 
         loadUserData();
-    }, [user, navigate, initialCheckComplete]);
+    }, [user, authLoading, navigate]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -91,7 +91,7 @@ const MyProfile = () => {
             if (response.success) {
                 setSuccess('Profile updated successfully!');
                 setIsEditing(false);
-                await checkAuthStatus();
+                // Profile updated successfully, no need to check auth again
             } else {
                 setError(response.message || 'Failed to update profile');
             }
@@ -117,7 +117,7 @@ const MyProfile = () => {
         }
     };
 
-    if (loading || authLoading || !initialCheckComplete) {
+    if (loading || authLoading) {
         return <div className="text-center py-5">Loading profile...</div>;
     }
 

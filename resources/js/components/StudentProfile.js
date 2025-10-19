@@ -67,16 +67,15 @@ const StudentProfile = () => {
     // Fetch dropdown data
     const fetchDropdownData = async () => {
         try {
-            console.log('StudentProfile: Fetching dropdown data from:', window.location.pathname);
             const data = await apiCall('/students/dropdown-data');
 
             if (data.success) {
                 setDropdownData(data.data);
             } else {
-                console.error('StudentProfile: Dropdown data fetch failed:', data.message);
+                setError('Failed to load dropdown data');
             }
         } catch (err) {
-            console.error('StudentProfile: Error fetching dropdown data:', err);
+            setError('Error loading dropdown data');
         }
     };
 
@@ -212,8 +211,6 @@ const StudentProfile = () => {
     };
 
     useEffect(() => {
-        console.log('StudentProfile: Component mounted, current path:', window.location.pathname);
-        
         // Load user data from localStorage
         const userData = localStorage.getItem('user');
         if (userData) {
@@ -222,11 +219,8 @@ const StudentProfile = () => {
         
         // Only fetch data if we're on the students page
         if (window.location.pathname === '/students') {
-            console.log('StudentProfile: On students page, fetching data...');
             fetchStudents();
             fetchDropdownData();
-        } else {
-            console.log('StudentProfile: Not on students page, skipping data fetch');
         }
     }, []);
 

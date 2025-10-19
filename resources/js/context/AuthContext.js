@@ -9,11 +9,9 @@ export const AuthProvider = ({ children }) => {
 
     // Simple function to check if user has a valid token
     const checkAuthStatus = async () => {
-        console.log('AuthContext: Checking authentication...');
         const token = localStorage.getItem('auth_token');
         
         if (!token) {
-            console.log('AuthContext: No token found');
             setAuthenticated(false);
             setUser(null);
             setLoading(false);
@@ -33,7 +31,6 @@ export const AuthProvider = ({ children }) => {
             if (response.ok) {
                 const data = await response.json();
                 if (data.success && data.authenticated) {
-                    console.log('AuthContext: User authenticated');
                     setAuthenticated(true);
                     setUser(data.user || { authenticated: true });
                     setLoading(false);
@@ -41,12 +38,10 @@ export const AuthProvider = ({ children }) => {
                 }
             }
             
-            console.log('AuthContext: Authentication failed');
             setAuthenticated(false);
             setUser(null);
             localStorage.removeItem('auth_token');
         } catch (error) {
-            console.error('AuthContext: Auth check error:', error);
             setAuthenticated(false);
             setUser(null);
             localStorage.removeItem('auth_token');
@@ -58,7 +53,6 @@ export const AuthProvider = ({ children }) => {
 
     // Login function
     const login = (token, userData = null) => {
-        console.log('AuthContext: Logging in user');
         localStorage.setItem('auth_token', token);
         setAuthenticated(true);
         setUser(userData || { authenticated: true });
@@ -67,7 +61,6 @@ export const AuthProvider = ({ children }) => {
 
     // Logout function
     const logout = () => {
-        console.log('AuthContext: Logging out user');
         localStorage.removeItem('auth_token');
         setAuthenticated(false);
         setUser(null);

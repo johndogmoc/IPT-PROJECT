@@ -40,8 +40,6 @@ const Login = () => {
         setError('');
 
         try {
-            console.log('Attempting login with credentials:', { username: credentials.username });
-            
             // Use a direct fetch for login since we don't have a token yet
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
@@ -60,18 +58,13 @@ const Login = () => {
 
             clearTimeout(timeoutId);
 
-            console.log('Login response status:', response.status);
-
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
 
             const data = await response.json();
-            console.log('Login response data:', data);
 
             if (data.success && data.token) {
-                console.log('Login successful! Token received');
-                
                 // Set cookie for server-side authentication check
                 document.cookie = `auth_token=${data.token}; path=/; max-age=86400; SameSite=Lax`;
                 
@@ -79,14 +72,11 @@ const Login = () => {
                 login(data.token, data.user);
                 
                 // Navigate to dashboard
-                console.log('Navigating to dashboard...');
                 navigate('/dashboard', { replace: true });
             } else {
-                console.log('Login failed:', data);
                 setError(data.message || 'Login failed. Please check your credentials.');
             }
         } catch (err) {
-            console.error('Login error:', err);
             setError('Network error: ' + err.message);
         } finally {
             setIsLoading(false);

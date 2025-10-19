@@ -66,7 +66,6 @@ export const apiCall = async (endpoint, options = {}) => {
 export const checkAuth = async () => {
     try {
         const token = localStorage.getItem('auth_token');
-        console.log('Checking auth with token:', token ? 'exists' : 'none');
         
         const headers = {
             'Accept': 'application/json',
@@ -136,5 +135,4 @@ export const clearAuthCache = () => {
     localStorage.removeItem('auth_token');
     // Clear auth cookie
     document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-    console.log('Auth cache cleared');
 };

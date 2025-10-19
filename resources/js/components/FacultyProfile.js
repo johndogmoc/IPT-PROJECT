@@ -60,16 +60,15 @@ const FacultyProfile = () => {
     // Fetch dropdown data
     const fetchDropdownData = async () => {
         try {
-            console.log('FacultyProfile: Fetching dropdown data from:', window.location.pathname);
             const data = await apiCall('/faculty/dropdown-data');
 
             if (data.success) {
                 setDropdownData(data.data);
             } else {
-                console.error('FacultyProfile: Dropdown data fetch failed:', data.message);
+                setError('Failed to load dropdown data');
             }
         } catch (err) {
-            console.error('FacultyProfile: Error fetching dropdown data:', err);
+            setError('Error loading dropdown data');
         }
     };
 
@@ -199,8 +198,6 @@ const FacultyProfile = () => {
     };
 
     useEffect(() => {
-        console.log('FacultyProfile: Component mounted, current path:', window.location.pathname);
-        
         // Load user data from localStorage
         const userData = localStorage.getItem('user');
         if (userData) {
@@ -209,11 +206,8 @@ const FacultyProfile = () => {
         
         // Only fetch data if we're on the faculty page
         if (window.location.pathname === '/faculty') {
-            console.log('FacultyProfile: On faculty page, fetching data...');
             fetchFaculty();
             fetchDropdownData();
-        } else {
-            console.log('FacultyProfile: Not on faculty page, skipping data fetch');
         }
     }, []);
 

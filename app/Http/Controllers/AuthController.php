@@ -109,7 +109,7 @@ class AuthController extends Controller
         $authHeader = $request->header('Authorization');
         if ($authHeader && str_starts_with($authHeader, 'Bearer ')) {
             $token = substr($authHeader, 7);
-            Log::info('Checking token from header', ['token' => substr($token, 0, 10) . '...']);
+            Log::info('Checking token from header', ['token_present' => true]);
             
             $personalToken = \Laravel\Sanctum\PersonalAccessToken::findToken($token);
             if ($personalToken && $personalToken->tokenable_id) {
@@ -135,12 +135,14 @@ class AuthController extends Controller
     public function updateProfile(Request $request)
     {
         $admin = $request->user();
+        
+        // More flexible validation - allow empty/null values
         $validator = Validator::make($request->all(), [
-            'email' => 'sometimes|required|email|unique:admins,email,' . $admin->admin_id,
-            'first_name' => 'sometimes|required|string|max:255',
-            'last_name' => 'sometimes|required|string|max:255',
-            'phone' => 'sometimes|required|string|max:255',
-            'address' => 'sometimes|required|string|max:255'
+            'email' => 'nullable|email|unique:admins,email,' . $admin->admin_id . ',admin_id',
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255'
         ]);
 
         if ($validator->fails()) {
@@ -151,11 +153,18 @@ class AuthController extends Controller
             ], 422);
         }
 
-        $admin->update($request->only(['email', 'first_name', 'last_name', 'phone', 'address']));
+        // Only update fields that are present in the request
+        $updateData = array_filter($request->only(['email', 'first_name', 'last_name', 'phone', 'address']), function($value) {
+            return $value !== null;
+        });
+
+        if (!empty($updateData)) {
+            $admin->update($updateData);
+        }
 
         return response()->json([
             'success' => true,
-            'data' => $admin,
+            'data' => $admin->fresh(),
             'message' => 'Profile updated successfully'
         ]);
     }
