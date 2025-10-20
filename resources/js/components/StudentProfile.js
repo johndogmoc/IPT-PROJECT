@@ -79,6 +79,13 @@ const StudentProfile = () => {
         }
     };
 
+    // Generate random Learner ID
+    const generateLearnerId = () => {
+        const timestamp = Date.now().toString().slice(-6);
+        const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+        return `${timestamp}${random}`;
+    };
+
     // Add or update student
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -117,9 +124,9 @@ const StudentProfile = () => {
         }
     };
 
-    // Delete student
-    const handleDelete = async (studentId) => {
-        if (!window.confirm('Are you sure you want to delete this student?')) {
+    // Archive student
+    const handleArchive = async (studentId) => {
+        if (!window.confirm('Are you sure you want to archive this student?')) {
             return;
         }
 
@@ -128,15 +135,15 @@ const StudentProfile = () => {
         setSuccess('');
 
         try {
-            const data = await apiCall(`/students/${studentId}/delete`, {
-                method: 'DELETE'
+            const data = await apiCall(`/students/${studentId}/archive`, {
+                method: 'POST'
             });
 
             if (data.success) {
-                setSuccess(data.message);
+                setSuccess('Student archived successfully');
                 fetchStudents();
             } else {
-                setError(data.message || 'Failed to delete student');
+                setError(data.message || 'Failed to archive student');
             }
         } catch (err) {
             setError('Network error: ' + err.message);
@@ -164,6 +171,12 @@ const StudentProfile = () => {
             academic_year_id: student.academic_year_id || '',
             year_level: student.year_level || 1
         });
+        setShowForm(true);
+    };
+
+    // Handle opening form for new student
+    const handleAddStudent = () => {
+        setEditingStudent(null);
         setShowForm(true);
     };
 
@@ -236,14 +249,6 @@ const StudentProfile = () => {
         <div className="student-profile-component">
             <div className="header">
                 <h1 className="mb-0">Student Management</h1>
-                <div className="user-menu">
-                    <div className="user-profile" onClick={handleProfileClick} style={{cursor: 'pointer'}}>
-                        <div className="user-avatar">
-                            {user ? user.username.charAt(0).toUpperCase() : 'A'}
-                        </div>
-                        <span>{user ? user.username : 'Admin'}</span>
-                    </div>
-                </div>
             </div>
 
             {/* Success/Error Messages */}
@@ -314,7 +319,7 @@ const StudentProfile = () => {
                         <div className="col-md-3 d-flex align-items-end">
                             <button 
                                 className="btn btn-primary w-100"
-                                onClick={() => setShowForm(true)}
+                                onClick={handleAddStudent}
                             >
                                 <i className="fas fa-plus me-2"></i>Add Student
                             </button>
@@ -595,50 +600,59 @@ const StudentProfile = () => {
                             <table className="table">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Department</th>
-                                        <th>Course</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th style={{width: '40px'}}><input type="checkbox" /></th>
+                                        <th>Students Name</th>
+                                        <th>Learner ID</th>
+                                        <th>Address</th>
+                                        <th>Phone#</th>
+                                        <th>Date of Birth</th>
+                                        <th>Course Name</th>
+                                        <th>Student Year</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {students.length === 0 ? (
                                         <tr>
-                                            <td colSpan="7" className="text-center py-4">
+                                            <td colSpan="9" className="text-center py-4">
                                                 No students found
                                             </td>
                                         </tr>
                                     ) : (
                                         students.map(student => (
                                             <tr key={student.student_id}>
+                                                <td><input type="checkbox" /></td>
                                                 <td>
-                                                    {student.f_name} {student.m_name} {student.l_name} {student.suffix}
+                                                    <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                                                        <div style={{width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                                            <i className="fas fa-user" style={{color: '#666'}}></i>
+                                                        </div>
+                                                        <span>{student.f_name} {student.l_name}</span>
+                                                    </div>
                                                 </td>
-                                                <td>{student.email_address}</td>
+                                                <td>{student.student_id}</td>
+                                                <td>{student.address || 'N/A'}</td>
                                                 <td>{student.phone_number}</td>
-                                                <td>{student.department?.department_name || student.department_name || 'N/A'}</td>
+                                                <td>{student.date_of_birth ? new Date(student.date_of_birth).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'}) : 'N/A'}</td>
                                                 <td>{student.course?.course_name || student.course_name || 'N/A'}</td>
-                                                <td>
-                                                    <span className={`status-badge status-${student.status.toLowerCase()}`}>
-                                                        {student.status}
-                                                    </span>
-                                                </td>
+                                                <td>{student.year_level ? `${student.year_level}${student.year_level === 1 ? 'st' : student.year_level === 2 ? 'nd' : student.year_level === 3 ? 'rd' : 'th'} Year` : 'N/A'}</td>
                                                 <td>
                                                     <button 
                                                         className="btn btn-sm btn-outline-primary me-1"
                                                         onClick={() => handleEdit(student)}
+                                                        title="Edit"
                                                     >
                                                         <i className="fas fa-edit"></i>
                                                     </button>
+                                                    {/* Archive button temporarily disabled
                                                     <button 
-                                                        className="btn btn-sm btn-outline-danger"
-                                                        onClick={() => handleDelete(student.student_id)}
+                                                        className="btn btn-sm btn-outline-warning"
+                                                        onClick={() => handleArchive(student.student_id)}
+                                                        title="Archive"
                                                     >
-                                                        <i className="fas fa-trash"></i>
+                                                        <i className="fas fa-archive"></i>
                                                     </button>
+                                                    */}
                                                 </td>
                                             </tr>
                                         ))

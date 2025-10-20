@@ -18,37 +18,46 @@ Route::get('/login', function () {
     return view('login');
 })->name('login');
 
-// Protected Routes - Authentication handled by React (more reliable)
-Route::get('/', function () {
-    return view('dashboard');
+// Protected Routes - Require Authentication
+Route::middleware(['check.web.auth'])->group(function () {
+    
+    // Redirect root to dashboard
+    Route::get('/', function () {
+        return view('dashboard');
+    });
+
+    // SPA Routes - Protected by authentication middleware
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::get('/faculty', function () {
+        return view('dashboard');
+    });
+
+    Route::get('/students', function () {
+        return view('dashboard');
+    });
+
+    Route::get('/reports', function () {
+        return view('dashboard');
+    });
+
+    Route::get('/settings', function () {
+        return view('dashboard');
+    });
+
+    Route::get('/profile', function () {
+        return view('dashboard');
+    });
+
+    Route::get('/archive', function () {
+        return view('dashboard');
+    });
+
+    // Catch-all route for SPA - handles any other protected routes
+    Route::get('/{any}', function () {
+        return view('dashboard');
+    })->where('any', '.*');
+    
 });
-
-// SPA Routes - React handles authentication checks
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
-
-Route::get('/faculty', function () {
-    return view('dashboard');
-});
-
-Route::get('/students', function () {
-    return view('dashboard');
-});
-
-Route::get('/reports', function () {
-    return view('dashboard');
-});
-
-Route::get('/settings', function () {
-    return view('dashboard');
-});
-
-Route::get('/profile', function () {
-    return view('dashboard');
-});
-
-// Catch-all route for SPA - handles any other routes
-Route::get('/{any}', function () {
-    return view('dashboard');
-})->where('any', '.*');

@@ -89,7 +89,16 @@ const Login = () => {
                 <div className="login-card">
                     <div className="login-header">
                         <div className="logo">
-                            <i className="fas fa-graduation-cap"></i>
+                            <img 
+                                src="/images/logo.png" 
+                                alt="Starlink University" 
+                                style={{width: '60px', height: '60px', marginBottom: '10px'}}
+                                onError={(e) => {
+                                    e.target.style.display = 'none';
+                                    e.target.nextSibling.style.display = 'block';
+                                }}
+                            />
+                            <i className="fas fa-graduation-cap" style={{display: 'none', fontSize: '60px', marginBottom: '10px'}}></i>
                             <h1>Starlink University</h1>
                         </div>
                         <p className="login-subtitle">Admin Dashboard</p>

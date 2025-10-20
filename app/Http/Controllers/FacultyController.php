@@ -207,6 +207,36 @@ class FacultyController extends Controller
     }
 
     /**
+     * Archive the specified faculty (soft delete).
+     */
+    public function archive($id)
+    {
+        try {
+            $faculty = FacultyProfile::whereNull('deleted_at')->find($id);
+
+            if (!$faculty) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Faculty not found or already archived'
+                ], 404);
+            }
+
+            // Soft delete the faculty (archives it)
+            $faculty->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Faculty member archived successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error archiving faculty: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * Get dropdown data for forms.
      */
     public function getDropdownData()

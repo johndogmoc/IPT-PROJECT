@@ -223,6 +223,36 @@ class StudentController extends Controller
     }
 
     /**
+     * Archive the specified student (soft delete).
+     */
+    public function archive($id)
+    {
+        try {
+            $student = StudentProfile::whereNull('deleted_at')->find($id);
+
+            if (!$student) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Student not found or already archived'
+                ], 404);
+            }
+
+            // Soft delete the student (archives it)
+            $student->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Student archived successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error archiving student: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * Get dropdown data for forms.
      */
     public function getDropdownData()

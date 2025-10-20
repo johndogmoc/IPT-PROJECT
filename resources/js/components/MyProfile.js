@@ -122,152 +122,275 @@ const MyProfile = () => {
     }
 
     return (
-        <div className="container py-4">
-            <div className="card shadow-sm">
-                <div className="card-header bg-primary text-white">
-                    <h3 className="mb-0">
-                        <i className="fas fa-user-circle me-2"></i> My Profile
-                    </h3>
+        <div className="modern-profile">
+            <div className="profile-header">
+                <h2 className="profile-title">My Profile</h2>
+                <p className="profile-subtitle">Manage your personal information and account settings</p>
+            </div>
+
+            <div className="profile-container">
+                {error && (
+                    <div className="alert alert-danger">
+                        <i className="fas fa-exclamation-triangle me-2"></i>
+                        {error}
+                    </div>
+                )}
+                {success && (
+                    <div className="alert alert-success">
+                        <i className="fas fa-check-circle me-2"></i>
+                        {success}
+                    </div>
+                )}
+
+                {/* User Profile Header */}
+                <div className="card shadow-sm mb-4">
+                    <div className="card-body p-4">
+                        <div className="d-flex align-items-center justify-content-between">
+                            <div className="d-flex align-items-center">
+                                <div style={{width: '70px', height: '70px', borderRadius: '50%', background: '#FFC107', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '16px', position: 'relative'}}>
+                                    <i className="fas fa-user" style={{fontSize: '32px', color: 'white'}}></i>
+                                    <div style={{position: 'absolute', bottom: '0', right: '0', width: '24px', height: '24px', background: '#4F46E5', borderRadius: '50%', border: '3px solid white', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                        <i className="fas fa-check" style={{fontSize: '10px', color: 'white'}}></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 className="mb-1" style={{fontWeight: '600', color: '#1f2937'}}>{admin.firstName} {admin.lastName}</h4>
+                                    <p className="mb-1 text-muted" style={{fontSize: '14px'}}>{admin.email}</p>
+                                    <div className="d-flex align-items-center gap-3" style={{fontSize: '13px'}}>
+                                        <span className="text-success">
+                                            <i className="fas fa-check-circle me-1"></i>Verified Account
+                                        </span>
+                                        <span className="text-muted">
+                                            Last login: 2 hours ago
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button 
+                                className="btn btn-primary"
+                                onClick={() => setIsEditing(!isEditing)}
+                                style={{borderRadius: '8px', padding: '8px 20px'}}
+                            >
+                                <i className={`fas ${isEditing ? 'fa-times' : 'fa-edit'} me-2`}></i>
+                                {isEditing ? 'Cancel' : 'Edit Profile'}
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div className="card-body">
-                    {error && (
-                        <div className="alert alert-danger">
-                            <i className="fas fa-exclamation-triangle me-2"></i>
-                            {error}
-                        </div>
-                    )}
-                    {success && (
-                        <div className="alert alert-success">
-                            <i className="fas fa-check-circle me-2"></i>
-                            {success}
-                        </div>
-                    )}
 
-                    <div className="row">
-                        <div className="col-md-6">
-                            <div className="mb-3">
-                                <label className="form-label">Username</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    value={admin.username}
-                                    disabled
-                                />
+                {/* Two Column Layout */}
+                <div className="row">
+                    {/* Personal Information Section */}
+                    <div className="col-md-6 mb-4">
+                        <div className="card shadow-sm h-100">
+                            <div className="card-header" style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 20px'}}>
+                                <h6 className="mb-0" style={{fontWeight: '600', color: '#1f2937'}}>
+                                    <i className="fas fa-user-circle me-2" style={{color: '#4F46E5'}}></i>Personal Information
+                                </h6>
                             </div>
-                            <div className="mb-3">
-                                <label className="form-label">Email</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={admin.email}
-                                    onChange={handleInputChange}
-                                    className="form-control"
-                                    disabled={!isEditing}
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">First Name</label>
-                                <input
-                                    type="text"
-                                    name="firstName"
-                                    value={admin.firstName}
-                                    onChange={handleInputChange}
-                                    className="form-control"
-                                    disabled={!isEditing}
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">Last Name</label>
-                                <input
-                                    type="text"
-                                    name="lastName"
-                                    value={admin.lastName}
-                                    onChange={handleInputChange}
-                                    className="form-control"
-                                    disabled={!isEditing}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="col-md-6">
-                            <div className="mb-3">
-                                <label className="form-label">Phone</label>
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    value={admin.phone}
-                                    onChange={handleInputChange}
-                                    className="form-control"
-                                    disabled={!isEditing}
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">Address</label>
-                                <input
-                                    type="text"
-                                    name="address"
-                                    value={admin.address}
-                                    onChange={handleInputChange}
-                                    className="form-control"
-                                    disabled={!isEditing}
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">Created At</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    value={admin.createdAt}
-                                    disabled
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">Last Login</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    value={admin.lastLogin}
-                                    disabled
-                                />
+                            <div className="card-body" style={{padding: '20px'}}>
+                                <div className="row">
+                                    <div className="col-md-4 mb-3">
+                                        <label className="form-label text-muted" style={{fontSize: '12px', fontWeight: '500'}}>First Name</label>
+                                        {isEditing ? (
+                                            <input
+                                                type="text"
+                                                name="firstName"
+                                                value={admin.firstName}
+                                                onChange={handleInputChange}
+                                                className="form-control"
+                                                style={{fontSize: '14px'}}
+                                            />
+                                        ) : (
+                                            <div style={{fontSize: '14px', color: '#1f2937'}}>{admin.firstName || 'N/A'}</div>
+                                        )}
+                                    </div>
+                                    <div className="col-md-4 mb-3">
+                                        <label className="form-label text-muted" style={{fontSize: '12px', fontWeight: '500'}}>Last Name</label>
+                                        {isEditing ? (
+                                            <input
+                                                type="text"
+                                                name="lastName"
+                                                value={admin.lastName}
+                                                onChange={handleInputChange}
+                                                className="form-control"
+                                                style={{fontSize: '14px'}}
+                                            />
+                                        ) : (
+                                            <div style={{fontSize: '14px', color: '#1f2937'}}>{admin.lastName || 'N/A'}</div>
+                                        )}
+                                    </div>
+                                    <div className="col-md-4 mb-3">
+                                        <label className="form-label text-muted" style={{fontSize: '12px', fontWeight: '500'}}>Username</label>
+                                        <div style={{fontSize: '14px', color: '#1f2937'}}>{admin.username}</div>
+                                    </div>
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label text-muted" style={{fontSize: '12px', fontWeight: '500'}}>Email Address</label>
+                                    {isEditing ? (
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            value={admin.email}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                            style={{fontSize: '14px'}}
+                                        />
+                                    ) : (
+                                        <div style={{fontSize: '14px', color: '#1f2937'}}>{admin.email}</div>
+                                    )}
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-6 mb-3">
+                                        <label className="form-label text-muted" style={{fontSize: '12px', fontWeight: '500'}}>Phone Number</label>
+                                        {isEditing ? (
+                                            <input
+                                                type="text"
+                                                name="phone"
+                                                value={admin.phone}
+                                                onChange={handleInputChange}
+                                                className="form-control"
+                                                style={{fontSize: '14px'}}
+                                            />
+                                        ) : (
+                                            <div style={{fontSize: '14px', color: '#1f2937'}}>{admin.phone || 'N/A'}</div>
+                                        )}
+                                    </div>
+                                    <div className="col-md-6 mb-3">
+                                        <label className="form-label text-muted" style={{fontSize: '12px', fontWeight: '500'}}>Date of Birth</label>
+                                        {isEditing ? (
+                                            <input
+                                                type="date"
+                                                className="form-control"
+                                                style={{fontSize: '14px'}}
+                                            />
+                                        ) : (
+                                            <div style={{fontSize: '14px', color: '#1f2937'}}>1999-03-15</div>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label text-muted" style={{fontSize: '12px', fontWeight: '500'}}>Address</label>
+                                    {isEditing ? (
+                                        <input
+                                            type="text"
+                                            name="address"
+                                            value={admin.address}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                            placeholder="123 University Ave, College Town, ST 12345"
+                                            style={{fontSize: '14px'}}
+                                        />
+                                    ) : (
+                                        <div style={{fontSize: '14px', color: '#1f2937'}}>{admin.address || 'N/A'}</div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="d-flex justify-content-between mt-3">
-                        {!isEditing ? (
-                            <button
-                                className="btn btn-warning"
-                                onClick={() => setIsEditing(true)}
-                            >
-                                <i className="fas fa-edit me-2"></i>Edit Profile
-                            </button>
-                        ) : (
-                            <button
-                                className="btn btn-success"
-                                onClick={handleSave}
-                                disabled={saving}
-                            >
-                                {saving ? (
-                                    <>
-                                        <i className="fas fa-spinner fa-spin me-2"></i>Saving...
-                                    </>
-                                ) : (
-                                    <>
-                                        <i className="fas fa-save me-2"></i>Save Changes
-                                    </>
-                                )}
-                            </button>
-                        )}
-                        <button className="btn btn-danger" onClick={handleLogoutClick}>
-                            <i className="fas fa-sign-out-alt me-2"></i>Logout
+                    {/* Account Information Section */}
+                    <div className="col-md-6 mb-4">
+                        <div className="card shadow-sm h-100">
+                            <div className="card-header" style={{background: 'white', borderBottom: '1px solid #e5e7eb', padding: '16px 20px'}}>
+                                <h6 className="mb-0" style={{fontWeight: '600', color: '#1f2937'}}>
+                                    <i className="fas fa-info-circle me-2" style={{color: '#4F46E5'}}></i>Account Information
+                                </h6>
+                            </div>
+                            <div className="card-body" style={{padding: '20px'}}>
+                                <div className="mb-3">
+                                    <div 
+                                        className="d-flex align-items-center p-3" 
+                                        style={{
+                                            border: '1px solid #e5e7eb', 
+                                            borderRadius: '8px', 
+                                            cursor: 'pointer',
+                                            transition: 'all 0.2s'
+                                        }}
+                                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
+                                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                                    >
+                                        <i className="fas fa-lock" style={{color: '#4F46E5', fontSize: '18px', marginRight: '12px'}}></i>
+                                        <span style={{fontSize: '14px', color: '#1f2937', flex: 1}}>Change Password</span>
+                                        <i className="fas fa-chevron-right" style={{color: '#9ca3af', fontSize: '14px'}}></i>
+                                    </div>
+                                </div>
+                                <div className="mb-3">
+                                    <div 
+                                        className="d-flex align-items-center p-3" 
+                                        style={{
+                                            border: '1px solid #e5e7eb', 
+                                            borderRadius: '8px', 
+                                            cursor: 'pointer',
+                                            transition: 'all 0.2s'
+                                        }}
+                                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
+                                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                                    >
+                                        <i className="fas fa-shield-alt" style={{color: '#4F46E5', fontSize: '18px', marginRight: '12px'}}></i>
+                                        <span style={{fontSize: '14px', color: '#1f2937', flex: 1}}>Two-Factor Auth</span>
+                                        <i className="fas fa-chevron-right" style={{color: '#9ca3af', fontSize: '14px'}}></i>
+                                    </div>
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label text-muted" style={{fontSize: '12px', fontWeight: '500'}}>Created At</label>
+                                    <div style={{fontSize: '14px', color: '#1f2937'}}>
+                                        {admin.createdAt || '2025-10-18T18:37:18.0000002'}
+                                    </div>
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label text-muted" style={{fontSize: '12px', fontWeight: '500'}}>Last Login</label>
+                                    <div style={{fontSize: '14px', color: '#1f2937'}}>
+                                        {admin.lastLogin || '2025-10-18T23:50:26.0000002'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Action Buttons */}
+                {isEditing ? (
+                    <div className="d-flex justify-content-end gap-2">
+                        <button 
+                            className="btn btn-outline-secondary"
+                            onClick={() => setIsEditing(false)}
+                            style={{borderRadius: '8px', padding: '10px 24px'}}
+                        >
+                            Cancel Changes
+                        </button>
+                        <button 
+                            className="btn btn-primary"
+                            onClick={handleSave}
+                            disabled={saving}
+                            style={{borderRadius: '8px', padding: '10px 24px'}}
+                        >
+                            {saving ? (
+                                <>
+                                    <i className="fas fa-spinner fa-spin me-2"></i>Saving...
+                                </>
+                            ) : (
+                                <>
+                                    <i className="fas fa-save me-2"></i>Save Changes
+                                </>
+                            )}
                         </button>
                     </div>
-                </div>
+                ) : (
+                    <div className="text-end">
+                        <button 
+                            className="btn btn-outline-primary"
+                            style={{borderRadius: '8px', padding: '10px 24px'}}
+                        >
+                            <i className="fas fa-download me-2"></i>Download Data
+                        </button>
+                    </div>
+                )}
             </div>
 
             {/* Logout Modal */}
             {showLogoutModal && (
-                <div className="modal fade show d-block" tabIndex="-1" role="dialog">
+                <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{backgroundColor: 'rgba(0,0,0,0.5)'}}>
                     <div className="modal-dialog modal-dialog-centered" role="document">
                         <div className="modal-content">
                             <div className="modal-header">

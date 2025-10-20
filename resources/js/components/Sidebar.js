@@ -13,8 +13,8 @@ const Sidebar = () => {
         faculty: { name: 'Faculty', icon: 'fas fa-chalkboard-teacher', path: '/faculty' },
         students: { name: 'Students', icon: 'fas fa-user-graduate', path: '/students' },
         reports: { name: 'Reports', icon: 'fas fa-chart-bar', path: '/reports' },
-        settings: { name: 'Settings', icon: 'fas fa-cog', path: '/settings' },
-        profile: { name: 'My Profile', icon: 'fas fa-user', path: '/profile' }
+        archive: { name: 'Archive', icon: 'fas fa-archive', path: '/archive' },
+        settings: { name: 'Settings', icon: 'fas fa-cog', path: '/settings' }
     }), []);
 
     useEffect(() => {
@@ -82,38 +82,54 @@ const Sidebar = () => {
     }
 
     return (
-        <div className="layout">
-            <div className="sidebar">
-                <div className="logo">
-                    <i className="fas fa-graduation-cap me-2"></i>
-                    Starlink University
+        <div className="modern-layout">
+            <div className="modern-sidebar">
+                <div className="sidebar-logo">
+                    <div className="logo-icon">
+                        <img 
+                            src="/images/logo.png" 
+                            alt="Starlink University"
+                            onError={(e) => {
+                                e.target.style.display = 'none';
+                                e.target.nextSibling.style.display = 'block';
+                            }}
+                        />
+                        <i className="fas fa-graduation-cap" style={{display: 'none'}}></i>
+                    </div>
+                    <h5 className="logo-text">Starlink University</h5>
                 </div>
                 
-                <nav className="nav flex-column">
-                    {Object.entries(components).map(([key, { name, icon }]) => (
-                        <div key={key} className="nav-item">
+                <nav className="sidebar-nav">
+                    <div className="nav-section">
+                        <div className="nav-header">
+                            <span>Home</span>
+                            <i className="fas fa-chevron-up"></i>
+                        </div>
+                        
+                        {Object.entries(components).map(([key, { name, icon }]) => (
                             <button
-                                className={`nav-link ${activeComponent === key ? 'active' : ''}`}
+                                key={key}
+                                className={`nav-item ${activeComponent === key ? 'active' : ''}`}
                                 onClick={() => handleNavigation(key)}
                             >
-                                <i className={icon}></i>
-                                {name}
+                                <i className={`nav-icon ${icon}`}></i>
+                                <span className="nav-text">{name}</span>
                             </button>
-                        </div>
-                    ))}
-                    
-                    <div className="nav-item mt-3">
-                        <button
-                            className="nav-link logout-btn"
-                            onClick={handleLogout}
-                        >
-                            <i className="fas fa-sign-out-alt"></i>
-                            Logout
-                        </button>
+                        ))}
                     </div>
                 </nav>
-            </div>
 
+                <div className="sidebar-footer">
+                    <button 
+                        className="logout-button"
+                        onClick={handleLogout}
+                    >
+                        <i className="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+            
             <div className="main-content">
                 <Outlet />
             </div>

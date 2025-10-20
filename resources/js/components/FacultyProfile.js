@@ -110,9 +110,9 @@ const FacultyProfile = () => {
         }
     };
 
-    // Delete faculty
-    const handleDelete = async (facultyId) => {
-        if (!window.confirm('Are you sure you want to delete this faculty member?')) {
+    // Archive faculty
+    const handleArchive = async (facultyId) => {
+        if (!window.confirm('Are you sure you want to archive this faculty member?')) {
             return;
         }
 
@@ -121,15 +121,15 @@ const FacultyProfile = () => {
         setSuccess('');
 
         try {
-            const data = await apiCall(`/faculty/${facultyId}/delete`, {
-                method: 'DELETE'
+            const data = await apiCall(`/faculty/${facultyId}/archive`, {
+                method: 'POST'
             });
 
             if (data.success) {
-                setSuccess(data.message);
+                setSuccess(data.message || 'Faculty member archived successfully');
                 fetchFaculty();
             } else {
-                setError(data.message || 'Failed to delete faculty member');
+                setError(data.message || 'Failed to archive faculty member');
             }
         } catch (err) {
             setError('Network error: ' + err.message);
@@ -223,14 +223,6 @@ const FacultyProfile = () => {
         <div className="faculty-profile-component">
             <div className="header">
                 <h1 className="mb-0">Faculty Management</h1>
-                <div className="user-menu">
-                    <div className="user-profile" onClick={handleProfileClick} style={{cursor: 'pointer'}}>
-                        <div className="user-avatar">
-                            {user ? user.username.charAt(0).toUpperCase() : 'A'}
-                        </div>
-                        <span>{user ? user.username : 'Admin'}</span>
-                    </div>
-                </div>
             </div>
 
             {/* Success/Error Messages */}
@@ -533,12 +525,15 @@ const FacultyProfile = () => {
                                                     >
                                                         <i className="fas fa-edit"></i>
                                                     </button>
+                                                    {/* Archive button temporarily disabled
                                                     <button 
-                                                        className="btn btn-sm btn-outline-danger"
-                                                        onClick={() => handleDelete(facultyMember.faculty_id)}
+                                                        className="btn btn-sm btn-outline-warning"
+                                                        onClick={() => handleArchive(facultyMember.faculty_id)}
+                                                        title="Archive"
                                                     >
-                                                        <i className="fas fa-trash"></i>
+                                                        <i className="fas fa-archive"></i>
                                                     </button>
+                                                    */}
                                                 </td>
                                             </tr>
                                         ))

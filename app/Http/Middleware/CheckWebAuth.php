@@ -27,48 +27,45 @@ class CheckWebAuth
             return $next($request);
         }
 
-        // Check for authentication token in multiple places
-        $token = null;
+        // For SPA routes, inject a script to check authentication client-side
+        // This prevents server-side blocking of the initial page load
+        $response = $next($request);
         
-        // 1. Check localStorage via JavaScript (most reliable for SPA)
-        // We'll inject a script to check this
-        
-        // 2. Check session (set by server on login)
-        if (!$token) {
-            $token = $request->session()->get('auth_token');
-        }
-        
-        // 3. Check cookie (backup)
-        if (!$token) {
-            $token = $request->cookie('auth_token');
-        }
-
-        // If no token found anywhere, redirect to login
-        if (!$token) {
-            return redirect('/login')->with('message', 'Please log in to access this page.');
-        }
-
-        // Validate the token exists in database
-        try {
-            $accessToken = PersonalAccessToken::findToken($token);
-            
-            if (!$accessToken || !$accessToken->tokenable) {
-                // Invalid token, clear session and redirect
-                $request->session()->forget('auth_token');
-                return redirect('/login')
-                    ->withCookie(cookie()->forget('auth_token'))
-                    ->with('message', 'Your session has expired. Please log in again.');
+        // Add authentication check script to the response
+        $authScript = "
+        <script>
+        (function() {
+            const token = localStorage.getItem('auth_token');
+            if (!token) {
+                window.location.href = '/login';
+                return;
             }
-
-            // Token is valid, allow access
-            return $next($request);
-
-        } catch (\Exception $e) {
-            // Error validating token, clear and redirect
-            $request->session()->forget('auth_token');
-            return redirect('/login')
-                ->withCookie(cookie()->forget('auth_token'))
-                ->with('message', 'Please log in to access this page.');
-        }
+            
+            // Verify token with server
+            fetch('/api/auth/check', {
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (!response.ok) {
+                    localStorage.removeItem('auth_token');
+                    document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+                    window.location.href = '/login';
+                }
+            }).catch(() => {
+                localStorage.removeItem('auth_token');
+                document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+                window.location.href = '/login';
+            });
+        })();
+        </script>
+        ";
+        
+        $content = $response->getContent();
+        $content = str_replace('</head>', $authScript . '</head>', $content);
+        $response->setContent($content);
+        
+        return $response;
     }
 }

@@ -16,6 +16,7 @@ import StudentProfile from './components/StudentProfile';
 import FacultyProfile from './components/FacultyProfile';
 import Report from './components/Report';
 import MyProfile from './components/MyProfile';
+import Archive from './components/Archive';
 import Login from './components/Login';
 import Unauthorized from './components/Unauthorized';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -41,6 +42,7 @@ function App() {
                         <Route path="students" element={<StudentProfile />} />
                         <Route path="faculty" element={<FacultyProfile />} />
                         <Route path="reports" element={<Report />} />
+                        <Route path="archive" element={<Archive />} />
                         <Route path="profile" element={<MyProfile />} />
                     </Route>
                 </Routes>
