@@ -126,35 +126,35 @@ const Settings = () => {
         }
     };
 
-    const handleDeleteCourse = async (courseId) => {
-        if (!confirm('Are you sure you want to delete this course?')) return;
+    const handleArchiveCourse = async (courseId) => {
+        if (!confirm('Are you sure you want to archive this course?')) return;
 
         try {
             const response = await apiCall(`/courses/${courseId}/delete`, { method: 'DELETE' });
             if (response.success) {
-                setSuccess('Course deleted successfully');
+                setSuccess('Course archived successfully');
                 fetchCourses();
             } else {
-                setError(response.message || 'Failed to delete course');
+                setError(response.message || 'Failed to archive course');
             }
         } catch (err) {
-            setError('Error deleting course');
+            setError('Error archiving course');
         }
     };
 
-    const handleDeleteDepartment = async (departmentId) => {
-        if (!confirm('Are you sure you want to delete this department?')) return;
+    const handleArchiveDepartment = async (departmentId) => {
+        if (!confirm('Are you sure you want to archive this department?')) return;
 
         try {
             const response = await apiCall(`/departments/${departmentId}/delete`, { method: 'DELETE' });
             if (response.success) {
-                setSuccess('Department deleted successfully');
+                setSuccess('Department archived successfully');
                 fetchDepartments();
             } else {
-                setError(response.message || 'Failed to delete department');
+                setError(response.message || 'Failed to archive department');
             }
         } catch (err) {
-            setError('Error deleting department');
+            setError('Error archiving department');
         }
     };
 
@@ -275,10 +275,11 @@ const Settings = () => {
                                                             <i className="fas fa-edit"></i>
                                                         </button>
                                                         <button 
-                                                            className="btn btn-sm btn-outline-danger"
-                                                            onClick={() => handleDeleteCourse(course.course_id)}
+                                                            className="btn btn-sm btn-outline-warning"
+                                                            onClick={() => handleArchiveCourse(course.course_id)}
+                                                            title="Archive"
                                                         >
-                                                            <i className="fas fa-trash"></i>
+                                                            <i className="fas fa-archive"></i>
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -351,10 +352,11 @@ const Settings = () => {
                                                             <i className="fas fa-edit"></i>
                                                         </button>
                                                         <button 
-                                                            className="btn btn-sm btn-outline-danger"
-                                                            onClick={() => handleDeleteDepartment(dept.department_id)}
+                                                            className="btn btn-sm btn-outline-warning"
+                                                            onClick={() => handleArchiveDepartment(dept.department_id)}
+                                                            title="Archive"
                                                         >
-                                                            <i className="fas fa-trash"></i>
+                                                            <i className="fas fa-archive"></i>
                                                         </button>
                                                     </td>
                                                 </tr>

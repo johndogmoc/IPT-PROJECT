@@ -493,12 +493,19 @@ const StudentProfile = () => {
                                                     required
                                                 >
                                                     <option value="">Select Department</option>
-                                                    {dropdownData.departments.map(dept => (
-                                                        <option key={dept.department_id} value={dept.department_id}>
-                                                            {dept.department_name}
-                                                        </option>
-                                                    ))}
+                                                    {dropdownData.departments && dropdownData.departments.length > 0 ? (
+                                                        dropdownData.departments.map(dept => (
+                                                            <option key={dept.department_id} value={dept.department_id}>
+                                                                {dept.department_name}
+                                                            </option>
+                                                        ))
+                                                    ) : (
+                                                        <option value="" disabled>No departments available - Add in Settings</option>
+                                                    )}
                                                 </select>
+                                                {(!dropdownData.departments || dropdownData.departments.length === 0) && (
+                                                    <small className="text-danger">Please add departments in Settings first</small>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="col-md-4">
@@ -512,12 +519,19 @@ const StudentProfile = () => {
                                                     required
                                                 >
                                                     <option value="">Select Course</option>
-                                                    {dropdownData.courses.map(course => (
-                                                        <option key={course.course_id} value={course.course_id}>
-                                                            {course.course_name}
-                                                        </option>
-                                                    ))}
+                                                    {dropdownData.courses && dropdownData.courses.length > 0 ? (
+                                                        dropdownData.courses.map(course => (
+                                                            <option key={course.course_id} value={course.course_id}>
+                                                                {course.course_name}
+                                                            </option>
+                                                        ))
+                                                    ) : (
+                                                        <option value="" disabled>No courses available - Add in Settings</option>
+                                                    )}
                                                 </select>
+                                                {(!dropdownData.courses || dropdownData.courses.length === 0) && (
+                                                    <small className="text-danger">Please add courses in Settings first</small>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -533,12 +547,19 @@ const StudentProfile = () => {
                                                     required
                                                 >
                                                     <option value="">Select Academic Year</option>
-                                                    {dropdownData.academic_years.map(year => (
-                                                        <option key={year.academic_year_id} value={year.academic_year_id}>
-                                                            {year.school_year}
-                                                        </option>
-                                                    ))}
+                                                    {dropdownData.academic_years && dropdownData.academic_years.length > 0 ? (
+                                                        dropdownData.academic_years.map(year => (
+                                                            <option key={year.academic_year_id} value={year.academic_year_id}>
+                                                                {year.school_year}
+                                                            </option>
+                                                        ))
+                                                    ) : (
+                                                        <option value="" disabled>No academic years available</option>
+                                                    )}
                                                 </select>
+                                                {(!dropdownData.academic_years || dropdownData.academic_years.length === 0) && (
+                                                    <small className="text-danger">Academic years are missing - Contact admin</small>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="col-md-6">
@@ -644,7 +665,6 @@ const StudentProfile = () => {
                                                     >
                                                         <i className="fas fa-edit"></i>
                                                     </button>
-                                                    {/* Archive button temporarily disabled
                                                     <button 
                                                         className="btn btn-sm btn-outline-warning"
                                                         onClick={() => handleArchive(student.student_id)}
@@ -652,7 +672,6 @@ const StudentProfile = () => {
                                                     >
                                                         <i className="fas fa-archive"></i>
                                                     </button>
-                                                    */}
                                                 </td>
                                             </tr>
                                         ))

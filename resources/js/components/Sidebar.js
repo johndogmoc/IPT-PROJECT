@@ -118,16 +118,6 @@ const Sidebar = () => {
                         ))}
                     </div>
                 </nav>
-
-                <div className="sidebar-footer">
-                    <button 
-                        className="logout-button"
-                        onClick={handleLogout}
-                    >
-                        <i className="fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
-                    </button>
-                </div>
             </div>
             
             <div className="main-content">

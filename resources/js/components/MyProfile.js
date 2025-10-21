@@ -377,7 +377,14 @@ const MyProfile = () => {
                         </button>
                     </div>
                 ) : (
-                    <div className="text-end">
+                    <div className="d-flex justify-content-between">
+                        <button 
+                            className="btn btn-danger"
+                            onClick={handleLogoutClick}
+                            style={{borderRadius: '8px', padding: '10px 24px'}}
+                        >
+                            <i className="fas fa-sign-out-alt me-2"></i>Logout
+                        </button>
                         <button 
                             className="btn btn-outline-primary"
                             style={{borderRadius: '8px', padding: '10px 24px'}}

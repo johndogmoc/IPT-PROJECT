@@ -210,22 +210,16 @@ const Dashboard = () => {
                             )}
                         </div>
                         <div className="chart-legend">
-                            <div className="legend-item">
-                                <span className="legend-dot" style={{backgroundColor: '#4285f4'}}></span>
-                                <span>Nursing Program</span>
-                            </div>
-                            <div className="legend-item">
-                                <span className="legend-dot" style={{backgroundColor: '#ea4335'}}></span>
-                                <span>Business & Administration Program</span>
-                            </div>
-                            <div className="legend-item">
-                                <span className="legend-dot" style={{backgroundColor: '#34a853'}}></span>
-                                <span>Computer Science Program</span>
-                            </div>
-                            <div className="legend-item">
-                                <span className="legend-dot" style={{backgroundColor: '#fbbc04'}}></span>
-                                <span>Engineering Program</span>
-                            </div>
+                            {studentsPerCourse.length > 0 ? (
+                                studentsPerCourse.map((course, index) => (
+                                    <div key={index} className="legend-item">
+                                        <span className="legend-dot" style={{backgroundColor: course.fill}}></span>
+                                        <span>{course.name} ({course.value} student{course.value !== 1 ? 's' : ''})</span>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="text-muted small">No courses to display</div>
+                            )}
                         </div>
                     </div>
 

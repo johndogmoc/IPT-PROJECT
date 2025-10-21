@@ -525,7 +525,6 @@ const FacultyProfile = () => {
                                                     >
                                                         <i className="fas fa-edit"></i>
                                                     </button>
-                                                    {/* Archive button temporarily disabled
                                                     <button 
                                                         className="btn btn-sm btn-outline-warning"
                                                         onClick={() => handleArchive(facultyMember.faculty_id)}
@@ -533,7 +532,6 @@ const FacultyProfile = () => {
                                                     >
                                                         <i className="fas fa-archive"></i>
                                                     </button>
-                                                    */}
                                                 </td>
                                             </tr>
                                         ))

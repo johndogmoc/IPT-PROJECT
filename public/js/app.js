@@ -110169,27 +110169,518 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/api */ "./resources/js/utils/api.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
-// TODO: Re-enable this component when requested by user
-// This component is temporarily disabled for development
-// All original code has been preserved in git history
 
 var Archive = function Archive() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    className: "container py-5",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-      className: "text-center",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-        className: "fas fa-tools fa-5x text-muted mb-4"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
-        children: "Archive Management"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-        className: "text-muted",
-        children: "This feature is currently under development and will be available soon."
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('students'),
+    _useState2 = _slicedToArray(_useState, 2),
+    activeTab = _useState2[0],
+    setActiveTab = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    loading = _useState4[0],
+    setLoading = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+    _useState6 = _slicedToArray(_useState5, 2),
+    error = _useState6[0],
+    setError = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+    _useState8 = _slicedToArray(_useState7, 2),
+    success = _useState8[0],
+    setSuccess = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+      students: [],
+      faculty: [],
+      courses: [],
+      departments: []
+    }),
+    _useState0 = _slicedToArray(_useState9, 2),
+    archived = _useState0[0],
+    setArchived = _useState0[1];
+  var fetchArchived = /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(tab) {
+      var endpointMap, endpoint, res, _t;
+      return _regenerator().w(function (_context) {
+        while (1) switch (_context.p = _context.n) {
+          case 0:
+            setLoading(true);
+            setError('');
+            _context.p = 1;
+            endpointMap = {
+              students: '/archive/students',
+              faculty: '/archive/faculty',
+              courses: '/archive/courses',
+              departments: '/archive/departments'
+            };
+            endpoint = endpointMap[tab];
+            _context.n = 2;
+            return (0,_utils_api__WEBPACK_IMPORTED_MODULE_1__.apiCall)(endpoint);
+          case 2:
+            res = _context.v;
+            if (res.success) {
+              setArchived(function (prev) {
+                return _objectSpread(_objectSpread({}, prev), {}, _defineProperty({}, tab, res.data || []));
+              });
+            } else {
+              setError(res.message || 'Failed to load archived data');
+            }
+            _context.n = 4;
+            break;
+          case 3:
+            _context.p = 3;
+            _t = _context.v;
+            setError('Network error loading archived data');
+          case 4:
+            _context.p = 4;
+            setLoading(false);
+            return _context.f(4);
+          case 5:
+            return _context.a(2);
+        }
+      }, _callee, null, [[1, 3, 4, 5]]);
+    }));
+    return function fetchArchived(_x) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    fetchArchived(activeTab);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab]);
+  var handleRestore = /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(tab, id) {
+      var endpointMap, endpoint, res, _t2;
+      return _regenerator().w(function (_context2) {
+        while (1) switch (_context2.p = _context2.n) {
+          case 0:
+            if (confirm('Restore this record?')) {
+              _context2.n = 1;
+              break;
+            }
+            return _context2.a(2);
+          case 1:
+            setLoading(true);
+            setError('');
+            setSuccess('');
+            _context2.p = 2;
+            endpointMap = {
+              students: "/archive/students/".concat(id, "/restore"),
+              faculty: "/archive/faculty/".concat(id, "/restore"),
+              courses: "/archive/courses/".concat(id, "/restore"),
+              departments: "/archive/departments/".concat(id, "/restore")
+            };
+            endpoint = endpointMap[tab];
+            _context2.n = 3;
+            return (0,_utils_api__WEBPACK_IMPORTED_MODULE_1__.apiCall)(endpoint, {
+              method: 'POST'
+            });
+          case 3:
+            res = _context2.v;
+            if (res.success) {
+              setSuccess(res.message || 'Restored successfully');
+              fetchArchived(tab);
+            } else {
+              setError(res.message || 'Failed to restore');
+            }
+            _context2.n = 5;
+            break;
+          case 4:
+            _context2.p = 4;
+            _t2 = _context2.v;
+            setError('Network error while restoring');
+          case 5:
+            _context2.p = 5;
+            setLoading(false);
+            return _context2.f(5);
+          case 6:
+            return _context2.a(2);
+        }
+      }, _callee2, null, [[2, 4, 5, 6]]);
+    }));
+    return function handleRestore(_x2, _x3) {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+  var handlePermanentDelete = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(tab, id) {
+      var endpointMap, endpoint, res, _t3;
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.p = _context3.n) {
+          case 0:
+            if (confirm('Permanently delete this record? This cannot be undone.')) {
+              _context3.n = 1;
+              break;
+            }
+            return _context3.a(2);
+          case 1:
+            setLoading(true);
+            setError('');
+            setSuccess('');
+            _context3.p = 2;
+            endpointMap = {
+              students: "/archive/students/".concat(id, "/permanent-delete"),
+              faculty: "/archive/faculty/".concat(id, "/permanent-delete"),
+              courses: "/archive/courses/".concat(id, "/permanent-delete"),
+              departments: "/archive/departments/".concat(id, "/permanent-delete")
+            };
+            endpoint = endpointMap[tab];
+            _context3.n = 3;
+            return (0,_utils_api__WEBPACK_IMPORTED_MODULE_1__.apiCall)(endpoint, {
+              method: 'DELETE'
+            });
+          case 3:
+            res = _context3.v;
+            if (res.success) {
+              setSuccess(res.message || 'Deleted permanently');
+              fetchArchived(tab);
+            } else {
+              setError(res.message || 'Failed to delete permanently');
+            }
+            _context3.n = 5;
+            break;
+          case 4:
+            _context3.p = 4;
+            _t3 = _context3.v;
+            setError('Network error while deleting');
+          case 5:
+            _context3.p = 5;
+            setLoading(false);
+            return _context3.f(5);
+          case 6:
+            return _context3.a(2);
+        }
+      }, _callee3, null, [[2, 4, 5, 6]]);
+    }));
+    return function handlePermanentDelete(_x4, _x5) {
+      return _ref3.apply(this, arguments);
+    };
+  }();
+  var TabButton = function TabButton(_ref4) {
+    var id = _ref4.id,
+      icon = _ref4.icon,
+      label = _ref4.label;
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+      className: "btn ".concat(activeTab === id ? 'btn-primary' : 'btn-light', " me-2"),
+      onClick: function onClick() {
+        return setActiveTab(id);
+      },
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+        className: "".concat(icon, " me-2")
+      }), label]
+    });
+  };
+  var StudentsTable = function StudentsTable() {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "table-responsive",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("table", {
+        className: "table table-hover",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("thead", {
+          className: "table-light",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Name"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Course"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Department"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Deleted At"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Actions"
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
+          children: archived.students.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tr", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+              colSpan: "5",
+              className: "text-center py-4",
+              children: "No archived students"
+            })
+          }) : archived.students.map(function (s) {
+            var _s$course, _s$department;
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                children: "".concat(s.f_name, " ").concat(s.m_name ? s.m_name + ' ' : '').concat(s.l_name)
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                children: ((_s$course = s.course) === null || _s$course === void 0 ? void 0 : _s$course.course_name) || 'N/A'
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                children: ((_s$department = s.department) === null || _s$department === void 0 ? void 0 : _s$department.department_name) || 'N/A'
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                children: s.deleted_at ? new Date(s.deleted_at).toLocaleString() : '—'
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                  className: "btn btn-sm btn-outline-success me-1",
+                  onClick: function onClick() {
+                    return handleRestore('students', s.student_id);
+                  },
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                    className: "fas fa-undo"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                  className: "btn btn-sm btn-outline-danger",
+                  onClick: function onClick() {
+                    return handlePermanentDelete('students', s.student_id);
+                  },
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                    className: "fas fa-trash"
+                  })
+                })]
+              })]
+            }, s.student_id);
+          })
+        })]
+      })
+    });
+  };
+  var FacultyTable = function FacultyTable() {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "table-responsive",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("table", {
+        className: "table table-hover",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("thead", {
+          className: "table-light",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Name"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Department"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Deleted At"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Actions"
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
+          children: archived.faculty.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tr", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+              colSpan: "4",
+              className: "text-center py-4",
+              children: "No archived faculty"
+            })
+          }) : archived.faculty.map(function (f) {
+            var _f$department;
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                children: "".concat(f.f_name, " ").concat(f.m_name ? f.m_name + ' ' : '').concat(f.l_name)
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                children: ((_f$department = f.department) === null || _f$department === void 0 ? void 0 : _f$department.department_name) || 'N/A'
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                children: f.deleted_at ? new Date(f.deleted_at).toLocaleString() : '—'
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                  className: "btn btn-sm btn-outline-success me-1",
+                  onClick: function onClick() {
+                    return handleRestore('faculty', f.faculty_id);
+                  },
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                    className: "fas fa-undo"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                  className: "btn btn-sm btn-outline-danger",
+                  onClick: function onClick() {
+                    return handlePermanentDelete('faculty', f.faculty_id);
+                  },
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                    className: "fas fa-trash"
+                  })
+                })]
+              })]
+            }, f.faculty_id);
+          })
+        })]
+      })
+    });
+  };
+  var CoursesTable = function CoursesTable() {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "table-responsive",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("table", {
+        className: "table table-hover",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("thead", {
+          className: "table-light",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Course"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Department"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Deleted At"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Actions"
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
+          children: archived.courses.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tr", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+              colSpan: "4",
+              className: "text-center py-4",
+              children: "No archived courses"
+            })
+          }) : archived.courses.map(function (c) {
+            var _c$department;
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                children: c.course_name
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                children: ((_c$department = c.department) === null || _c$department === void 0 ? void 0 : _c$department.department_name) || 'N/A'
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                children: c.deleted_at ? new Date(c.deleted_at).toLocaleString() : '—'
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                  className: "btn btn-sm btn-outline-success me-1",
+                  onClick: function onClick() {
+                    return handleRestore('courses', c.course_id);
+                  },
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                    className: "fas fa-undo"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                  className: "btn btn-sm btn-outline-danger",
+                  onClick: function onClick() {
+                    return handlePermanentDelete('courses', c.course_id);
+                  },
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                    className: "fas fa-trash"
+                  })
+                })]
+              })]
+            }, c.course_id);
+          })
+        })]
+      })
+    });
+  };
+  var DepartmentsTable = function DepartmentsTable() {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "table-responsive",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("table", {
+        className: "table table-hover",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("thead", {
+          className: "table-light",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Department"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Deleted At"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              children: "Actions"
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
+          children: archived.departments.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tr", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+              colSpan: "3",
+              className: "text-center py-4",
+              children: "No archived departments"
+            })
+          }) : archived.departments.map(function (d) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                children: d.department_name
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                children: d.deleted_at ? new Date(d.deleted_at).toLocaleString() : '—'
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                  className: "btn btn-sm btn-outline-success me-1",
+                  onClick: function onClick() {
+                    return handleRestore('departments', d.department_id);
+                  },
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                    className: "fas fa-undo"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                  className: "btn btn-sm btn-outline-danger",
+                  onClick: function onClick() {
+                    return handlePermanentDelete('departments', d.department_id);
+                  },
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                    className: "fas fa-trash"
+                  })
+                })]
+              })]
+            }, d.department_id);
+          })
+        })]
+      })
+    });
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "container-fluid py-4",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "d-flex justify-content-between align-items-center mb-4",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("h2", {
+          className: "mb-1",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+            className: "fas fa-archive me-2 text-primary"
+          }), "Archive Management"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+          className: "text-muted mb-0",
+          children: "View and restore archived records"
+        })]
+      })
+    }), error && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "alert alert-danger mb-3",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+        className: "fas fa-exclamation-triangle me-2"
+      }), error]
+    }), success && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "alert alert-success mb-3",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+        className: "fas fa-check me-2"
+      }), success]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "mb-3",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(TabButton, {
+        id: "students",
+        icon: "fas fa-user-graduate",
+        label: "Students"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(TabButton, {
+        id: "faculty",
+        icon: "fas fa-chalkboard-teacher",
+        label: "Faculty"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(TabButton, {
+        id: "courses",
+        icon: "fas fa-book",
+        label: "Courses"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(TabButton, {
+        id: "departments",
+        icon: "fas fa-building",
+        label: "Departments"
       })]
-    })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "card",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "card-body",
+        children: loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+          className: "text-center py-4",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            className: "spinner-border text-primary"
+          })
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+          children: [activeTab === 'students' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(StudentsTable, {}), activeTab === 'faculty' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(FacultyTable, {}), activeTab === 'courses' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(CoursesTable, {}), activeTab === 'departments' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(DepartmentsTable, {})]
+        })
+      })
+    })]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Archive);
@@ -110535,49 +111026,24 @@ var Dashboard = function Dashboard() {
                 children: "No data available"
               })]
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
             className: "chart-legend",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-              className: "legend-item",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
-                className: "legend-dot",
-                style: {
-                  backgroundColor: '#4285f4'
-                }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
-                children: "Nursing Program"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-              className: "legend-item",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
-                className: "legend-dot",
-                style: {
-                  backgroundColor: '#ea4335'
-                }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
-                children: "Business & Administration Program"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-              className: "legend-item",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
-                className: "legend-dot",
-                style: {
-                  backgroundColor: '#34a853'
-                }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
-                children: "Computer Science Program"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-              className: "legend-item",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
-                className: "legend-dot",
-                style: {
-                  backgroundColor: '#fbbc04'
-                }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
-                children: "Engineering Program"
-              })]
-            })]
+            children: studentsPerCourse.length > 0 ? studentsPerCourse.map(function (course, index) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                className: "legend-item",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                  className: "legend-dot",
+                  style: {
+                    backgroundColor: course.fill
+                  }
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("span", {
+                  children: [course.name, " (", course.value, " student", course.value !== 1 ? 's' : '', ")"]
+                })]
+              }, index);
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "text-muted small",
+              children: "No courses to display"
+            })
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
           className: "performers-card",
@@ -111658,8 +112124,8 @@ var FacultyProfile = function FacultyProfile() {
                     children: facultyMember.position
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                     children: ((_facultyMember$depart = facultyMember.department) === null || _facultyMember$depart === void 0 ? void 0 : _facultyMember$depart.department_name) || facultyMember.department_name || 'N/A'
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("td", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                       className: "btn btn-sm btn-outline-primary me-1",
                       onClick: function onClick() {
                         return handleEdit(facultyMember);
@@ -111667,7 +112133,16 @@ var FacultyProfile = function FacultyProfile() {
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                         className: "fas fa-edit"
                       })
-                    })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                      className: "btn btn-sm btn-outline-warning",
+                      onClick: function onClick() {
+                        return handleArchive(facultyMember.faculty_id);
+                      },
+                      title: "Archive",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                        className: "fas fa-archive"
+                      })
+                    })]
                   })]
                 }, facultyMember.faculty_id);
               })
@@ -111845,26 +112320,24 @@ var Login = function Login() {
           className: "login-header",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
             className: "logo",
+            style: {
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '15px'
+            },
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
               src: "/images/logo.png",
-              alt: "Starlink University",
+              alt: "Starlink University Logo",
               style: {
                 width: '60px',
                 height: '60px',
-                marginBottom: '10px'
-              },
-              onError: function onError(e) {
-                e.target.style.display = 'none';
-                e.target.nextSibling.style.display = 'block';
-              }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
-              className: "fas fa-graduation-cap",
-              style: {
-                display: 'none',
-                fontSize: '60px',
-                marginBottom: '10px'
+                objectFit: 'contain'
               }
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
+              style: {
+                margin: '0'
+              },
               children: "Starlink University"
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
@@ -112681,9 +113154,19 @@ var MyProfile = function MyProfile() {
             }), "Save Changes"]
           })
         })]
-      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-        className: "text-end",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("button", {
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "d-flex justify-content-between",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("button", {
+          className: "btn btn-danger",
+          onClick: handleLogoutClick,
+          style: {
+            borderRadius: '8px',
+            padding: '10px 24px'
+          },
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+            className: "fas fa-sign-out-alt me-2"
+          }), "Logout"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("button", {
           className: "btn btn-outline-primary",
           style: {
             borderRadius: '8px',
@@ -112692,7 +113175,7 @@ var MyProfile = function MyProfile() {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
             className: "fas fa-download me-2"
           }), "Download Data"]
-        })
+        })]
       })]
     }), showLogoutModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "modal fade show d-block",
@@ -113115,13 +113598,13 @@ var Settings = function Settings() {
       return _ref4.apply(this, arguments);
     };
   }();
-  var handleDeleteCourse = /*#__PURE__*/function () {
+  var handleArchiveCourse = /*#__PURE__*/function () {
     var _ref5 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5(courseId) {
       var response, _t5;
       return _regenerator().w(function (_context5) {
         while (1) switch (_context5.p = _context5.n) {
           case 0:
-            if (confirm('Are you sure you want to delete this course?')) {
+            if (confirm('Are you sure you want to archive this course?')) {
               _context5.n = 1;
               break;
             }
@@ -113135,33 +113618,33 @@ var Settings = function Settings() {
           case 2:
             response = _context5.v;
             if (response.success) {
-              setSuccess('Course deleted successfully');
+              setSuccess('Course archived successfully');
               fetchCourses();
             } else {
-              setError(response.message || 'Failed to delete course');
+              setError(response.message || 'Failed to archive course');
             }
             _context5.n = 4;
             break;
           case 3:
             _context5.p = 3;
             _t5 = _context5.v;
-            setError('Error deleting course');
+            setError('Error archiving course');
           case 4:
             return _context5.a(2);
         }
       }, _callee5, null, [[1, 3]]);
     }));
-    return function handleDeleteCourse(_x3) {
+    return function handleArchiveCourse(_x3) {
       return _ref5.apply(this, arguments);
     };
   }();
-  var handleDeleteDepartment = /*#__PURE__*/function () {
+  var handleArchiveDepartment = /*#__PURE__*/function () {
     var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6(departmentId) {
       var response, _t6;
       return _regenerator().w(function (_context6) {
         while (1) switch (_context6.p = _context6.n) {
           case 0:
-            if (confirm('Are you sure you want to delete this department?')) {
+            if (confirm('Are you sure you want to archive this department?')) {
               _context6.n = 1;
               break;
             }
@@ -113175,23 +113658,23 @@ var Settings = function Settings() {
           case 2:
             response = _context6.v;
             if (response.success) {
-              setSuccess('Department deleted successfully');
+              setSuccess('Department archived successfully');
               fetchDepartments();
             } else {
-              setError(response.message || 'Failed to delete department');
+              setError(response.message || 'Failed to archive department');
             }
             _context6.n = 4;
             break;
           case 3:
             _context6.p = 3;
             _t6 = _context6.v;
-            setError('Error deleting department');
+            setError('Error archiving department');
           case 4:
             return _context6.a(2);
         }
       }, _callee6, null, [[1, 3]]);
     }));
-    return function handleDeleteDepartment(_x4) {
+    return function handleArchiveDepartment(_x4) {
       return _ref6.apply(this, arguments);
     };
   }();
@@ -113347,12 +113830,13 @@ var Settings = function Settings() {
                         className: "fas fa-edit"
                       })
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-                      className: "btn btn-sm btn-outline-danger",
+                      className: "btn btn-sm btn-outline-warning",
                       onClick: function onClick() {
-                        return handleDeleteCourse(course.course_id);
+                        return handleArchiveCourse(course.course_id);
                       },
+                      title: "Archive",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
-                        className: "fas fa-trash"
+                        className: "fas fa-archive"
                       })
                     })]
                   })]
@@ -113435,12 +113919,13 @@ var Settings = function Settings() {
                         className: "fas fa-edit"
                       })
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-                      className: "btn btn-sm btn-outline-danger",
+                      className: "btn btn-sm btn-outline-warning",
                       onClick: function onClick() {
-                        return handleDeleteDepartment(dept.department_id);
+                        return handleArchiveDepartment(dept.department_id);
                       },
+                      title: "Archive",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
-                        className: "fas fa-trash"
+                        className: "fas fa-archive"
                       })
                     })]
                   })]
@@ -113862,17 +114347,6 @@ var Sidebar = function Sidebar() {
                 children: name
               })]
             }, key);
-          })]
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "sidebar-footer",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
-          className: "logout-button",
-          onClick: handleLogout,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
-            className: "fas fa-sign-out-alt"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-            children: "Logout"
           })]
         })
       })]
@@ -114613,12 +115087,19 @@ var StudentProfile = function StudentProfile() {
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
                         value: "",
                         children: "Select Department"
-                      }), dropdownData.departments.map(function (dept) {
+                      }), dropdownData.departments && dropdownData.departments.length > 0 ? dropdownData.departments.map(function (dept) {
                         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
                           value: dept.department_id,
                           children: dept.department_name
                         }, dept.department_id);
+                      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+                        value: "",
+                        disabled: true,
+                        children: "No departments available - Add in Settings"
                       })]
+                    }), (!dropdownData.departments || dropdownData.departments.length === 0) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("small", {
+                      className: "text-danger",
+                      children: "Please add departments in Settings first"
                     })]
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -114636,12 +115117,19 @@ var StudentProfile = function StudentProfile() {
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
                         value: "",
                         children: "Select Course"
-                      }), dropdownData.courses.map(function (course) {
+                      }), dropdownData.courses && dropdownData.courses.length > 0 ? dropdownData.courses.map(function (course) {
                         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
                           value: course.course_id,
                           children: course.course_name
                         }, course.course_id);
+                      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+                        value: "",
+                        disabled: true,
+                        children: "No courses available - Add in Settings"
                       })]
+                    }), (!dropdownData.courses || dropdownData.courses.length === 0) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("small", {
+                      className: "text-danger",
+                      children: "Please add courses in Settings first"
                     })]
                   })
                 })]
@@ -114662,12 +115150,19 @@ var StudentProfile = function StudentProfile() {
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
                         value: "",
                         children: "Select Academic Year"
-                      }), dropdownData.academic_years.map(function (year) {
+                      }), dropdownData.academic_years && dropdownData.academic_years.length > 0 ? dropdownData.academic_years.map(function (year) {
                         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
                           value: year.academic_year_id,
                           children: year.school_year
                         }, year.academic_year_id);
+                      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+                        value: "",
+                        disabled: true,
+                        children: "No academic years available"
                       })]
+                    }), (!dropdownData.academic_years || dropdownData.academic_years.length === 0) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("small", {
+                      className: "text-danger",
+                      children: "Academic years are missing - Contact admin"
                     })]
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -114821,8 +115316,8 @@ var StudentProfile = function StudentProfile() {
                     children: ((_student$course = student.course) === null || _student$course === void 0 ? void 0 : _student$course.course_name) || student.course_name || 'N/A'
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                     children: student.year_level ? "".concat(student.year_level).concat(student.year_level === 1 ? 'st' : student.year_level === 2 ? 'nd' : student.year_level === 3 ? 'rd' : 'th', " Year") : 'N/A'
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("td", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                       className: "btn btn-sm btn-outline-primary me-1",
                       onClick: function onClick() {
                         return handleEdit(student);
@@ -114831,7 +115326,16 @@ var StudentProfile = function StudentProfile() {
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                         className: "fas fa-edit"
                       })
-                    })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                      className: "btn btn-sm btn-outline-warning",
+                      onClick: function onClick() {
+                        return handleArchive(student.student_id);
+                      },
+                      title: "Archive",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                        className: "fas fa-archive"
+                      })
+                    })]
                   })]
                 }, student.student_id);
               })
