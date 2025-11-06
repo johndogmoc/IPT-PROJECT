@@ -9,6 +9,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,19 @@ Route::middleware('auth:sanctum')->prefix('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
     Route::put('/update-profile', [AuthController::class, 'updateProfile']);
+});
+
+// =======================
+ // Public Report Routes (No Auth Required)
+// =======================
+Route::prefix('reports')->group(function () {
+    Route::get('/list', [ReportController::class, 'index']);
+    Route::post('/create', [ReportController::class, 'store']);
+    Route::get('/export', [ReportController::class, 'export']);
+    Route::post('/clear-session', [ReportController::class, 'clearSession']);
+    Route::get('/{id}', [ReportController::class, 'show']);
+    Route::put('/{id}/update', [ReportController::class, 'update']);
+    Route::delete('/{id}/delete', [ReportController::class, 'destroy']);
 });
 
 // =======================

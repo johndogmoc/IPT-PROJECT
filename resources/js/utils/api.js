@@ -8,6 +8,7 @@ const getCsrfToken = () => document.querySelector('meta[name="csrf-token"]')?.ge
 export const apiCall = async (endpoint, options = {}) => {
     const token = localStorage.getItem('auth_token');
     const defaultOptions = {
+        method: 'GET',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
@@ -20,6 +21,11 @@ export const apiCall = async (endpoint, options = {}) => {
     // Add Authorization header if token exists
     if (token) {
         defaultOptions.headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    // Handle body data for POST, PUT, PATCH methods
+    if (options.body && typeof options.body !== 'string') {
+        options.body = JSON.stringify(options.body);
     }
 
     const mergedOptions = {

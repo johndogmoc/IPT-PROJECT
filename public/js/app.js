@@ -110374,27 +110374,12 @@ var Archive = function Archive() {
       return _ref3.apply(this, arguments);
     };
   }();
-  var TabButton = function TabButton(_ref4) {
-    var id = _ref4.id,
-      icon = _ref4.icon,
-      label = _ref4.label;
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
-      className: "btn ".concat(activeTab === id ? 'btn-primary' : 'btn-light', " me-2"),
-      onClick: function onClick() {
-        return setActiveTab(id);
-      },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-        className: "".concat(icon, " me-2")
-      }), label]
-    });
-  };
   var StudentsTable = function StudentsTable() {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "table-responsive",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("table", {
         className: "table table-hover",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("thead", {
-          className: "table-light",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
               children: "Name"
@@ -110410,10 +110395,12 @@ var Archive = function Archive() {
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
           children: archived.students.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tr", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
               colSpan: "5",
-              className: "text-center py-4",
-              children: "No archived students"
+              className: "text-center py-5 text-muted",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                className: "fas fa-inbox fa-3x mb-3 d-block"
+              }), "No archived students"]
             })
           }) : archived.students.map(function (s) {
             var _s$course, _s$department;
@@ -110428,18 +110415,20 @@ var Archive = function Archive() {
                 children: s.deleted_at ? new Date(s.deleted_at).toLocaleString() : '—'
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-                  className: "btn btn-sm btn-outline-success me-1",
+                  className: "btn btn-sm btn-success me-2",
                   onClick: function onClick() {
                     return handleRestore('students', s.student_id);
                   },
+                  title: "Restore",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                     className: "fas fa-undo"
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-                  className: "btn btn-sm btn-outline-danger",
+                  className: "btn btn-sm btn-danger",
                   onClick: function onClick() {
                     return handlePermanentDelete('students', s.student_id);
                   },
+                  title: "Delete Permanently",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                     className: "fas fa-trash"
                   })
@@ -110457,7 +110446,6 @@ var Archive = function Archive() {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("table", {
         className: "table table-hover",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("thead", {
-          className: "table-light",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
               children: "Name"
@@ -110471,10 +110459,12 @@ var Archive = function Archive() {
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
           children: archived.faculty.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tr", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
               colSpan: "4",
-              className: "text-center py-4",
-              children: "No archived faculty"
+              className: "text-center py-5 text-muted",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                className: "fas fa-inbox fa-3x mb-3 d-block"
+              }), "No archived faculty"]
             })
           }) : archived.faculty.map(function (f) {
             var _f$department;
@@ -110487,18 +110477,20 @@ var Archive = function Archive() {
                 children: f.deleted_at ? new Date(f.deleted_at).toLocaleString() : '—'
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-                  className: "btn btn-sm btn-outline-success me-1",
+                  className: "btn btn-sm btn-success me-2",
                   onClick: function onClick() {
                     return handleRestore('faculty', f.faculty_id);
                   },
+                  title: "Restore",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                     className: "fas fa-undo"
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-                  className: "btn btn-sm btn-outline-danger",
+                  className: "btn btn-sm btn-danger",
                   onClick: function onClick() {
                     return handlePermanentDelete('faculty', f.faculty_id);
                   },
+                  title: "Delete Permanently",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                     className: "fas fa-trash"
                   })
@@ -110516,7 +110508,6 @@ var Archive = function Archive() {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("table", {
         className: "table table-hover",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("thead", {
-          className: "table-light",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
               children: "Course"
@@ -110530,10 +110521,12 @@ var Archive = function Archive() {
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
           children: archived.courses.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tr", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
               colSpan: "4",
-              className: "text-center py-4",
-              children: "No archived courses"
+              className: "text-center py-5 text-muted",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                className: "fas fa-inbox fa-3x mb-3 d-block"
+              }), "No archived courses"]
             })
           }) : archived.courses.map(function (c) {
             var _c$department;
@@ -110546,18 +110539,20 @@ var Archive = function Archive() {
                 children: c.deleted_at ? new Date(c.deleted_at).toLocaleString() : '—'
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-                  className: "btn btn-sm btn-outline-success me-1",
+                  className: "btn btn-sm btn-success me-2",
                   onClick: function onClick() {
                     return handleRestore('courses', c.course_id);
                   },
+                  title: "Restore",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                     className: "fas fa-undo"
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-                  className: "btn btn-sm btn-outline-danger",
+                  className: "btn btn-sm btn-danger",
                   onClick: function onClick() {
                     return handlePermanentDelete('courses', c.course_id);
                   },
+                  title: "Delete Permanently",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                     className: "fas fa-trash"
                   })
@@ -110575,7 +110570,6 @@ var Archive = function Archive() {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("table", {
         className: "table table-hover",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("thead", {
-          className: "table-light",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
               children: "Department"
@@ -110587,10 +110581,12 @@ var Archive = function Archive() {
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
           children: archived.departments.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tr", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
               colSpan: "3",
-              className: "text-center py-4",
-              children: "No archived departments"
+              className: "text-center py-5 text-muted",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                className: "fas fa-inbox fa-3x mb-3 d-block"
+              }), "No archived departments"]
             })
           }) : archived.departments.map(function (d) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
@@ -110600,18 +110596,20 @@ var Archive = function Archive() {
                 children: d.deleted_at ? new Date(d.deleted_at).toLocaleString() : '—'
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-                  className: "btn btn-sm btn-outline-success me-1",
+                  className: "btn btn-sm btn-success me-2",
                   onClick: function onClick() {
                     return handleRestore('departments', d.department_id);
                   },
+                  title: "Restore",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                     className: "fas fa-undo"
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-                  className: "btn btn-sm btn-outline-danger",
+                  className: "btn btn-sm btn-danger",
                   onClick: function onClick() {
                     return handlePermanentDelete('departments', d.department_id);
                   },
+                  title: "Delete Permanently",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                     className: "fas fa-trash"
                   })
@@ -110627,55 +110625,93 @@ var Archive = function Archive() {
     className: "container-fluid py-4",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "d-flex justify-content-between align-items-center mb-4",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("h2", {
-          className: "mb-1",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-            className: "fas fa-archive me-2 text-primary"
-          }), "Archive Management"]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
-          className: "text-muted mb-0",
-          children: "View and restore archived records"
-        })]
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("h2", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+          className: "fas fa-archive me-2"
+        }), "Archive Management"]
       })
     }), error && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "alert alert-danger mb-3",
+      className: "alert alert-danger alert-dismissible fade show",
+      role: "alert",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
         className: "fas fa-exclamation-triangle me-2"
-      }), error]
+      }), error, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        type: "button",
+        className: "btn-close",
+        onClick: function onClick() {
+          return setError('');
+        }
+      })]
     }), success && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "alert alert-success mb-3",
+      className: "alert alert-success alert-dismissible fade show",
+      role: "alert",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-        className: "fas fa-check me-2"
-      }), success]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "mb-3",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(TabButton, {
-        id: "students",
-        icon: "fas fa-user-graduate",
-        label: "Students"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(TabButton, {
-        id: "faculty",
-        icon: "fas fa-chalkboard-teacher",
-        label: "Faculty"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(TabButton, {
-        id: "courses",
-        icon: "fas fa-book",
-        label: "Courses"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(TabButton, {
-        id: "departments",
-        icon: "fas fa-building",
-        label: "Departments"
+        className: "fas fa-check-circle me-2"
+      }), success, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        type: "button",
+        className: "btn-close",
+        onClick: function onClick() {
+          return setSuccess('');
+        }
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("ul", {
+      className: "nav nav-tabs mb-4",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+        className: "nav-item",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+          className: "nav-link ".concat(activeTab === 'students' ? 'active' : ''),
+          onClick: function onClick() {
+            return setActiveTab('students');
+          },
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+            className: "fas fa-user-graduate me-2"
+          }), "Students"]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+        className: "nav-item",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+          className: "nav-link ".concat(activeTab === 'faculty' ? 'active' : ''),
+          onClick: function onClick() {
+            return setActiveTab('faculty');
+          },
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+            className: "fas fa-chalkboard-teacher me-2"
+          }), "Faculty"]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+        className: "nav-item",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+          className: "nav-link ".concat(activeTab === 'courses' ? 'active' : ''),
+          onClick: function onClick() {
+            return setActiveTab('courses');
+          },
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+            className: "fas fa-book me-2"
+          }), "Courses"]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+        className: "nav-item",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+          className: "nav-link ".concat(activeTab === 'departments' ? 'active' : ''),
+          onClick: function onClick() {
+            return setActiveTab('departments');
+          },
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+            className: "fas fa-building me-2"
+          }), "Departments"]
+        })
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-      className: "card",
+      className: "card shadow-sm",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "card-body",
-        children: loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-          className: "text-center py-4",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-            className: "spinner-border text-primary"
-          })
+        children: loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "text-center py-5",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+            className: "fas fa-spinner fa-spin fa-2x mb-3"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+            children: "Loading archived records..."
+          })]
         }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
           children: [activeTab === 'students' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(StudentsTable, {}), activeTab === 'faculty' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(FacultyTable, {}), activeTab === 'courses' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(CoursesTable, {}), activeTab === 'departments' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(DepartmentsTable, {})]
         })
@@ -113304,6 +113340,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/api */ "./resources/js/utils/api.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regeneratorValues(e) { if (null != e) { var t = e["function" == typeof Symbol && Symbol.iterator || "@@iterator"], r = 0; if (t) return t.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) return { next: function next() { return e && r >= e.length && (e = void 0), { value: e && e[r++], done: !e }; } }; } throw new TypeError(_typeof(e) + " is not iterable"); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -113320,6 +113357,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
+// apiCall is imported but never used, consider removing if not needed
 
 
 var Report = function Report() {
@@ -113347,7 +113385,28 @@ var Report = function Report() {
     _useState10 = _slicedToArray(_useState1, 2),
     showModal = _useState10[0],
     setShowModal = _useState10[1];
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState12 = _slicedToArray(_useState11, 2),
+    showImportModal = _useState12[0],
+    setShowImportModal = _useState12[1];
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState14 = _slicedToArray(_useState13, 2),
+    showEditModal = _useState14[0],
+    setShowEditModal = _useState14[1];
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState16 = _slicedToArray(_useState15, 2),
+    showViewModal = _useState16[0],
+    setShowViewModal = _useState16[1];
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState18 = _slicedToArray(_useState17, 2),
+    editingReport = _useState18[0],
+    setEditingReport = _useState18[1];
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState20 = _slicedToArray(_useState19, 2),
+    viewingReport = _useState20[0],
+    setViewingReport = _useState20[1];
+  var fileInputRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
       reportType: 'student',
       title: '',
       description: '',
@@ -113359,54 +113418,59 @@ var Report = function Report() {
       findings: '',
       recommendations: ''
     }),
-    _useState12 = _slicedToArray(_useState11, 2),
-    formData = _useState12[0],
-    setFormData = _useState12[1];
+    _useState22 = _slicedToArray(_useState21, 2),
+    formData = _useState22[0],
+    setFormData = _useState22[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     loadReports();
-  }, [activeTab]);
+  }, []);
   var loadReports = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-      var mockReports, filtered;
+      var response, data, _t;
       return _regenerator().w(function (_context) {
-        while (1) switch (_context.n) {
+        while (1) switch (_context.p = _context.n) {
           case 0:
             setLoading(true);
             setError('');
-            try {
-              // Mock data - replace with actual API call when backend is ready
-              mockReports = [{
-                id: 1,
-                reportType: 'student',
-                title: 'Academic Performance Report',
-                targetName: 'John Doe',
-                dateFrom: '2024-01-01',
-                dateTo: '2024-06-30',
-                status: 'completed',
-                createdAt: '2024-06-30'
-              }, {
-                id: 2,
-                reportType: 'faculty',
-                title: 'Teaching Evaluation',
-                targetName: 'Dr. Jane Smith',
-                dateFrom: '2024-01-01',
-                dateTo: '2024-06-30',
-                status: 'pending',
-                createdAt: '2024-07-01'
-              }];
-              filtered = mockReports.filter(function (r) {
-                return r.reportType === activeTab;
-              });
-              setReports(filtered);
-            } catch (err) {
-              setError('Failed to load reports');
-            } finally {
-              setLoading(false);
+            _context.p = 1;
+            _context.n = 2;
+            return fetch("/api/reports/list", {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+              }
+            });
+          case 2:
+            response = _context.v;
+            _context.n = 3;
+            return response.json();
+          case 3:
+            data = _context.v;
+            if (response.ok) {
+              _context.n = 4;
+              break;
             }
-          case 1:
+            throw new Error(data.message || 'Failed to load reports');
+          case 4:
+            console.log('Loaded reports:', data);
+            setReports(data);
+            _context.n = 6;
+            break;
+          case 5:
+            _context.p = 5;
+            _t = _context.v;
+            console.error('Error loading reports:', _t);
+            setError('Failed to load reports');
+          case 6:
+            _context.p = 6;
+            setLoading(false);
+            return _context.f(6);
+          case 7:
             return _context.a(2);
         }
-      }, _callee);
+      }, _callee, null, [[1, 5, 6, 7]]);
     }));
     return function loadReports() {
       return _ref.apply(this, arguments);
@@ -113422,7 +113486,7 @@ var Report = function Report() {
   };
   var handleSubmit = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(e) {
-      var _t;
+      var reportData, response, data, _t2;
       return _regenerator().w(function (_context2) {
         while (1) switch (_context2.p = _context2.n) {
           case 0:
@@ -113431,33 +113495,56 @@ var Report = function Report() {
             setError('');
             setSuccess('');
             _context2.p = 1;
-            // Mock save - replace with actual API call
-            console.log('Saving report:', formData);
-
-            // Simulate API delay
+            // Automatically set status to 'pending' for new reports
+            reportData = _objectSpread(_objectSpread({}, formData), {}, {
+              status: formData.status || 'pending',
+              createdAt: new Date().toISOString().split('T')[0]
+            });
             _context2.n = 2;
-            return new Promise(function (resolve) {
-              return setTimeout(resolve, 500);
+            return fetch('/api/reports/create', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+              },
+              credentials: 'same-origin',
+              body: JSON.stringify(reportData)
             });
           case 2:
+            response = _context2.v;
+            _context2.n = 3;
+            return response.json();
+          case 3:
+            data = _context2.v;
+            if (response.ok) {
+              _context2.n = 4;
+              break;
+            }
+            throw new Error(data.message || 'Failed to create report');
+          case 4:
+            console.log('Report created:', data);
             setSuccess('Report created successfully!');
             setShowModal(false);
             resetForm();
-            loadReports();
-            _context2.n = 4;
-            break;
-          case 3:
-            _context2.p = 3;
-            _t = _context2.v;
-            setError('Failed to create report');
-          case 4:
-            _context2.p = 4;
-            setLoading(false);
-            return _context2.f(4);
+            _context2.n = 5;
+            return loadReports();
           case 5:
+            _context2.n = 7;
+            break;
+          case 6:
+            _context2.p = 6;
+            _t2 = _context2.v;
+            console.error('Error creating report:', _t2);
+            setError('Failed to create report: ' + (_t2.message || 'Unknown error'));
+          case 7:
+            _context2.p = 7;
+            setLoading(false);
+            return _context2.f(7);
+          case 8:
             return _context2.a(2);
         }
-      }, _callee2, null, [[1, 3, 4, 5]]);
+      }, _callee2, null, [[1, 6, 7, 8]]);
     }));
     return function handleSubmit(_x) {
       return _ref2.apply(this, arguments);
@@ -113477,34 +113564,292 @@ var Report = function Report() {
       recommendations: ''
     });
   };
-  var handleDelete = /*#__PURE__*/function () {
-    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(id) {
+
+  // Filter reports by active tab
+  var filteredReports = reports.filter(function (report) {
+    return report.reportType === activeTab;
+  });
+  var handleView = function handleView(report) {
+    setViewingReport(report);
+    setShowViewModal(true);
+  };
+  var handleEdit = function handleEdit(report) {
+    setEditingReport(report);
+    setFormData({
+      reportType: report.reportType,
+      title: report.title,
+      description: report.description || '',
+      targetId: report.targetId || '',
+      targetName: report.targetName,
+      dateFrom: report.dateFrom,
+      dateTo: report.dateTo,
+      status: report.status,
+      findings: report.findings || '',
+      recommendations: report.recommendations || ''
+    });
+    setShowEditModal(true);
+  };
+  var handleUpdate = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(e) {
+      var response, data, _t3;
       return _regenerator().w(function (_context3) {
-        while (1) switch (_context3.n) {
+        while (1) switch (_context3.p = _context3.n) {
           case 0:
-            if (confirm('Are you sure you want to delete this report?')) {
-              _context3.n = 1;
+            e.preventDefault();
+            setLoading(true);
+            setError('');
+            setSuccess('');
+            _context3.p = 1;
+            _context3.n = 2;
+            return fetch("/api/reports/".concat(editingReport.id, "/update"), {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+              },
+              body: JSON.stringify(formData)
+            });
+          case 2:
+            response = _context3.v;
+            _context3.n = 3;
+            return response.json();
+          case 3:
+            data = _context3.v;
+            if (response.ok) {
+              _context3.n = 4;
               break;
             }
-            return _context3.a(2);
-          case 1:
-            try {
-              // Mock delete - replace with actual API call
-              console.log('Deleting report:', id);
-              setSuccess('Report deleted successfully!');
-              loadReports();
-            } catch (err) {
-              setError('Failed to delete report');
-            }
-          case 2:
+            throw new Error(data.message || 'Failed to update report');
+          case 4:
+            setSuccess('Report updated successfully!');
+            setShowEditModal(false);
+            setEditingReport(null);
+            resetForm();
+            loadReports();
+            _context3.n = 6;
+            break;
+          case 5:
+            _context3.p = 5;
+            _t3 = _context3.v;
+            console.error('Error updating report:', _t3);
+            setError('Failed to update report: ' + (_t3.message || 'Unknown error'));
+          case 6:
+            _context3.p = 6;
+            setLoading(false);
+            return _context3.f(6);
+          case 7:
             return _context3.a(2);
         }
-      }, _callee3);
+      }, _callee3, null, [[1, 5, 6, 7]]);
     }));
-    return function handleDelete(_x2) {
+    return function handleUpdate(_x2) {
       return _ref3.apply(this, arguments);
     };
   }();
+  var handleDelete = /*#__PURE__*/function () {
+    var _ref4 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(id) {
+      var response, data, _t4;
+      return _regenerator().w(function (_context4) {
+        while (1) switch (_context4.p = _context4.n) {
+          case 0:
+            if (confirm('Are you sure you want to delete this report?')) {
+              _context4.n = 1;
+              break;
+            }
+            return _context4.a(2);
+          case 1:
+            _context4.p = 1;
+            _context4.n = 2;
+            return fetch("/api/reports/".concat(id, "/delete"), {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+              }
+            });
+          case 2:
+            response = _context4.v;
+            _context4.n = 3;
+            return response.json();
+          case 3:
+            data = _context4.v;
+            if (response.ok) {
+              _context4.n = 4;
+              break;
+            }
+            throw new Error(data.message || 'Failed to delete report');
+          case 4:
+            setSuccess('Report deleted successfully!');
+            loadReports();
+            _context4.n = 6;
+            break;
+          case 5:
+            _context4.p = 5;
+            _t4 = _context4.v;
+            console.error('Error deleting report:', _t4);
+            setError('Failed to delete report: ' + (_t4.message || 'Unknown error'));
+          case 6:
+            return _context4.a(2);
+        }
+      }, _callee4, null, [[1, 5]]);
+    }));
+    return function handleDelete(_x3) {
+      return _ref4.apply(this, arguments);
+    };
+  }();
+
+  // Export to Excel
+  var exportToExcel = function exportToExcel() {
+    try {
+      // Use the backend API for export with type filter
+      window.open("/api/reports/export?type=".concat(activeTab), '_blank');
+      setSuccess("".concat(activeTab.charAt(0).toUpperCase() + activeTab.slice(1), " reports exported successfully!"));
+    } catch (err) {
+      setError('Failed to export reports');
+    }
+  };
+
+  // Export single report
+  var exportSingleReport = function exportSingleReport(report) {
+    try {
+      // Use the backend API for export with specific report ID
+      window.open("/api/reports/export?type=".concat(report.reportType, "&id=").concat(report.id), '_blank');
+      setSuccess('Report exported successfully!');
+    } catch (err) {
+      setError('Failed to export report');
+    }
+  };
+
+  // Import from Excel/CSV
+  var handleImport = function handleImport(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = /*#__PURE__*/function () {
+      var _ref5 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5(e) {
+        var text, lines, headers, importedReports, _loop, i, importPromises, _t5;
+        return _regenerator().w(function (_context6) {
+          while (1) switch (_context6.p = _context6.n) {
+            case 0:
+              _context6.p = 0;
+              text = e.target.result;
+              lines = text.split('\n');
+              headers = lines[0].split(',').map(function (h) {
+                return h.trim().replace(/"/g, '');
+              });
+              importedReports = [];
+              _loop = /*#__PURE__*/_regenerator().m(function _loop() {
+                var _report$ReportType;
+                var values, cleanValues, report, reportTypeRaw, mappedReport;
+                return _regenerator().w(function (_context5) {
+                  while (1) switch (_context5.n) {
+                    case 0:
+                      if (lines[i].trim()) {
+                        _context5.n = 1;
+                        break;
+                      }
+                      return _context5.a(2, 1);
+                    case 1:
+                      values = lines[i].match(/(".*?"|[^,]+)(?=\s*,|\s*$)/g) || [];
+                      cleanValues = values.map(function (v) {
+                        return v.trim().replace(/^"|"$/g, '').replace(/""/g, '"');
+                      });
+                      report = {};
+                      headers.forEach(function (header, index) {
+                        report[header] = cleanValues[index] || '';
+                      });
+
+                      // Map CSV columns to form data
+                      reportTypeRaw = (_report$ReportType = report['Report Type']) === null || _report$ReportType === void 0 ? void 0 : _report$ReportType.toLowerCase();
+                      mappedReport = {
+                        reportType: reportTypeRaw === 'faculty' ? 'faculty' : reportTypeRaw === 'student' ? 'student' : 'general',
+                        title: report['Title'] || '',
+                        targetName: report['Target Name'] || '',
+                        dateFrom: report['Date From'] || '',
+                        dateTo: report['Date To'] || '',
+                        status: report['Status'] || 'pending',
+                        description: report['Description'] || '',
+                        findings: report['Findings'] || '',
+                        recommendations: report['Recommendations'] || ''
+                      };
+                      importedReports.push(mappedReport);
+                    case 2:
+                      return _context5.a(2);
+                  }
+                }, _loop);
+              });
+              i = 1;
+            case 1:
+              if (!(i < lines.length)) {
+                _context6.n = 4;
+                break;
+              }
+              return _context6.d(_regeneratorValues(_loop()), 2);
+            case 2:
+              if (!_context6.v) {
+                _context6.n = 3;
+                break;
+              }
+              return _context6.a(3, 3);
+            case 3:
+              i++;
+              _context6.n = 1;
+              break;
+            case 4:
+              // Import reports via API
+              importPromises = importedReports.map(function (report) {
+                return fetch('/api/reports/create', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                  },
+                  body: JSON.stringify(report)
+                });
+              });
+              _context6.n = 5;
+              return Promise.all(importPromises);
+            case 5:
+              setSuccess("Successfully imported ".concat(importedReports.length, " report(s)!"));
+              setShowImportModal(false);
+              loadReports();
+              _context6.n = 7;
+              break;
+            case 6:
+              _context6.p = 6;
+              _t5 = _context6.v;
+              setError('Failed to import file. Please check the format.');
+            case 7:
+              return _context6.a(2);
+          }
+        }, _callee5, null, [[0, 6]]);
+      }));
+      return function (_x4) {
+        return _ref5.apply(this, arguments);
+      };
+    }();
+    reader.readAsText(file);
+  };
+
+  // Download Excel template
+  var downloadTemplate = function downloadTemplate() {
+    var template = ['Report Type,Title,Target Name,Date From,Date To,Status,Description,Findings,Recommendations', 'Student,Sample Report,John Doe,2024-01-01,2024-06-30,pending,Sample description,Sample findings,Sample recommendations'].join('\n');
+    var blob = new Blob([template], {
+      type: 'text/csv;charset=utf-8;'
+    });
+    var link = document.createElement('a');
+    var url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'reports_template.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setSuccess('Template downloaded successfully!');
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "container-fluid py-4",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -113513,41 +113858,42 @@ var Report = function Report() {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
           className: "fas fa-file-alt me-2"
         }), "Reports Management"]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
-        className: "btn btn-primary",
-        onClick: function onClick() {
-          setFormData(_objectSpread(_objectSpread({}, formData), {}, {
-            reportType: activeTab
-          }));
-          setShowModal(true);
-        },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-          className: "fas fa-plus me-2"
-        }), "Create New Report"]
-      })]
-    }), error && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "alert alert-danger alert-dismissible fade show",
-      role: "alert",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-        className: "fas fa-exclamation-triangle me-2"
-      }), error, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-        type: "button",
-        className: "btn-close",
-        onClick: function onClick() {
-          return setError('');
-        }
-      })]
-    }), success && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "alert alert-success alert-dismissible fade show",
-      role: "alert",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-        className: "fas fa-check-circle me-2"
-      }), success, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-        type: "button",
-        className: "btn-close",
-        onClick: function onClick() {
-          return setSuccess('');
-        }
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        className: "btn-group",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+          className: "btn btn-success",
+          onClick: exportToExcel,
+          disabled: filteredReports.length === 0,
+          title: "Export reports to Excel",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+            className: "fas fa-file-export me-2"
+          }), "Export"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+          className: "btn btn-info",
+          onClick: function onClick() {
+            return setShowImportModal(true);
+          },
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+            className: "fas fa-file-import me-2"
+          }), "Import"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+          className: "btn btn-secondary",
+          onClick: downloadTemplate,
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+            className: "fas fa-download me-2"
+          }), "Template"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+          className: "btn btn-primary",
+          onClick: function onClick() {
+            setFormData(_objectSpread(_objectSpread({}, formData), {}, {
+              reportType: activeTab
+            }));
+            setShowModal(true);
+          },
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+            className: "fas fa-plus me-2"
+          }), "Create New"]
+        })]
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("ul", {
       className: "nav nav-tabs mb-4",
@@ -113574,6 +113920,30 @@ var Report = function Report() {
           }), "Faculty Reports"]
         })
       })]
+    }), error && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "alert alert-danger alert-dismissible fade show",
+      role: "alert",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+        className: "fas fa-exclamation-triangle me-2"
+      }), error, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        type: "button",
+        className: "btn-close",
+        onClick: function onClick() {
+          return setError('');
+        }
+      })]
+    }), success && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "alert alert-success alert-dismissible fade show",
+      role: "alert",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+        className: "fas fa-check-circle me-2"
+      }), success, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        type: "button",
+        className: "btn-close",
+        onClick: function onClick() {
+          return setSuccess('');
+        }
+      })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "card shadow-sm",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
@@ -113585,12 +113955,12 @@ var Report = function Report() {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
             children: "Loading reports..."
           })]
-        }) : reports.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        }) : filteredReports.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "text-center py-5 text-muted",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
             className: "fas fa-inbox fa-3x mb-3"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("p", {
-            children: ["No reports found. Create your first ", activeTab, " report!"]
+            children: ["No ", activeTab, " reports found. Create your first ", activeTab, " report!"]
           })]
         }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
           className: "table-responsive",
@@ -113613,7 +113983,7 @@ var Report = function Report() {
                 })]
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
-              children: reports.map(function (report) {
+              children: filteredReports.map(function (report) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("strong", {
@@ -113625,19 +113995,36 @@ var Report = function Report() {
                     children: [new Date(report.dateFrom).toLocaleDateString(), " - ", new Date(report.dateTo).toLocaleDateString()]
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-                      className: "badge ".concat(report.status === 'completed' ? 'bg-success' : 'bg-warning'),
-                      children: report.status
+                      className: "badge ".concat(report.status === 'completed' ? 'bg-success' : report.status === 'in-progress' ? 'bg-info' : 'bg-warning'),
+                      children: report.status === 'in-progress' ? 'In Progress' : report.status.charAt(0).toUpperCase() + report.status.slice(1)
                     })
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
                     children: new Date(report.createdAt).toLocaleDateString()
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                      className: "btn btn-sm btn-success me-2",
+                      onClick: function onClick() {
+                        return exportSingleReport(report);
+                      },
+                      title: "Export to Excel",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                        className: "fas fa-file-excel"
+                      })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
                       className: "btn btn-sm btn-info me-2",
+                      onClick: function onClick() {
+                        return handleView(report);
+                      },
+                      title: "View",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                         className: "fas fa-eye"
                       })
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
                       className: "btn btn-sm btn-primary me-2",
+                      onClick: function onClick() {
+                        return handleEdit(report);
+                      },
+                      title: "Edit",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                         className: "fas fa-edit"
                       })
@@ -113646,6 +114033,7 @@ var Report = function Report() {
                       onClick: function onClick() {
                         return handleDelete(report.id);
                       },
+                      title: "Delete",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                         className: "fas fa-trash"
                       })
@@ -113672,7 +114060,7 @@ var Report = function Report() {
               className: "modal-title",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                 className: "fas fa-file-alt me-2"
-              }), "Create ", activeTab === 'student' ? 'Student' : 'Faculty', " Report"]
+              }), "Create Report"]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
               type: "button",
               className: "btn-close",
@@ -113702,10 +114090,10 @@ var Report = function Report() {
                     placeholder: "e.g., Academic Performance Report"
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-                  className: "col-md-6",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("label", {
+                  className: "col-12",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
                     className: "form-label",
-                    children: [activeTab === 'student' ? 'Student Name' : 'Faculty Name', " *"]
+                    children: "Target Name *"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
                     type: "text",
                     className: "form-control",
@@ -113715,27 +114103,21 @@ var Report = function Report() {
                     required: true,
                     placeholder: "Enter name"
                   })]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-                  className: "col-md-6",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
-                    className: "form-label",
-                    children: "Status"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("select", {
-                    className: "form-select",
-                    name: "status",
-                    value: formData.status,
-                    onChange: handleInputChange,
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {
-                      value: "pending",
-                      children: "Pending"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {
-                      value: "in-progress",
-                      children: "In Progress"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {
-                      value: "completed",
-                      children: "Completed"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                  className: "col-12",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                    className: "alert alert-info py-2",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                      className: "fas fa-info-circle me-2"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("small", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("strong", {
+                        children: "Note:"
+                      }), " New reports will be created with status: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                        className: "badge bg-warning",
+                        children: "Pending"
+                      })]
                     })]
-                  })]
+                  })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
                   className: "col-md-6",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
@@ -113827,6 +114209,465 @@ var Report = function Report() {
                   }), "Save Report"]
                 })
               })]
+            })]
+          })]
+        })
+      })
+    }), showImportModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "modal show d-block",
+      style: {
+        backgroundColor: 'rgba(0,0,0,0.5)'
+      },
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "modal-dialog",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "modal-content",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            className: "modal-header",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("h5", {
+              className: "modal-title",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                className: "fas fa-file-import me-2"
+              }), "Import Reports from Excel"]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+              type: "button",
+              className: "btn-close",
+              onClick: function onClick() {
+                return setShowImportModal(false);
+              }
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            className: "modal-body",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+              className: "alert alert-info",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                className: "fas fa-sync me-2"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("strong", {
+                children: "Excel Sync Instructions:"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("ul", {
+                className: "mb-0 mt-2",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("li", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("strong", {
+                    children: "Step 1:"
+                  }), " Click \"Sync to Excel\" to download current reports"]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("li", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("strong", {
+                    children: "Step 2:"
+                  }), " Open the CSV file in Microsoft Excel"]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("li", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("strong", {
+                    children: "Step 3:"
+                  }), " Edit, add, or modify reports in Excel"]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("li", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("strong", {
+                    children: "Step 4:"
+                  }), " Save the file (keep as CSV format)"]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("li", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("strong", {
+                    children: "Step 5:"
+                  }), " Upload the modified CSV file below to sync back"]
+                })]
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              className: "mb-3",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+                className: "btn btn-outline-primary w-100 mb-3",
+                onClick: downloadTemplate,
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                  className: "fas fa-download me-2"
+                }), "Download Excel Template"]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+              className: "mb-3",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                className: "form-label",
+                children: "Upload CSV File"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                ref: fileInputRef,
+                type: "file",
+                className: "form-control",
+                accept: ".csv,.xlsx,.xls",
+                onChange: handleImport
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("small", {
+                className: "text-muted",
+                children: "Supported formats: CSV, Excel (.xlsx, .xls)"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+              className: "alert alert-warning",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                className: "fas fa-exclamation-triangle me-2"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("strong", {
+                children: "Note:"
+              }), " Make sure your Excel file follows the template format exactly."]
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            className: "modal-footer",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+              type: "button",
+              className: "btn btn-secondary",
+              onClick: function onClick() {
+                return setShowImportModal(false);
+              },
+              children: "Close"
+            })
+          })]
+        })
+      })
+    }), showEditModal && editingReport && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "modal show d-block",
+      style: {
+        backgroundColor: 'rgba(0,0,0,0.5)'
+      },
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "modal-dialog modal-lg",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "modal-content",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            className: "modal-header",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("h5", {
+              className: "modal-title",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                className: "fas fa-edit me-2"
+              }), "Edit ", editingReport.reportType === 'student' ? 'Student' : 'Faculty', " Report"]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+              type: "button",
+              className: "btn-close",
+              onClick: function onClick() {
+                setShowEditModal(false);
+                setEditingReport(null);
+                resetForm();
+              }
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("form", {
+            onSubmit: handleUpdate,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              className: "modal-body",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                className: "row g-3",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                  className: "col-12",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                    className: "form-label",
+                    children: "Report Title *"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                    type: "text",
+                    className: "form-control",
+                    name: "title",
+                    value: formData.title,
+                    onChange: handleInputChange,
+                    required: true,
+                    placeholder: "e.g., Academic Performance Report"
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                  className: "col-md-6",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                    className: "form-label",
+                    children: "Target Name *"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                    type: "text",
+                    className: "form-control",
+                    name: "targetName",
+                    value: formData.targetName,
+                    onChange: handleInputChange,
+                    required: true,
+                    placeholder: "Enter name"
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                  className: "col-md-6",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                    className: "form-label",
+                    children: "Status *"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("select", {
+                    className: "form-select",
+                    name: "status",
+                    value: formData.status,
+                    onChange: handleInputChange,
+                    required: true,
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {
+                      value: "pending",
+                      children: "Pending"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {
+                      value: "in-progress",
+                      children: "In Progress"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {
+                      value: "completed",
+                      children: "Completed"
+                    })]
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                  className: "col-md-6",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                    className: "form-label",
+                    children: "Date From *"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                    type: "date",
+                    className: "form-control",
+                    name: "dateFrom",
+                    value: formData.dateFrom,
+                    onChange: handleInputChange,
+                    required: true
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                  className: "col-md-6",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                    className: "form-label",
+                    children: "Date To *"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                    type: "date",
+                    className: "form-control",
+                    name: "dateTo",
+                    value: formData.dateTo,
+                    onChange: handleInputChange,
+                    required: true
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                  className: "col-12",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                    className: "form-label",
+                    children: "Description"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("textarea", {
+                    className: "form-control",
+                    name: "description",
+                    value: formData.description,
+                    onChange: handleInputChange,
+                    rows: "3",
+                    placeholder: "Brief description of the report"
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                  className: "col-12",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                    className: "form-label",
+                    children: "Findings"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("textarea", {
+                    className: "form-control",
+                    name: "findings",
+                    value: formData.findings,
+                    onChange: handleInputChange,
+                    rows: "4",
+                    placeholder: "Key findings and observations"
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                  className: "col-12",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                    className: "form-label",
+                    children: "Recommendations"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("textarea", {
+                    className: "form-control",
+                    name: "recommendations",
+                    value: formData.recommendations,
+                    onChange: handleInputChange,
+                    rows: "4",
+                    placeholder: "Recommendations and action items"
+                  })]
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+              className: "modal-footer",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                type: "button",
+                className: "btn btn-secondary",
+                onClick: function onClick() {
+                  setShowEditModal(false);
+                  setEditingReport(null);
+                  resetForm();
+                },
+                children: "Cancel"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                type: "submit",
+                className: "btn btn-primary",
+                disabled: loading,
+                children: loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                    className: "fas fa-spinner fa-spin me-2"
+                  }), "Updating..."]
+                }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                    className: "fas fa-save me-2"
+                  }), "Update Report"]
+                })
+              })]
+            })]
+          })]
+        })
+      })
+    }), showViewModal && viewingReport && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "modal show d-block",
+      style: {
+        backgroundColor: 'rgba(0,0,0,0.5)'
+      },
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "modal-dialog modal-lg",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "modal-content",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            className: "modal-header",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("h5", {
+              className: "modal-title",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                className: "fas fa-eye me-2"
+              }), "View ", viewingReport.reportType === 'student' ? 'Student' : 'Faculty', " Report"]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+              type: "button",
+              className: "btn-close",
+              onClick: function onClick() {
+                setShowViewModal(false);
+                setViewingReport(null);
+              }
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            className: "modal-body",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+              className: "row g-3",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                className: "col-12",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                  className: "card bg-light",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                    className: "card-body",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h6", {
+                      className: "text-muted mb-1",
+                      children: "Report Title"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h4", {
+                      className: "mb-0",
+                      children: viewingReport.title
+                    })]
+                  })
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                className: "col-md-6",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                  className: "form-label text-muted fw-bold",
+                  children: viewingReport.reportType === 'student' ? 'Student Name' : 'Faculty Name'
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+                  className: "form-control-plaintext",
+                  children: viewingReport.targetName
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                className: "col-md-6",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                  className: "form-label text-muted fw-bold",
+                  children: "Status"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+                  className: "form-control-plaintext",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                    className: "badge ".concat(viewingReport.status === 'completed' ? 'bg-success' : viewingReport.status === 'in-progress' ? 'bg-info' : 'bg-warning'),
+                    children: viewingReport.status === 'in-progress' ? 'In Progress' : viewingReport.status.charAt(0).toUpperCase() + viewingReport.status.slice(1)
+                  })
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                className: "col-md-6",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                  className: "form-label text-muted fw-bold",
+                  children: "Date From"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+                  className: "form-control-plaintext",
+                  children: new Date(viewingReport.dateFrom).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                className: "col-md-6",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                  className: "form-label text-muted fw-bold",
+                  children: "Date To"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+                  className: "form-control-plaintext",
+                  children: new Date(viewingReport.dateTo).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                className: "col-12",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                  className: "form-label text-muted fw-bold",
+                  children: "Description"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+                  className: "form-control-plaintext",
+                  children: viewingReport.description || /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("em", {
+                    className: "text-muted",
+                    children: "No description provided"
+                  })
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                className: "col-12",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                  className: "form-label text-muted fw-bold",
+                  children: "Findings"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                  className: "card",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                    className: "card-body",
+                    children: viewingReport.findings || /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("em", {
+                      className: "text-muted",
+                      children: "No findings recorded"
+                    })
+                  })
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                className: "col-12",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                  className: "form-label text-muted fw-bold",
+                  children: "Recommendations"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                  className: "card",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                    className: "card-body",
+                    children: viewingReport.recommendations || /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("em", {
+                      className: "text-muted",
+                      children: "No recommendations provided"
+                    })
+                  })
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                className: "col-12",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("small", {
+                  className: "text-muted",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                    className: "fas fa-calendar me-2"
+                  }), "Created on: ", new Date(viewingReport.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })]
+                })]
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            className: "modal-footer",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+              type: "button",
+              className: "btn btn-secondary",
+              onClick: function onClick() {
+                setShowViewModal(false);
+                setViewingReport(null);
+              },
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                className: "fas fa-times me-2"
+              }), "Close"]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+              type: "button",
+              className: "btn btn-primary",
+              onClick: function onClick() {
+                setShowViewModal(false);
+                setViewingReport(null);
+                handleEdit(viewingReport);
+              },
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                className: "fas fa-edit me-2"
+              }), "Edit Report"]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+              type: "button",
+              className: "btn btn-success",
+              onClick: function onClick() {
+                exportSingleReport(viewingReport);
+              },
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                className: "fas fa-file-excel me-2"
+              }), "Export to Excel"]
             })]
           })]
         })
@@ -116179,6 +117020,7 @@ var apiCall = /*#__PURE__*/function () {
           options = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
           token = localStorage.getItem('auth_token');
           defaultOptions = {
+            method: 'GET',
             credentials: 'include',
             headers: {
               'Content-Type': 'application/json',
@@ -116189,6 +117031,11 @@ var apiCall = /*#__PURE__*/function () {
           }; // Add Authorization header if token exists
           if (token) {
             defaultOptions.headers['Authorization'] = "Bearer ".concat(token);
+          }
+
+          // Handle body data for POST, PUT, PATCH methods
+          if (options.body && typeof options.body !== 'string') {
+            options.body = JSON.stringify(options.body);
           }
           mergedOptions = _objectSpread(_objectSpread(_objectSpread({}, defaultOptions), options), {}, {
             headers: _objectSpread(_objectSpread({}, defaultOptions.headers), options.headers)

@@ -18,6 +18,9 @@ Route::get('/login', function () {
     return view('login');
 })->name('login');
 
+// Excel Export Route (No Authentication Required for testing)
+Route::get('/export-excel', 'App\Http\Controllers\ExcelController@exportSample');
+
 // Protected Routes - Require Authentication
 Route::middleware(['check.web.auth'])->group(function () {
     

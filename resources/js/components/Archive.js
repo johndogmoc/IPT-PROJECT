@@ -97,19 +97,11 @@ const Archive = () => {
         }
     };
 
-    const TabButton = ({ id, icon, label }) => (
-        <button
-            className={`btn ${activeTab === id ? 'btn-primary' : 'btn-light'} me-2`}
-            onClick={() => setActiveTab(id)}
-        >
-            <i className={`${icon} me-2`}></i>{label}
-        </button>
-    );
 
     const StudentsTable = () => (
         <div className="table-responsive">
             <table className="table table-hover">
-                <thead className="table-light">
+                <thead>
                     <tr>
                         <th>Name</th>
                         <th>Course</th>
@@ -120,7 +112,10 @@ const Archive = () => {
                 </thead>
                 <tbody>
                     {archived.students.length === 0 ? (
-                        <tr><td colSpan="5" className="text-center py-4">No archived students</td></tr>
+                        <tr><td colSpan="5" className="text-center py-5 text-muted">
+                            <i className="fas fa-inbox fa-3x mb-3 d-block"></i>
+                            No archived students
+                        </td></tr>
                     ) : (
                         archived.students.map(s => (
                             <tr key={s.student_id}>
@@ -129,10 +124,18 @@ const Archive = () => {
                                 <td>{s.department?.department_name || 'N/A'}</td>
                                 <td>{s.deleted_at ? new Date(s.deleted_at).toLocaleString() : '—'}</td>
                                 <td>
-                                    <button className="btn btn-sm btn-outline-success me-1" onClick={() => handleRestore('students', s.student_id)}>
+                                    <button 
+                                        className="btn btn-sm btn-success me-2" 
+                                        onClick={() => handleRestore('students', s.student_id)}
+                                        title="Restore"
+                                    >
                                         <i className="fas fa-undo"></i>
                                     </button>
-                                    <button className="btn btn-sm btn-outline-danger" onClick={() => handlePermanentDelete('students', s.student_id)}>
+                                    <button 
+                                        className="btn btn-sm btn-danger" 
+                                        onClick={() => handlePermanentDelete('students', s.student_id)}
+                                        title="Delete Permanently"
+                                    >
                                         <i className="fas fa-trash"></i>
                                     </button>
                                 </td>
@@ -147,7 +150,7 @@ const Archive = () => {
     const FacultyTable = () => (
         <div className="table-responsive">
             <table className="table table-hover">
-                <thead className="table-light">
+                <thead>
                     <tr>
                         <th>Name</th>
                         <th>Department</th>
@@ -157,7 +160,10 @@ const Archive = () => {
                 </thead>
                 <tbody>
                     {archived.faculty.length === 0 ? (
-                        <tr><td colSpan="4" className="text-center py-4">No archived faculty</td></tr>
+                        <tr><td colSpan="4" className="text-center py-5 text-muted">
+                            <i className="fas fa-inbox fa-3x mb-3 d-block"></i>
+                            No archived faculty
+                        </td></tr>
                     ) : (
                         archived.faculty.map(f => (
                             <tr key={f.faculty_id}>
@@ -165,10 +171,18 @@ const Archive = () => {
                                 <td>{f.department?.department_name || 'N/A'}</td>
                                 <td>{f.deleted_at ? new Date(f.deleted_at).toLocaleString() : '—'}</td>
                                 <td>
-                                    <button className="btn btn-sm btn-outline-success me-1" onClick={() => handleRestore('faculty', f.faculty_id)}>
+                                    <button 
+                                        className="btn btn-sm btn-success me-2" 
+                                        onClick={() => handleRestore('faculty', f.faculty_id)}
+                                        title="Restore"
+                                    >
                                         <i className="fas fa-undo"></i>
                                     </button>
-                                    <button className="btn btn-sm btn-outline-danger" onClick={() => handlePermanentDelete('faculty', f.faculty_id)}>
+                                    <button 
+                                        className="btn btn-sm btn-danger" 
+                                        onClick={() => handlePermanentDelete('faculty', f.faculty_id)}
+                                        title="Delete Permanently"
+                                    >
                                         <i className="fas fa-trash"></i>
                                     </button>
                                 </td>
@@ -183,7 +197,7 @@ const Archive = () => {
     const CoursesTable = () => (
         <div className="table-responsive">
             <table className="table table-hover">
-                <thead className="table-light">
+                <thead>
                     <tr>
                         <th>Course</th>
                         <th>Department</th>
@@ -193,7 +207,10 @@ const Archive = () => {
                 </thead>
                 <tbody>
                     {archived.courses.length === 0 ? (
-                        <tr><td colSpan="4" className="text-center py-4">No archived courses</td></tr>
+                        <tr><td colSpan="4" className="text-center py-5 text-muted">
+                            <i className="fas fa-inbox fa-3x mb-3 d-block"></i>
+                            No archived courses
+                        </td></tr>
                     ) : (
                         archived.courses.map(c => (
                             <tr key={c.course_id}>
@@ -201,10 +218,18 @@ const Archive = () => {
                                 <td>{c.department?.department_name || 'N/A'}</td>
                                 <td>{c.deleted_at ? new Date(c.deleted_at).toLocaleString() : '—'}</td>
                                 <td>
-                                    <button className="btn btn-sm btn-outline-success me-1" onClick={() => handleRestore('courses', c.course_id)}>
+                                    <button 
+                                        className="btn btn-sm btn-success me-2" 
+                                        onClick={() => handleRestore('courses', c.course_id)}
+                                        title="Restore"
+                                    >
                                         <i className="fas fa-undo"></i>
                                     </button>
-                                    <button className="btn btn-sm btn-outline-danger" onClick={() => handlePermanentDelete('courses', c.course_id)}>
+                                    <button 
+                                        className="btn btn-sm btn-danger" 
+                                        onClick={() => handlePermanentDelete('courses', c.course_id)}
+                                        title="Delete Permanently"
+                                    >
                                         <i className="fas fa-trash"></i>
                                     </button>
                                 </td>
@@ -219,7 +244,7 @@ const Archive = () => {
     const DepartmentsTable = () => (
         <div className="table-responsive">
             <table className="table table-hover">
-                <thead className="table-light">
+                <thead>
                     <tr>
                         <th>Department</th>
                         <th>Deleted At</th>
@@ -228,17 +253,28 @@ const Archive = () => {
                 </thead>
                 <tbody>
                     {archived.departments.length === 0 ? (
-                        <tr><td colSpan="3" className="text-center py-4">No archived departments</td></tr>
+                        <tr><td colSpan="3" className="text-center py-5 text-muted">
+                            <i className="fas fa-inbox fa-3x mb-3 d-block"></i>
+                            No archived departments
+                        </td></tr>
                     ) : (
                         archived.departments.map(d => (
                             <tr key={d.department_id}>
                                 <td>{d.department_name}</td>
                                 <td>{d.deleted_at ? new Date(d.deleted_at).toLocaleString() : '—'}</td>
                                 <td>
-                                    <button className="btn btn-sm btn-outline-success me-1" onClick={() => handleRestore('departments', d.department_id)}>
+                                    <button 
+                                        className="btn btn-sm btn-success me-2" 
+                                        onClick={() => handleRestore('departments', d.department_id)}
+                                        title="Restore"
+                                    >
                                         <i className="fas fa-undo"></i>
                                     </button>
-                                    <button className="btn btn-sm btn-outline-danger" onClick={() => handlePermanentDelete('departments', d.department_id)}>
+                                    <button 
+                                        className="btn btn-sm btn-danger" 
+                                        onClick={() => handlePermanentDelete('departments', d.department_id)}
+                                        title="Delete Permanently"
+                                    >
                                         <i className="fas fa-trash"></i>
                                     </button>
                                 </td>
@@ -252,39 +288,70 @@ const Archive = () => {
 
     return (
         <div className="container-fluid py-4">
+            {/* Header */}
             <div className="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h2 className="mb-1">
-                        <i className="fas fa-archive me-2 text-primary"></i>
-                        Archive Management
-                    </h2>
-                    <p className="text-muted mb-0">View and restore archived records</p>
-                </div>
+                <h2><i className="fas fa-archive me-2"></i>Archive Management</h2>
             </div>
 
+            {/* Alerts */}
             {error && (
-                <div className="alert alert-danger mb-3">
-                    <i className="fas fa-exclamation-triangle me-2"></i>{error}
+                <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i className="fas fa-exclamation-triangle me-2"></i>
+                    {error}
+                    <button type="button" className="btn-close" onClick={() => setError('')}></button>
                 </div>
             )}
             {success && (
-                <div className="alert alert-success mb-3">
-                    <i className="fas fa-check me-2"></i>{success}
+                <div className="alert alert-success alert-dismissible fade show" role="alert">
+                    <i className="fas fa-check-circle me-2"></i>
+                    {success}
+                    <button type="button" className="btn-close" onClick={() => setSuccess('')}></button>
                 </div>
             )}
 
-            <div className="mb-3">
-                <TabButton id="students" icon="fas fa-user-graduate" label="Students" />
-                <TabButton id="faculty" icon="fas fa-chalkboard-teacher" label="Faculty" />
-                <TabButton id="courses" icon="fas fa-book" label="Courses" />
-                <TabButton id="departments" icon="fas fa-building" label="Departments" />
-            </div>
+            {/* Tabs */}
+            <ul className="nav nav-tabs mb-4">
+                <li className="nav-item">
+                    <button 
+                        className={`nav-link ${activeTab === 'students' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('students')}
+                    >
+                        <i className="fas fa-user-graduate me-2"></i>Students
+                    </button>
+                </li>
+                <li className="nav-item">
+                    <button 
+                        className={`nav-link ${activeTab === 'faculty' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('faculty')}
+                    >
+                        <i className="fas fa-chalkboard-teacher me-2"></i>Faculty
+                    </button>
+                </li>
+                <li className="nav-item">
+                    <button 
+                        className={`nav-link ${activeTab === 'courses' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('courses')}
+                    >
+                        <i className="fas fa-book me-2"></i>Courses
+                    </button>
+                </li>
+                <li className="nav-item">
+                    <button 
+                        className={`nav-link ${activeTab === 'departments' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('departments')}
+                    >
+                        <i className="fas fa-building me-2"></i>Departments
+                    </button>
+                </li>
+            </ul>
 
-            <div className="card">
+            {/* Archive Table */}
+            <div className="card shadow-sm">
                 <div className="card-body">
                     {loading ? (
-                        <div className="text-center py-4">
-                            <div className="spinner-border text-primary"></div>
+                        <div className="text-center py-5">
+                            <i className="fas fa-spinner fa-spin fa-2x mb-3"></i>
+                            <p>Loading archived records...</p>
                         </div>
                     ) : (
                         <>
