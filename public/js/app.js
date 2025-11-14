@@ -110844,8 +110844,11 @@ var Dashboard = function Dashboard() {
               courseCounts = {};
               studentsData.data.data.forEach(function (student) {
                 var _student$course;
-                var courseName = ((_student$course = student.course) === null || _student$course === void 0 ? void 0 : _student$course.course_name) || student.course_name || 'Unknown Course';
-                courseCounts[courseName] = (courseCounts[courseName] || 0) + 1;
+                var courseName = ((_student$course = student.course) === null || _student$course === void 0 ? void 0 : _student$course.course_name) || student.course_name;
+                // Only count students with assigned courses
+                if (courseName) {
+                  courseCounts[courseName] = (courseCounts[courseName] || 0) + 1;
+                }
               });
               colors = ['#007bff', '#ffc107', '#6f42c1', '#fd7e14', '#20c997', '#dc3545', '#6c757d', '#17a2b8'];
               studentsPerCourseData = Object.entries(courseCounts).map(function (_ref2, index) {
@@ -111034,24 +111037,52 @@ var Dashboard = function Dashboard() {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
           className: "chart-card",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-            className: "chart-content",
-            children: studentsPerCourse.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(recharts__WEBPACK_IMPORTED_MODULE_4__.ResponsiveContainer, {
-              width: "100%",
-              height: 250,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(recharts__WEBPACK_IMPORTED_MODULE_9__.PieChart, {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(recharts__WEBPACK_IMPORTED_MODULE_6__.Pie, {
-                  data: studentsPerCourse,
-                  cx: "50%",
-                  cy: "50%",
-                  innerRadius: 60,
-                  outerRadius: 100,
-                  dataKey: "value",
-                  children: studentsPerCourse.map(function (entry, index) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(recharts__WEBPACK_IMPORTED_MODULE_5__.Cell, {
-                      fill: entry.fill
-                    }, "cell-".concat(index));
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(recharts__WEBPACK_IMPORTED_MODULE_3__.Tooltip, {})]
+            className: "chart-container position-relative",
+            children: studentsPerCourse.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.Fragment, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(recharts__WEBPACK_IMPORTED_MODULE_4__.ResponsiveContainer, {
+                width: "100%",
+                height: 300,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(recharts__WEBPACK_IMPORTED_MODULE_9__.PieChart, {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(recharts__WEBPACK_IMPORTED_MODULE_6__.Pie, {
+                    data: studentsPerCourse,
+                    cx: "50%",
+                    cy: "50%",
+                    innerRadius: 75,
+                    outerRadius: 105,
+                    paddingAngle: 5,
+                    dataKey: "value",
+                    label: function label(_ref6) {
+                      var name = _ref6.name,
+                        value = _ref6.value,
+                        cx = _ref6.cx,
+                        cy = _ref6.cy,
+                        midAngle = _ref6.midAngle,
+                        innerRadius = _ref6.innerRadius,
+                        outerRadius = _ref6.outerRadius;
+                      var RADIAN = Math.PI / 180;
+                      var radius = outerRadius + 28;
+                      var x = cx + radius * Math.cos(-midAngle * RADIAN);
+                      var y = cy + radius * Math.sin(-midAngle * RADIAN);
+                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("text", {
+                        x: x,
+                        y: y,
+                        fill: "#333",
+                        textAnchor: x > cx ? 'start' : 'end',
+                        dominantBaseline: "central",
+                        style: {
+                          fontSize: '15px',
+                          fontWeight: 'bold'
+                        },
+                        children: value.toLocaleString()
+                      });
+                    },
+                    children: studentsPerCourse.map(function (entry, index) {
+                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(recharts__WEBPACK_IMPORTED_MODULE_5__.Cell, {
+                        fill: entry.fill
+                      }, "cell-".concat(index));
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(recharts__WEBPACK_IMPORTED_MODULE_3__.Tooltip, {})]
+                })
               })
             }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
               className: "text-center py-4",
@@ -111063,17 +111094,22 @@ var Dashboard = function Dashboard() {
               })]
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-            className: "chart-legend",
+            className: "chart-legend mt-3",
             children: studentsPerCourse.length > 0 ? studentsPerCourse.map(function (course, index) {
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-                className: "legend-item",
+                className: "legend-item d-flex align-items-center mb-2",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
-                  className: "legend-dot",
+                  className: "legend-dot me-2",
                   style: {
-                    backgroundColor: course.fill
+                    backgroundColor: course.fill,
+                    width: '12px',
+                    height: '12px',
+                    borderRadius: '50%',
+                    display: 'inline-block'
                   }
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("span", {
-                  children: [course.name, " (", course.value, " student", course.value !== 1 ? 's' : '', ")"]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                  className: "flex-grow-1",
+                  children: course.name
                 })]
               }, index);
             }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
@@ -113858,42 +113894,17 @@ var Report = function Report() {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
           className: "fas fa-file-alt me-2"
         }), "Reports Management"]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-        className: "btn-group",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
-          className: "btn btn-success",
-          onClick: exportToExcel,
-          disabled: filteredReports.length === 0,
-          title: "Export reports to Excel",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-            className: "fas fa-file-export me-2"
-          }), "Export"]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
-          className: "btn btn-info",
-          onClick: function onClick() {
-            return setShowImportModal(true);
-          },
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-            className: "fas fa-file-import me-2"
-          }), "Import"]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
-          className: "btn btn-secondary",
-          onClick: downloadTemplate,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-            className: "fas fa-download me-2"
-          }), "Template"]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
-          className: "btn btn-primary",
-          onClick: function onClick() {
-            setFormData(_objectSpread(_objectSpread({}, formData), {}, {
-              reportType: activeTab
-            }));
-            setShowModal(true);
-          },
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-            className: "fas fa-plus me-2"
-          }), "Create New"]
-        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+        className: "btn btn-primary",
+        onClick: function onClick() {
+          setFormData(_objectSpread(_objectSpread({}, formData), {}, {
+            reportType: activeTab
+          }));
+          setShowModal(true);
+        },
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+          className: "fas fa-plus me-2"
+        }), "Create New Report"]
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("ul", {
       className: "nav nav-tabs mb-4",
@@ -113971,9 +113982,9 @@ var Report = function Report() {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
                   children: "Title"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-                  children: "Target"
+                  children: "Subject"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-                  children: "Period"
+                  children: "Report Period"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
                   children: "Status"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
@@ -114002,15 +114013,6 @@ var Report = function Report() {
                     children: new Date(report.createdAt).toLocaleDateString()
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-                      className: "btn btn-sm btn-success me-2",
-                      onClick: function onClick() {
-                        return exportSingleReport(report);
-                      },
-                      title: "Export to Excel",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-                        className: "fas fa-file-excel"
-                      })
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
                       className: "btn btn-sm btn-info me-2",
                       onClick: function onClick() {
                         return handleView(report);
@@ -116010,6 +116012,46 @@ var StudentProfile = function StudentProfile() {
   }();
 
   // Edit student
+  // Calculate age from date of birth
+  var calculateAge = function calculateAge(dateOfBirth) {
+    if (!dateOfBirth) return 'N/A';
+    var today = new Date();
+    var birthDate = new Date(dateOfBirth);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || monthDiff === 0 && today.getDate() < birthDate.getDate()) {
+      age--;
+    }
+    return age;
+  };
+
+  // Allow editing age directly: derive date_of_birth from entered age
+  var handleAgeChange = function handleAgeChange(e) {
+    var raw = e.target.value;
+    var ageNum = parseInt(raw, 10);
+    if (!raw) {
+      setFormData(function (prev) {
+        return _objectSpread(_objectSpread({}, prev), {}, {
+          date_of_birth: ''
+        });
+      });
+      return;
+    }
+    if (isNaN(ageNum) || ageNum <= 0 || ageNum > 120) {
+      return;
+    }
+    var today = new Date();
+    var dob = new Date(today.getFullYear() - ageNum, today.getMonth(), today.getDate());
+    var yyyy = dob.getFullYear();
+    var mm = String(dob.getMonth() + 1).padStart(2, '0');
+    var dd = String(dob.getDate()).padStart(2, '0');
+    var iso = "".concat(yyyy, "-").concat(mm, "-").concat(dd);
+    setFormData(function (prev) {
+      return _objectSpread(_objectSpread({}, prev), {}, {
+        date_of_birth: iso
+      });
+    });
+  };
   var handleEdit = function handleEdit(student) {
     setEditingStudent(student);
     setFormData({
@@ -116313,7 +116355,7 @@ var StudentProfile = function StudentProfile() {
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                 className: "row",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                  className: "col-md-6",
+                  className: "col-md-4",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                     className: "form-group",
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
@@ -116328,7 +116370,24 @@ var StudentProfile = function StudentProfile() {
                     })]
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                  className: "col-md-6",
+                  className: "col-md-4",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                    className: "form-group",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+                      children: "Age"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                      type: "number",
+                      name: "age",
+                      className: "form-control",
+                      min: "1",
+                      max: "120",
+                      value: formData.date_of_birth ? calculateAge(formData.date_of_birth) : '',
+                      onChange: handleAgeChange,
+                      placeholder: "Enter age"
+                    })]
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "col-md-4",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                     className: "form-group",
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
@@ -116603,9 +116662,13 @@ var StudentProfile = function StudentProfile() {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
                   children: "Date of Birth"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                  children: "Age"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
                   children: "Course Name"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
                   children: "Student Year"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                  children: "Status"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
                   children: "Action"
                 })]
@@ -116613,7 +116676,7 @@ var StudentProfile = function StudentProfile() {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
               children: students.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tr", {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                  colSpan: "9",
+                  colSpan: "11",
                   className: "text-center py-4",
                   children: "No students found"
                 })
@@ -116664,9 +116727,16 @@ var StudentProfile = function StudentProfile() {
                       day: 'numeric'
                     }) : 'N/A'
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                    children: calculateAge(student.date_of_birth)
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                     children: ((_student$course = student.course) === null || _student$course === void 0 ? void 0 : _student$course.course_name) || student.course_name || 'N/A'
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                     children: student.year_level ? "".concat(student.year_level).concat(student.year_level === 1 ? 'st' : student.year_level === 2 ? 'nd' : student.year_level === 3 ? 'rd' : 'th', " Year") : 'N/A'
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                      className: "badge ".concat(student.status === 'Active' ? 'bg-success' : student.status === 'Inactive' ? 'bg-secondary' : student.status === 'Graduated' ? 'bg-primary' : student.status === 'Suspended' ? 'bg-warning' : student.status === 'Expelled' ? 'bg-danger' : 'bg-secondary'),
+                      children: student.status || 'Active'
+                    })
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("td", {
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                       className: "btn btn-sm btn-outline-primary me-1",

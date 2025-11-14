@@ -329,37 +329,15 @@ const Report = () => {
             {/* Header */}
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h2><i className="fas fa-file-alt me-2"></i>Reports Management</h2>
-                <div className="btn-group">
-                    <button 
-                        className="btn btn-success"
-                        onClick={exportToExcel}
-                        disabled={filteredReports.length === 0}
-                        title="Export reports to Excel"
-                    >
-                        <i className="fas fa-file-export me-2"></i>Export
-                    </button>
-                    <button 
-                        className="btn btn-info"
-                        onClick={() => setShowImportModal(true)}
-                    >
-                        <i className="fas fa-file-import me-2"></i>Import
-                    </button>
-                    <button 
-                        className="btn btn-secondary"
-                        onClick={downloadTemplate}
-                    >
-                        <i className="fas fa-download me-2"></i>Template
-                    </button>
-                    <button 
-                        className="btn btn-primary"
-                        onClick={() => {
-                            setFormData({...formData, reportType: activeTab});
-                            setShowModal(true);
-                        }}
-                    >
-                        <i className="fas fa-plus me-2"></i>Create New
-                    </button>
-                </div>
+                <button 
+                    className="btn btn-primary"
+                    onClick={() => {
+                        setFormData({...formData, reportType: activeTab});
+                        setShowModal(true);
+                    }}
+                >
+                    <i className="fas fa-plus me-2"></i>Create New Report
+                </button>
             </div>
 
             {/* Tabs */}
@@ -418,8 +396,8 @@ const Report = () => {
                                 <thead>
                                     <tr>
                                         <th>Title</th>
-                                        <th>Target</th>
-                                        <th>Period</th>
+                                        <th>Subject</th>
+                                        <th>Report Period</th>
                                         <th>Status</th>
                                         <th>Created</th>
                                         <th>Actions</th>
@@ -447,13 +425,6 @@ const Report = () => {
                                             </td>
                                             <td>{new Date(report.createdAt).toLocaleDateString()}</td>
                                             <td>
-                                                <button 
-                                                    className="btn btn-sm btn-success me-2"
-                                                    onClick={() => exportSingleReport(report)}
-                                                    title="Export to Excel"
-                                                >
-                                                    <i className="fas fa-file-excel"></i>
-                                                </button>
                                                 <button 
                                                     className="btn btn-sm btn-info me-2" 
                                                     onClick={() => handleView(report)}

@@ -153,6 +153,39 @@ const StudentProfile = () => {
     };
 
     // Edit student
+    // Calculate age from date of birth
+    const calculateAge = (dateOfBirth) => {
+        if (!dateOfBirth) return 'N/A';
+        const today = new Date();
+        const birthDate = new Date(dateOfBirth);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    };
+
+    // Allow editing age directly: derive date_of_birth from entered age
+    const handleAgeChange = (e) => {
+        const raw = e.target.value;
+        const ageNum = parseInt(raw, 10);
+        if (!raw) {
+            setFormData(prev => ({ ...prev, date_of_birth: '' }));
+            return;
+        }
+        if (isNaN(ageNum) || ageNum <= 0 || ageNum > 120) {
+            return;
+        }
+        const today = new Date();
+        const dob = new Date(today.getFullYear() - ageNum, today.getMonth(), today.getDate());
+        const yyyy = dob.getFullYear();
+        const mm = String(dob.getMonth() + 1).padStart(2, '0');
+        const dd = String(dob.getDate()).padStart(2, '0');
+        const iso = `${yyyy}-${mm}-${dd}`;
+        setFormData(prev => ({ ...prev, date_of_birth: iso }));
+    };
+
     const handleEdit = (student) => {
         setEditingStudent(student);
         setFormData({
@@ -396,7 +429,7 @@ const StudentProfile = () => {
                                         </div>
                                     </div>
                                     <div className="row">
-                                        <div className="col-md-6">
+                                        <div className="col-md-4">
                                             <div className="form-group">
                                                 <label>Date of Birth *</label>
                                                 <input
@@ -409,7 +442,22 @@ const StudentProfile = () => {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="col-md-6">
+                                        <div className="col-md-4">
+                                            <div className="form-group">
+                                                <label>Age</label>
+                                                <input
+                                                    type="number"
+                                                    name="age"
+                                                    className="form-control"
+                                                    min="1"
+                                                    max="120"
+                                                    value={formData.date_of_birth ? calculateAge(formData.date_of_birth) : ''}
+                                                    onChange={handleAgeChange}
+                                                    placeholder="Enter age"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4">
                                             <div className="form-group">
                                                 <label>Sex *</label>
                                                 <select
@@ -627,15 +675,17 @@ const StudentProfile = () => {
                                         <th>Address</th>
                                         <th>Phone#</th>
                                         <th>Date of Birth</th>
+                                        <th>Age</th>
                                         <th>Course Name</th>
                                         <th>Student Year</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {students.length === 0 ? (
                                         <tr>
-                                            <td colSpan="9" className="text-center py-4">
+                                            <td colSpan="11" className="text-center py-4">
                                                 No students found
                                             </td>
                                         </tr>
@@ -655,8 +705,21 @@ const StudentProfile = () => {
                                                 <td>{student.address || 'N/A'}</td>
                                                 <td>{student.phone_number}</td>
                                                 <td>{student.date_of_birth ? new Date(student.date_of_birth).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'}) : 'N/A'}</td>
+                                                <td>{calculateAge(student.date_of_birth)}</td>
                                                 <td>{student.course?.course_name || student.course_name || 'N/A'}</td>
                                                 <td>{student.year_level ? `${student.year_level}${student.year_level === 1 ? 'st' : student.year_level === 2 ? 'nd' : student.year_level === 3 ? 'rd' : 'th'} Year` : 'N/A'}</td>
+                                                <td>
+                                                    <span className={`badge ${
+                                                        student.status === 'Active' ? 'bg-success' : 
+                                                        student.status === 'Inactive' ? 'bg-secondary' : 
+                                                        student.status === 'Graduated' ? 'bg-primary' : 
+                                                        student.status === 'Suspended' ? 'bg-warning' : 
+                                                        student.status === 'Expelled' ? 'bg-danger' : 
+                                                        'bg-secondary'
+                                                    }`}>
+                                                        {student.status || 'Active'}
+                                                    </span>
+                                                </td>
                                                 <td>
                                                     <button 
                                                         className="btn btn-sm btn-outline-primary me-1"

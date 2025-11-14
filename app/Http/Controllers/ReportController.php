@@ -205,7 +205,7 @@ class ReportController extends Controller
         
         // Prepare data for export
         $data = [];
-        $headers = ['Report Type', 'Title', 'Target Name', 'Date From', 'Date To', 'Status', 'Description', 'Findings', 'Recommendations'];
+        $headers = ['Report Type', 'Title', 'Subject Name', 'Date From', 'Date To', 'Status', 'Description', 'Findings', 'Recommendations'];
         
         foreach ($reportsToExport as $report) {
             $data[] = [

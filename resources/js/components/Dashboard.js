@@ -58,8 +58,11 @@ const Dashboard = () => {
             if (studentsData.success && studentsData.data.data) {
                 const courseCounts = {};
                 studentsData.data.data.forEach(student => {
-                    const courseName = student.course?.course_name || student.course_name || 'Unknown Course';
-                    courseCounts[courseName] = (courseCounts[courseName] || 0) + 1;
+                    const courseName = student.course?.course_name || student.course_name;
+                    // Only count students with assigned courses
+                    if (courseName) {
+                        courseCounts[courseName] = (courseCounts[courseName] || 0) + 1;
+                    }
                 });
 
                 const colors = ['#007bff', '#ffc107', '#6f42c1', '#fd7e14', '#20c997', '#dc3545', '#6c757d', '#17a2b8'];
@@ -183,25 +186,46 @@ const Dashboard = () => {
                 <div className="left-column">
                     {/* Programs Chart */}
                     <div className="chart-card">
-                        <div className="chart-content">
+                        <div className="chart-container position-relative">
                             {studentsPerCourse.length > 0 ? (
-                                <ResponsiveContainer width="100%" height={250}>
-                                    <PieChart>
-                                        <Pie
-                                            data={studentsPerCourse}
-                                            cx="50%"
-                                            cy="50%"
-                                            innerRadius={60}
-                                            outerRadius={100}
-                                            dataKey="value"
-                                        >
-                                            {studentsPerCourse.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={entry.fill} />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip />
-                                    </PieChart>
-                                </ResponsiveContainer>
+                                <>
+                                    <ResponsiveContainer width="100%" height={300}>
+                                        <PieChart>
+                                            <Pie
+                                                data={studentsPerCourse}
+                                                cx="50%"
+                                                cy="50%"
+                                                innerRadius={75}
+                                                outerRadius={105}
+                                                paddingAngle={5}
+                                                dataKey="value"
+                                                label={({ name, value, cx, cy, midAngle, innerRadius, outerRadius }) => {
+                                                    const RADIAN = Math.PI / 180;
+                                                    const radius = outerRadius + 28;
+                                                    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+                                                    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+                                                    return (
+                                                        <text 
+                                                            x={x} 
+                                                            y={y} 
+                                                            fill="#333" 
+                                                            textAnchor={x > cx ? 'start' : 'end'} 
+                                                            dominantBaseline="central"
+                                                            style={{ fontSize: '15px', fontWeight: 'bold' }}
+                                                        >
+                                                            {value.toLocaleString()}
+                                                        </text>
+                                                    );
+                                                }}
+                                            >
+                                                {studentsPerCourse.map((entry, index) => (
+                                                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                                                ))}
+                                            </Pie>
+                                            <Tooltip />
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                </>
                             ) : (
                                 <div className="text-center py-4">
                                     <i className="fas fa-chart-pie fa-2x text-muted mb-2"></i>
@@ -209,12 +233,18 @@ const Dashboard = () => {
                                 </div>
                             )}
                         </div>
-                        <div className="chart-legend">
+                        <div className="chart-legend mt-3">
                             {studentsPerCourse.length > 0 ? (
                                 studentsPerCourse.map((course, index) => (
-                                    <div key={index} className="legend-item">
-                                        <span className="legend-dot" style={{backgroundColor: course.fill}}></span>
-                                        <span>{course.name} ({course.value} student{course.value !== 1 ? 's' : ''})</span>
+                                    <div key={index} className="legend-item d-flex align-items-center mb-2">
+                                        <span className="legend-dot me-2" style={{
+                                            backgroundColor: course.fill,
+                                            width: '12px',
+                                            height: '12px',
+                                            borderRadius: '50%',
+                                            display: 'inline-block'
+                                        }}></span>
+                                        <span className="flex-grow-1">{course.name}</span>
                                     </div>
                                 ))
                             ) : (
